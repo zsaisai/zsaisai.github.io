@@ -20,26 +20,30 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zsaisai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="Keep awake,Stay thinking">
-<meta property="og:type" content="website">
-<meta property="og:title" content="ZhangSaiSai">
-<meta property="og:url" content="https://zsaisai.github.io/index.html">
+<meta name="description" content="Aws用命令行管理aws s3管理存储桶 123456789101112创建桶;$ aws s3 mb s3:&#x2F;&#x2F;bucket-name删除桶：$ aws s3 rb s3:&#x2F;&#x2F;bucket-name删除非空桶：$ aws s3 rb s3:&#x2F;&#x2F;bucket-name --force列出存储桶$ aws s3 ls列出存储桶中所有的对象和文件夹$ aws s3 ls s3:&#x2F;&#x2F;bucket-nam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AWS-Docker-Hadoop">
+<meta property="og:url" content="https://zsaisai.github.io/Aws_Doceker_Hadoop%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="ZhangSaiSai">
-<meta property="og:description" content="Keep awake,Stay thinking">
+<meta property="og:description" content="Aws用命令行管理aws s3管理存储桶 123456789101112创建桶;$ aws s3 mb s3:&#x2F;&#x2F;bucket-name删除桶：$ aws s3 rb s3:&#x2F;&#x2F;bucket-name删除非空桶：$ aws s3 rb s3:&#x2F;&#x2F;bucket-name --force列出存储桶$ aws s3 ls列出存储桶中所有的对象和文件夹$ aws s3 ls s3:&#x2F;&#x2F;bucket-nam">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-06-19T11:43:45.000Z">
+<meta property="article:modified_time" content="2021-07-24T16:36:34.249Z">
 <meta property="article:author" content="ZHANGSAISAI">
-<meta property="article:tag" content="Student">
+<meta property="article:tag" content="AWS">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Hadoop">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://zsaisai.github.io/">
+<link rel="canonical" href="https://zsaisai.github.io/Aws_Doceker_Hadoop%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/Aws_Doceker_Hadoop%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/","path":"Aws_Doceker_Hadoop命令总结/","title":"AWS-Docker-Hadoop"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>ZhangSaiSai</title>
+<title>AWS-Docker-Hadoop | ZhangSaiSai</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129037882-1"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-129037882-1","only_pageview":false}</script>
@@ -113,7 +117,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -126,6 +130,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Aws"><span class="nav-number">1.</span> <span class="nav-text">Aws</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Doceker-image"><span class="nav-number">2.</span> <span class="nav-text">Doceker-image</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hadoop"><span class="nav-number">3.</span> <span class="nav-text">Hadoop</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -219,170 +224,17 @@
 </noscript>
 
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/%E5%AE%9E%E4%B9%A0%E5%B0%8F%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
-      <meta itemprop="name" content="ZHANGSAISAI">
-      <meta itemprop="description" content="Keep awake,Stay thinking">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZhangSaiSai">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/%E5%AE%9E%E4%B9%A0%E5%B0%8F%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">实习结束</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2021-07-24 00:00:00 / Modified: 16:36:34" itemprop="dateCreated datePublished" datetime="2021-07-24T00:00:00+00:00">2021-07-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AE%9E%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">实习</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><img src="https://gitee.com/z_saisai/ware_01/raw/master/doc_image/1.jpg"></p>
-<p><img src="https://gitee.com/z_saisai/ware_01/raw/master/doc_image/2.jpg"></p>
-<p><img src="https://gitee.com/z_saisai/ware_01/raw/master/doc_image/3.jpg"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/Sequential-Recommendation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
-      <meta itemprop="name" content="ZHANGSAISAI">
-      <meta itemprop="description" content="Keep awake,Stay thinking">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZhangSaiSai">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Sequential-Recommendation/" class="post-title-link" itemprop="url">序列建模在推荐系统中的应用</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-07-12 15:16:08" itemprop="dateCreated datePublished" datetime="2021-07-12T15:16:08+00:00">2021-07-12</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-07-24 16:36:34" itemprop="dateModified" datetime="2021-07-24T16:36:34+00:00">2021-07-24</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在推荐领域 根据用户的历史活动记录预测用户下一次行为可能会选择什么项目也是一个重要 的问题，现有的推荐系统主要关注于找出用户或项目的近邻集，或者利 用隐式或显式信息 (如标签、评论、物品内容、用户属性) 来提升近邻感知能力。 然而，却少有工作利用数据当中的时序属性来参与构建推荐系统。在本篇文章中， 我将介绍数据的序列中其实包含着许多有价值的且激动人心的信息以及现代大型推荐系统是如何使用这种序列特性来提升推荐的质量的。以视频网站 为例，一个用户看了纪录片《河西走廊》第一集《使者》之后，接下来看的另一个 节目很有可能会是《河西走廊》第二集《通道》。甚至早在 2011 年举办的 Recsys 推荐系统大会上，来自音乐应用 Pandora1的研究人员给出的演讲上都提到了许多 用户听音乐具有时序特点。 在某些特别的应用场景下，常规的推荐系统甚至无法起作用。现有的推荐系 统都需要分析用户的数据，因此每个网站和应用的使用到需要让用户完成注册以 及登录，然而用户每次使用网站或者应用的服务时都不一定会愿意登录，这种场 景下对匿名用户的推荐显然挑战更大，常规的推荐策略显然无法起作用，基于匿 名用户本地浏览器和缓存的会话所蕴含的序列进行推荐则显现出很重要的实践意 义与价值。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/Sequential-Recommendation/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/Aws_Doceker_Hadoop%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -395,9 +247,9 @@
       <meta itemprop="name" content="ZhangSaiSai">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/Aws_Doceker_Hadoop%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">AWS-Docker-Hadoop</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          AWS-Docker-Hadoop
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -427,6 +279,13 @@
     </span>
 
   
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
 </div>
 
         </div>
@@ -436,7 +295,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="Aws"><a href="#Aws" class="headerlink" title="Aws"></a>Aws</h1><p>用命令行管理aws s3<br><strong>管理存储桶</strong></p>
+        <h1 id="Aws"><a href="#Aws" class="headerlink" title="Aws"></a>Aws</h1><p>用命令行管理aws s3<br><strong>管理存储桶</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">创建桶;</span><br><span class="line">$ aws s3 mb s3://bucket-name</span><br><span class="line">删除桶：</span><br><span class="line">$ aws s3 rb s3://bucket-name</span><br><span class="line">删除非空桶：</span><br><span class="line">$ aws s3 rb s3://bucket-name --force</span><br><span class="line">列出存储桶</span><br><span class="line">$ aws s3 ls</span><br><span class="line">列出存储桶中所有的对象和文件夹</span><br><span class="line">$ aws s3 ls s3://bucket-name</span><br><span class="line">列出桶中  bucket-name/ MyFolder 中的对象</span><br><span class="line">$ aws s3 ls s3://bucket-name/MyFolder</span><br></pre></td></tr></table></figure>
 <p><strong>管理对象</strong><br>命令包括 aws s3 cp、aws s3 ls、aws s3 mv、aws s3 rm 和 sync。cp、ls、mv 和 rm 命令的用法与它们在 Unix 中的对应命令相同。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 将当前目录里的 MyFile.txt文件拷贝到 s3://my-bucket/MyFolder</span><br><span class="line">$ aws s3 cp MyFile.txt s3://my-bucket/MyFolder/</span><br><span class="line"></span><br><span class="line">// 将s3://my-bucket/MyFolder所有 .jpg 的文件移到 ./MyDirectory</span><br><span class="line">$ aws s3 mv s3://my-bucket/MyFolder ./MyDirectory --exclude <span class="string">&#x27;*&#x27;</span> --include <span class="string">&#x27;*.jpg&#x27;</span> --recursive</span><br><span class="line"></span><br><span class="line">// 列出  my-bucket的所有内容</span><br><span class="line">$ aws s3 ls s3://my-bucket</span><br><span class="line"></span><br><span class="line">// 列出my-bucket中MyFolder的所有内容</span><br><span class="line">$ aws s3 ls s3://my-bucket/MyFolder</span><br><span class="line"></span><br><span class="line">// 删除 s3://my-bucket/MyFolder/MyFile.txt</span><br><span class="line">$ aws s3 rm s3://my-bucket/MyFolder/MyFile.txt</span><br><span class="line"></span><br><span class="line">// 删除 s3://my-bucket/MyFolder 和它的所有内容</span><br><span class="line">$ aws s3 rm s3://my-bucket/MyFolder --recursive</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -510,7 +369,6 @@
 
 
 
-      
     </div>
 
     
@@ -518,261 +376,75 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
+          <div class="reward-container">
+  <div>您的支持将鼓励我继续创作！</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/null" alt="ZHANGSAISAI WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+      <div>
+        <img src="/null" alt="ZHANGSAISAI Alipay">
+        <span>Alipay</span>
+      </div>
+      <div>
+        <img src="/null" alt="ZHANGSAISAI Bitcoin">
+        <span>Bitcoin</span>
+      </div>
+
+  </div>
 </div>
 
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
 
+  <div class="social-list">
 
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+          <span class="icon">
+            <i class="fab fa-weixin"></i>
+          </span>
 
-    
+          <span class="label">WeChat</span>
+        </a>
+      </div>
 
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
 
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/2021-5-20-Bazel-Starter/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
-      <meta itemprop="name" content="ZHANGSAISAI">
-      <meta itemprop="description" content="Keep awake,Stay thinking">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZhangSaiSai">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021-5-20-Bazel-Starter/" class="post-title-link" itemprop="url">bazel C++语法入门</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-12-16 14:46:35" itemprop="dateCreated datePublished" datetime="2020-12-16T14:46:35+00:00">2020-12-16</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-07-24 16:36:34" itemprop="dateModified" datetime="2021-07-24T16:36:34+00:00">2021-07-24</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%BC%80%E6%BA%90%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">开源工具</span></a>
-        </span>
-    </span>
-
-  
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
 </div>
 
-        </div>
-      </header>
+          <div class="post-tags">
+              <a href="/tags/AWS/" rel="tag"><i class="fa fa-tag"></i> AWS</a>
+              <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+              <a href="/tags/Hadoop/" rel="tag"><i class="fa fa-tag"></i> Hadoop</a>
+          </div>
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Bazel是Google开源的一款代码构建工具。Bazel支持多种语言并且跨平台，还支持增量编译、自动化测试和部署、具有再现性（Reproducibility）和规模化等特征。Bazel 在谷歌大规模软件开发实践能力方面起着至关重要的作用。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021-5-20-Bazel-Starter/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/optimization/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
-      <meta itemprop="name" content="ZHANGSAISAI">
-      <meta itemprop="description" content="Keep awake,Stay thinking">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZhangSaiSai">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/optimization/" class="post-title-link" itemprop="url">optimization</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-06-19 16:09:43" itemprop="dateCreated datePublished" datetime="2020-06-19T16:09:43+00:00">2020-06-19</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-07-24 16:36:34" itemprop="dateModified" datetime="2021-07-24T16:36:34+00:00">2021-07-24</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>模型优化方法的选择直接关系到最终模型的性能。有时候效果不好，未必是特征的问题或者模型设计的问题，很可能是优化算法的问题，而且好的优化算法还能够帮助加速训练模型。</p>
-<p>深度学习模型的发展进程：<br>SGD -&gt; SGDM -&gt;NAG -&gt; AdaGrad -&gt; AdaDelta -&gt; Adam -&gt; Nadam</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/optimization/#more" rel="contents">
-                Read more &raquo;
-              </a>
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021-5-20-Bazel-Starter/" rel="prev" title="bazel C++语法入门">
+                  <i class="fa fa-chevron-left"></i> bazel C++语法入门
+                </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/activation-functions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
-      <meta itemprop="name" content="ZHANGSAISAI">
-      <meta itemprop="description" content="Keep awake,Stay thinking">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZhangSaiSai">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/activation-functions/" class="post-title-link" itemprop="url">激活函数</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-02-19 11:43:45" itemprop="dateCreated datePublished" datetime="2020-02-19T11:43:45+00:00">2020-02-19</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-07-24 16:36:34" itemprop="dateModified" datetime="2021-07-24T16:36:34+00:00">2021-07-24</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>  本文搜集整理了从Sigmoid、ReLU到Dice等十几种常见激活函数的原理与特点，并从底层用Numpy实现和Python绘制它们。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/activation-functions/#more" rel="contents">
-                Read more &raquo;
-              </a>
+            <div class="post-nav-item">
+                <a href="/Sequential-Recommendation/" rel="next" title="序列建模在推荐系统中的应用">
+                  序列建模在推荐系统中的应用 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          </div>
     </footer>
   </article>
 </div>
@@ -781,6 +453,8 @@
 
 
 
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MjE1MS8xODY5OA=="></div>
 </div>
   </main>
 
