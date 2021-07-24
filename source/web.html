@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+	.content{
+		    position: ;
+  	  	margin: 8% 0 0 0;
+  	  	width:100%;
+  	  	height: auto;
+  	  	float: left;
+  	  	font-family: "Lucida Grande","ff-nuvo-web-pro-1","ff-nuvo-web-pro-2", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; 
+  	  	
+ 	  }
+  	  .kw{
+  	  	display:inline-block;
+  	  	height: ;
+  	  	width:19%; 
+        left: 10px;
+  	  	vertical-align: top;
+  	  	margin-top: 56px;
+  	  	margin-left: 4px;
+  	  	position: fixed;
+  	  }
+
+  	  .kw input{
+  	  	width:100%; 
+  	  	height:48px; 
+        left: 0;
+  	  	font-size:26px;
+  	  	color: white;
+  	  	border-width: 0px;
+  	  	border-radius: 30px;
+  	  	background-color: #3F3F3F;
+  	  	padding-left: 14px;
+  	  	padding-right: 14px;
+  	  	padding-top: 6px;
+  	  	font-family: "Lucida Grande","ff-nuvo-web-pro-1","ff-nuvo-web-pro-2", sans-serif;
+  	  	outline: none;
+  	  }
+
+      .hotword{
+        width:inherit;
+        height: 80px;
+        position: inherit;
+        background: url(http://lackar.com/aa/icon/hwbg.png)repeat;
+        margin: -8px 0 0 -8px;
+      }
+      .word{
+        float: left;
+        
+        height: 36px;
+        position: relative;
+        margin: -14px 0px 0px 25%;
+        padding-top: 14px;
+
+      }
+
+  	  .searchicon{
+  	  	z-index: 2;
+  	  	position: absolute;
+		    margin-left: 87%;
+  	  }
+
+  	  .info{
+  	  	position: fixed;
+  	  	bottom: 2%;
+  	  	width:19%; 
+  	  	font-family:"Lucida Grande","ff-nuvo-web-pro-1","ff-nuvo-web-pro-2", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; 
+  	  	font-size: 9pt; 
+  	  	color: #6F6F6F;
+  	  }
+
+      .wordinfo{
+        position:absolute;
+        width:10%; 
+        margin:28px 0 0 14px;
+        font-family:"Lucida Grande","ff-nuvo-web-pro-1","ff-nuvo-web-pro-2", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; 
+        font-size: 10pt; 
+        font-weight: 400;
+        color: #F75000;
+      }
+      .wordinfo2{
+        position:absolute;
+        width:22%; 
+        margin:30px 0 0 14px;
+        font-family:"Lucida Grande","ff-nuvo-web-pro-1","ff-nuvo-web-pro-2", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; 
+        font-size: 9pt; 
+        color: #3F3F3F;
+      }
+
+  	  .popular{
+           float: left;
+           position: relative;
+           display: inline-block;
+           width: 8%;
+           margin-left: 15%;
+           padding-top: 14px;
+  	  }
+  	  .entrances{
+  	  	display: inline-block;
+  	  	vertical-align: top;
+  	  	width: 70%;
+        float: left;
+       position: relative;
+  	  	/*background: blue;*/
+  	  }
+  	  .catalog{
+  	  	float: left;
+  	  	width: 160px;
+  	  	background: #2B2B2B;
+  	  	height: 328px;
+  	  	position: relative;
+  	  	margin: 0px 6px 80px 6px;
+  	  	padding-top: 14px;
+  	  }
+  	  .catalogname{
+  	  	font-size: 14pt;
+  	  	font-weight: 500;
+  	  	text-align: center;
+        height:34px;
+  	  	margin: 0;
+  	  	color: #00B388;
+  	  
+  	  	font-family:"Lucida Grande","ff-nuvo-web-pro-1","ff-nuvo-web-pro-2", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; 
+  	  }
+  	  .pop{
+  	  	display:inline-block;
+  	  	
+  	  	width:40px;
+  	  	height:40px;
+  	  	border-radius: 20px;
+  	  	box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 1);
+  	  	border: 6px white;
+  	  }
+  	  .more_list {
+  	  	background: #333333;
+  	  	position: absolute;
+  	  	z-index: 2;
+  	  	height: auto;
+  	  	box-shadow: -4px 4px 10px rgba(0, 0, 0, 0.2),
+			  	  	0px -1px 0px #333,
+  	  				4px 4px 10px rgba(0, 0, 0, 0.2),
+  	  				0px 4px 10px rgba(0, 0, 0, 0.2);
+  	  }
+
+  	  .top{
+  	  	text-align: center;
+
+  	  }
+
+  	  .top img {
+  	  	cursor: pointer;
+  	  }
+
+  	  .topicon{
+  	  	display:inline-block;
+  	  	
+  	  	width:70px;
+  	  	height: 70px;
+  	  	border-radius: 35px;
+  	  	box-shadow: 0px 4px 6px 2px rgba(0, 0, 0, 1);
+  	  	border: 6px white;
+  	  }
+  	  .topname{
+  	  	display:block;
+        margin: 6px 0 0 0;
+        height: 24px;
+  	  	font-size: 10pt;
+  	  	font-weight: 100;
+  	  	font-family:"Lucida Grande","ff-nuvo-web-pro-1","ff-nuvo-web-pro-2", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; 
+  	  	color: white;
+  	  	
+  	  }
+  	  .catalog .sub{
+  	  	display:inline-block;
+  	  	width:160px;
+  	  	margin-top: 0px;
+  	  	height: 32px;
+  	  	display:block;
+  	  	position: relative;
+  	  }
+      .addot{
+        background:#00B388;
+        width: 6px;
+        height:6px;
+        border-radius: 3px;
+        margin: 0px 6px 9px 0px;
+        display: inline-block;
+      }
+      .wordsub{
+        display:inline-block;
+        border: 1px solid transparent;
+        margin: 0px 6px 8px 0px;
+        padding: 0px 6px 0px 12px;
+        height: 34px;
+        border-radius: 18px;
+        background-color: #3F3F3F;
+        display:inline-block;
+        position: relative;
+      }
+
+
+  	  .subicon{
+  	  	display:inline-block;
+  	  	width: 24px;
+  	  	height: 24px;
+  	  	border-radius: 12px;
+  	  	box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 1);
+  	  	margin: 4px 0 0 16px;
+  	  }
+
+      .wordicon{
+        display:inline-block;
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        margin: 5px 0px 0px 6px;
+      }
+
+      .wordname{
+        display:inline-block;
+        margin:10px 0 0 0px;
+        padding-top: 0px;
+        font-size: 12pt;
+        line-height: ;
+        vertical-align: top;
+        font-family:"Lucida Grande","ff-nuvo-web-pro-1","ff-nuvo-web-pro-2", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; 
+        line-height: 90%;
+        word-break: break-all;
+        color: #C4C4C4;
+
+      }
+
+  	  .subname{
+  	  	display:inline-block;
+  	  	margin:7px 0 0 6px;
+  	  	padding-top: 5px;
+  	  	font-size: 10pt;
+  	  	line-height: ;
+  	  	vertical-align: top;
+  	  	font-family:"Lucida Grande","ff-nuvo-web-pro-1","ff-nuvo-web-pro-2", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; 
+  	  	line-height: 90%;
+  	  	word-break: break-all;
+  	  	color: #C4C4C4;
+  	  }
+  	  .subname2{
+  	  	display:inline-block;
+  	  	margin:1px 0 0 6px;
+  	  	padding-top: 5px;
+  	  	font-size: 10pt;
+  	  	line-height: ;
+  	  	vertical-align: top;
+  	  	font-family:"Lucida Grande","ff-nuvo-web-pro-1","ff-nuvo-web-pro-2", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; 
+  	  	line-height: 90%;
+  	  	word-break: break-all;
+  	  	color: #C4C4C4;
+  	  }
+
+  	  .more_button{
+  	  	vertical-align: bottom;
+  	  	
+  	  	z-index: 2;
+  	  	/*background-image: url(more.png);*/
+  	  }
+
+  	  .foot{
+  	  	float:left;
+  	  	display:inline-block;
+  	  	margin-left: 24%;
+  	  	font-family:"Lucida Grande","ff-nuvo-web-pro-1","ff-nuvo-web-pro-2", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; 
+  	  	font-size: 9pt; 
+  	  	color: #6F6F6F;
+  	  	width: 70%;
+  	  }  
+
+  	  .about{
+  	  	
+  	  }
+
+  	  .share{
+  	  	position: 10%;  	  	
+  	  	float:right;
+  	  	width:6%;
+  	  }
+
+  	  .comment {
+  	  	color: #eee;
+  	  	text-align: left;
+  	  }
+  	  #disqus_thread {
+  	  	display: none;
+  	  }
+
+  	  .copyright{
+
+  	  	float:left;
+  	  }
+
+
+
+
+</style>
+
+	
+	
+		<center>
+		<h1>
+		_____________________________Internet  Search___________________________________
+		</h1>
+		<center>
+
+	
+
+
+<body id="div_first" background="https://images4.alphacoders.com/171/thumb-1920-171916.jpg">
+<body>
+
+<script type="text/javascript">
+var imgs =["https://images4.alphacoders.com/171/thumb-1920-171916.jpg",
+"https://img.dpm.org.cn/Uploads/Picture/2021/03/30/s606296e88b584.jpg"
+,"https://img.dpm.org.cn/Uploads/Picture/2020/06/30/s5efaacab59bcd.jpg",
+"https://img.dpm.org.cn/Uploads/Picture/2020/09/30/s5f73f65f05bb6.jpg"];    //（设定想要显示的图片）
+var x = 0;       
+        function time1(){
+               x++;   
+               x=x%4;         //         超过2则取余数，保证循环在0、1、2之间
+               document.getElementById("div_first").background =imgs[x];
+        }setInterval("time1()",5000);
+</script>
+</head>
+	
+	
+<div >
+<form action="https://www.baidu.com/baidu" target="_blank">
+<table>
+<tr>
+<td>
+<input type="text" class="i" name="word" size="70" />
+<span><input type="submit" value="百度一下" /></span>
+</td>
+</tr>
+</table>
+</form>
+</div>
+
+</div>
+    <div class>
+      <p class='wordinfo'></p></br>
+      <p class='wordinfo'>~ZhangSaiSai</p>
+
+
+	  
+      <div class='word'>
+		<a href="http://www.weather.com.cn/live/" target="_blank" class='wordsub');'>
+		
+		<div> <p class='wordname'>实时天气</p><img src="https://cdns.iconmonstr.com/wp-content/assets/preview/2016/96/iconmonstr-weather-8.png" class="wordicon">
+        </div></a>
+
+        <a href="https://www.ncepu.edu.cn/" target="_blank" class='wordsub');'><div>
+          <p class='wordname'>华电官网</p><img src="https://bkimg.cdn.bcebos.com/pic/a8ec8a13632762d077953337aaec08fa503dc68b?x-bce-process=image/watermark,g_7,image_d2F0ZXIvYmFpa2U5Mg==,xp_5,yp_5" class="wordicon">
+        </div></a>
+		
+        <a href="https://cce.ncepu.edu.cn/" target="_blank" class='wordsub'onclick='ga('send', 'event', 'hotwords', 'click', 'e');'><div>
+          <p class='wordname'>控计学院</p><img src="http://lackar.com/aa/icon/artstation.png" class="wordicon">
+        </div></a>
+		
+        <a href="http://202.204.74.224:8089/gmis/(S(flmg3y435spkqjixa2i1qbgi))/home/stulogin" target="_blank" class='wordsub'onclick='ga('send', 'event', 'hotwords', 'click', 'e');'><div>
+          <p class='wordname'>研究生系统</p><img src="http://lackar.com/aa/icon/twitter.png" class="wordicon">
+        </div></a>
+
+		<a href="https://webvpn2.ncepu.edu.cn/users/sign_in" target="_blank" class='wordsub'onclick='ga('send', 'event', 'hotwords', 'click', 'e');'><div>
+          <p class='wordname'>华电VPN</p><img src="http://lackar.com/aa/icon/googlenewscn.png" class="wordicon">
+        </div></a>
+        
+        <a href="https://library.ncepu.edu.cn/" target="_blank" class='wordsub'onclick='ga('send', 'event', 'hotwords', 'click', 'e');'><div>
+		
+          <p class='wordname'>华电图书馆</p><img src="http://lackar.com/aa/icon/stumbleupon.png" class="wordicon">
+        </div></a>
+		
+        <a href="http://202.204.67.15/srun_portal_pc.php?ac_id=1&url=http://www.msftconnecttest.com/redirect" target="_blank" class='wordsub'onclick='ga('send', 'event', 'hotwords', 'click', 'e');'><div>
+          <p class='wordname'>华电校园网登录</p><img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1003709042,117090939&fm=26&gp=0.jpg" class="wordicon">
+        </div></a>
+        
+		
+		  <a href="http://www.4243.net/" target="_blank" class='wordsub'onclick='ga('send', 'event', 'hotwords', 'click', 'e');'><div>
+          <p class='wordname'>学术导航</p><img src="http://lackar.com/aa/icon/naver.png" class="wordicon">
+        </div></a>
+        
+        
+
+   </div>
+
+   </div>
+
+
+
+
+
+<div class='content'>
+
+	<div class='popular'>
+		
+		
+			<div class='top'>
+      <img  id='bing' class="pop" src="http://lackar.com/aa/icon/bing.png"  onclick='search(this)' />
+      </div>
+	  
+      <div class='top'>
+      <img  id='google' src="http://lackar.com/aa/icon/google.png" class="pop" onclick='search(this)' />
+      </div>
+	  
+			<div class='top'>		
+			<img  id='douban' class="pop" src="http://lackar.com/aa/icon/douban.png"  onclick='search(this)' />	
+			</div>
+			<div class='top'>
+			<img  id='sinaweibo' class="pop" src="http://lackar.com/aa/icon/sinaweibo.png"  onclick='search(this)' />	
+			</div>
+			<div class='top'>
+			<img  id='googleimage' class="pop" src="http://lackar.com/aa/icon/googleimage.png"  onclick='search(this)' />
+			</div>
+			<div class='top'>
+			<img  id='pinterest' src="http://lackar.com/aa/icon/pinterest.png" class="pop" onclick='search(this)' />
+			</div>
+			<div class='top'>
+			<img  id='twitter' src="http://lackar.com/aa/icon/twitter.png" class="pop" onclick='search(this)' />
+			</div>
+      <div class='top'>
+      <img  id='googleditu' class="pop" src="http://lackar.com/aa/icon/googlemaps.png"  onclick='search(this)' />
+      </div>
+			<div class='top'>
+			<img  id='youdict' class="pop" src="http://lackar.com/aa/icon/youdict.png"  onclick='search(this)' />
+			</div>
+			
+			
+		</div>
+
+<div class='catalog'>
+	
+		
+		<div >
+		<img  id='wikipediazh' class="topicon" src="http://lackar.com/aa/icon/wikipedia.png"  onclick='search(this)' /><p class='catalogname'>常用·搜索</p>
+		</div>
+		
+		<div>
+		<a href="http://baidu.com/" target="_blank">
+         <img src="http://lackar.com/aa/icon/baidu.png" class="subicon"> <p class='subname'>百度搜索</p>
+        </div>
+		
+		<div>
+		<a href="https://pic.sogou.com/" target="_blank">
+         <img src="http://lackar.com/aa/icon/sogou.png" class="subicon"> <p class='subname'>搜狗识图</p>
+        </div>
+		<div>
+		<a href="https://www.cnki.net/" target="_blank">
+         <img src="https://cdns.iconmonstr.com/wp-content/assets/preview/2018/96/iconmonstr-search-thin.png" class="subicon"> <p class='subname'>知网搜索</p>
+        </div>
+		<div>
+		<a href="https://translate.google.cn/" target="_blank">
+         <img src="http://lackar.com/aa/icon/bing.png" class="subicon"> <p class='subname'>谷歌翻译</p>
+        </div>
+		<div>
+		<a href="http://www.youdao.com/" target="_blank">
+         <img src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1670229142,3245177348&fm=26&gp=0.jpg" class="subicon"> <p class='subname'>有道搜索</p>
+        </div>
+		
+		<div>
+		<a href="https://www.zhihu.com/signup?next=%2F" target="_blank">
+         <img src="http://lackar.com/aa/icon/zhihu.png" class="subicon"> <p class='subname'>知乎搜索</p>
+        </div>
+		
+  		
+</div>
+
+
+<div class='catalog'>
+		
+	
+		<div >
+		<img  id='wikipediazh' class="topicon" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2019/96/iconmonstr-school-25.png"  onclick='search(this)' /><p class='catalogname'>资源·学习</p>
+		</div>
+		
+		
+		
+		<div>
+		<a href="https://www.csdn.net/" target="_blank">
+         <img src="http://lackar.com/aa/icon/csdn.png" class="subicon"> <p class='subname'>CSDN  网</p>
+        </div>
+		
+        <div>
+		<a href="https://msdn.itellyou.cn/" target="_blank">
+         <img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3789920746,3266292018&fm=26&gp=0.jpg" class="subicon"> 
+		 <p class='subname'>MSDN网</p>
+        </div>
+		
+		<div>
+		<a href="http://www.runoob.com/" target="_blank">
+         <img src="http://lackar.com/aa/icon/cocoapods.png" class="subicon"> <p class='subname'>菜鸟教程</p>
+        </div>
+		<div>
+		<a href="https://leetcode-cn.com/" target="_blank">
+         <img src="http://lackar.com/aa/icon/codepen.png" class="subicon"> <p class='subname'> leet-code </p>
+        </div>
+		<div>
+		<a href="https://study.163.com/" target="_blank">
+         <img src="https://cdns.iconmonstr.com/wp-content/assets/preview/2019/96/iconmonstr-product-2.png" class="subicon"> <p class='subname'>网易课堂</p>
+        </div>
+		<div>
+		<a href="https://github.com/" target="_blank">
+         <img src="https://cdns.iconmonstr.com/wp-content/assets/preview/2019/96/iconmonstr-product-2.png" class="subicon"> <p class='subname'>  Git Hub  </p>
+        </div>
+  		
+</div>
+
+
+<div class='catalog'>	
+		
+		<div >
+		<img  id='wikipediazh' class="topicon" src="http://lackar.com/aa/icon/youtube.png?1"  onclick='search(this)' /><p class='catalogname'>影视·音乐</p>
+		</div>
+		
+		<div>
+		<a href="https://music.163.com/" target="_blank">
+         <img src="http://lackar.com/aa/icon/163music.png" class="subicon"> <p class='subname'>网易云音乐</p>
+        </div>
+		
+		<div>
+		<a href="https://www.youtube.com/" target="_blank">
+         <img src="https://cdns.iconmonstr.com/wp-content/assets/preview/2013/96/iconmonstr-youtube-3.png" class="subicon"> <p class='subname'>YOU TU BE</p>
+        </div>
+		
+		<div>
+		<a href="https://www.bilibili.com" target="_blank">
+         <img src="http://lackar.com/aa/icon/bilibili.png" class="subicon"> <p class='subname'>哔 哩 哔 哩</p>
+        </div>
+		
+		<div>
+		<a href="https://www.ted.com" target="_blank"> 
+         <img src="http://lackar.com/aa/icon/ted.png" class="subicon"> <p class='subname'> T  E  D 英语</p>
+        </div>
+		
+		<div>
+		<a href="https://v.qq.com" target="_blank">
+         <img src="http://lackar.com/aa/icon/qqv.png" class="subicon"> <p class='subname'>腾 讯 视 频</p>
+        </div>
+		
+		<div>
+		<a href="http://www.iqiyi.com" target="_blank">
+         <img src="http://lackar.com/aa/icon/iqiyi.png" class="subicon"> <p class='subname'>爱奇艺视频</p>
+        </div>
+  		
+</div>
+
+<div class='catalog'>
+
+		
+		<div >
+		<img  id='wikipediazh' class="topicon" src="http://lackar.com/aa/icon/itunes.png"  onclick='search(this)' /><p class='catalogname'>新闻·资讯</p>
+		</div>
+		
+		<div>
+		<a href="https://news.163.com"target="_blank">
+         <img src="http://lackar.com/aa/icon/163news.png" class="subicon"> <p class='subname'>网易新闻</p>
+        </div>
+		
+		<div>
+		<a href="https://weibo.com/?sudaref=lackar.com&display=0&retcode=6102"target="_blank">
+         <img src="http://lackar.com/aa/icon/sinaweibo.png" class="subicon"> <p class='subname'>新浪微博</p>
+        </div>
+		
+		<div>
+		<a href="https://bz.zzzmh.cn/index"target="_blank">
+         <img src="https://cdns.iconmonstr.com/wp-content/assets/preview/2021/96/iconmonstr-cv-4.png" class="subicon"> <p class='subname'>图片视觉</p>
+        </div>
+		
+		<div>
+		<a href="https://iconmonstr.com" target="_blank">
+         <img src="https://cdns.iconmonstr.com/wp-content/assets/preview/2021/96/iconmonstr-bed-5.png" class="subicon"> <p class='subname'>免费图标</p>
+        </div>
+		<div>
+		<a href="http://www.laohuangli.net/" target="_blank">
+         <img src="http://lackar.com/aa/icon/ithome.png" class="subicon"> <p class='subname'>复古日历</p>
+        </div>
+		<div>
+		<a href="https://www.tianyancha.com"target="_blank">
+         <img src="http://lackar.com/aa/icon/tianyancha.png" class="subicon"> <p class='subname'>天眼查询</p>
+        </div>
+  		
+		
+</div>
+
+<div class='catalog'>
+		
+		<div >
+		<img  id='wikipediazh' class="topicon" src="https://cdns.iconmonstr.com/wp-content/assets/preview/2019/96/iconmonstr-bus-4.png"  onclick='search(this)' /><p class='catalogname'>工具·网站</p>
+		</div>
+		
+		<div>
+		<a href="https://mail.163.com/" target="_blank">
+         <img src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-email-2.png" class="subicon"> <p class='subname'>网易邮箱</p>
+        </div>
+		<div>
+		<a href="https://www.hipdf.cn/" target="_blank">
+         <img src="http://lackar.com/aa/icon/wikipedia.png" class="subicon"> <p class='subname'>PDF处理</p>
+        </div>
+		<div>
+		<a href="https://sci-hub.se/" target="_blank">
+         <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1161079018,3195112531&fm=15&gp=0.jpg" class="subicon"> <p class='subname'>Sci-Hub</p>
+        </div>
+		<div>
+		<a href="https://mirrors.tuna.tsinghua.edu.cn/" target="_blank">
+         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAbCAYAAADrjggCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTM4IDc5LjE1OTgyNCwgMjAxNi8wOS8xNC0wMTowOTowMSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTcgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkQxM0Q1OTkzOUQ1QzExRTk5NkJBOUIyNjg2NTcyMjMxIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkQxM0Q1OTk0OUQ1QzExRTk5NkJBOUIyNjg2NTcyMjMxIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RDEzRDU5OTE5RDVDMTFFOTk2QkE5QjI2ODY1NzIyMzEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RDEzRDU5OTI5RDVDMTFFOTk2QkE5QjI2ODY1NzIyMzEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz7UdeDbAAAFNUlEQVR42uxZW4hVVRje+8xxGi3N21jZQOEthTL0JR+KVGiyLBozM6GkkK4PlkSZJtVDdDEo66UblUkkWhh2wYZBCy9od2xeKhp9sJroMnQx7ZwzM7vvx2/Rz2rvtffae1cvfvBx9vWsf/3rv64dDr/3aJCC8eB94DzwZPAg+Bz4THAcQTXl/unge+BkdW0G+DQ4Dbz9uALdeMhSnsZy8E1we4HxzwKngAMlzKUCHgF3g3XrXgvYDg6hvL/EvD+dv5+rayF4LjgIdoORjwJHgpemCH1VAQWOAvdxnDKxAlxnXVsKPsvjteDKmHlspsKuBl/j9WvAV6m4heAbPgqUeDc8RdhTC0xUhO0Eh/FYoxmcS/kOg+97/O+PCYtlMDbm/ilKhnHq+jgla6uvC1do8kVCgAt9XOE4nAN+xuNOWkhR99YLJ+fX0gAa4Bx1/2IuYMBFNLgEPFHNea+ECzlZBO4Af7YGlZU/AE5yCPZFwvULQUnvH+acsAjbxON3SnDrT8FeTr4LnAm+nPDs5aSNDtLgO/CMKn2/i0IPWK4gGfcGxkJJJidQ0SLQRr5nYyavb3FYmIG472wGeR2gF6pjcZ0FjjAgFrQT/NUxTifLsQoTwpngqpikIPO/Ajyf56+A+9Vi6nFFD1GIOrCPMeIpqyw5iQH+G4dgE2ilBqcxC8r19VS+Cw+A95dgYY+Dd6Ys1Dxa4PYYb9N4G5wP1sA28Ke0GBapsmQfLcsE1o/APXTxL1kejKJlzmdR3aHizItUXlbIf24A+3ke0YJn8HwPw4SdZOS5s8HzeD4mZZylrF21ssVAbqNyjQ7Ewy7gcZ0ZvcHxa9TPDlcSWEPXq3FSMshlZBx61PFcrrIPNqoFM9igFLiCixiHW5QC0+rIEVZ5FrDCeNCRKOX+6pjrj4F3JylwKgvbbiWYKxPrGNJegisOUxbwPS00CS0e/ztoxTkj++/gaFrbGs47ztpF6Y9I0gDvYt74OE6BFdZ/eTC6BAVOppABLe83x7MDCQrKgx5alguS7G7m8bQkBRaB7yTGWzE4YrYPVXxsi7EIM9YYy930s70qrmbBWCY0OxRI9j0EvmR5W6RdOPwfevA7wIdjFNhstWTLE+Szn13MUsc8u5UtWZRRnlZHNdDHcmYgKQsftlqdsuBK/22mjoqxrEiFkzAl/g5a3YVWSJOHFR5goqxbY4bceKgl5YIq67Yl/4ICuxz3VjFo93u6WpbdpSoV6/O/EZVXTyjUnQM+SvNvKXEinSm7NA2ylR1Q5OFuSR1JP8fty/H+RPBrhye1JS1Ila3KrQyUZeAgO5Ase3zTHT1pHqxj7MwTbp6PkTlkJ9awQsQ/Cun1rAFXFkgqQ7lKi5gFs6DfOt7C+i/M6HbSOVyptppGeLqtUcoPCUVzpphhsJpbSN1K+2EG1zGQXvoF8JOcC7CX2dQXh9hRBIHfzra4+rcskicy43fHWNoga+P2NAXKg5ssi6hkWMVAFb5F8EfO947kfK/BruJ1dkBPerw7JMuGqLjSuwl7YwabSoxf4X/0ng4b29h3dzAMRBmMpSn4e7PXqUAZaBm4Kzj28cfGWvaEZSmtuUDp4jPOVLqtsdyvOBdfuUXeetrgsqkq2+k7rWJbPq7cU4LVSQ96lAloFt2oN0PoMCFHSq/rMzyrv7TNYclSK0H+D8IMH9YD7v1tVeY7O6XR94Fs4j5RUkspLdd1Mdcr3A+8qexuIasCBbIJeSOV2VOyHLNoGUML7KxUmMjecjxzUXDsO29TSXL/+ZcAAwCrfSipoiV28wAAAABJRU5ErkJggg==" class="subicon"> <p class='subname'>清华开源</p>
+        </div>
+		<div>
+		<a href="http://www.lvyun188.com/" target="_blank">
+         <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=287647750,4270171209&fm=26&gp=0.jpg" class="subicon"> <p class='subname'>诗词韵律</p>
+        </div>
+		<div>
+		<a href="https://www.kesci.com/home/workspace/project" target="_blank">
+         <img src="https://cdns.iconmonstr.com/wp-content/assets/preview/2012/96/iconmonstr-home-6.png" class="subicon"> <p class='subname'>和鲸社区</p>
+        </div>
+  		
+</div>
+
+<div class='catalog'>
+
+		
+		<div >
+		<img  id='wikipediazh' class="topicon" src="http://lackar.com/aa/icon/taobao.png"  onclick='search(this)' /><p class='catalogname'>购物·地图</p>
+		</div>
+		
+		<div>
+		<a href="https://www.jd.com"_blank">
+         <img src="http://lackar.com/aa/icon/jingdong.png" class="subicon"> <p class='subname'>京东购物</p>
+        </div>
+		
+		<div>
+		<a href="https://www.taobao.com">
+         <img src="http://lackar.com/aa/icon/taobao.png" class="subicon"> <p class='subname'>淘宝购物</p>
+        </div>
+		
+		<div>
+		<a href="https://www.suning.com">
+         <img src="http://lackar.com/aa/icon/suning.png" class="subicon"> <p class='subname'>苏宁易购</p>
+        </div>
+		
+		<div>
+		<a href="https://map.baidu.com/">
+         <img src="http://lackar.com/aa/icon/baidumap.png" class="subicon"> <p class='subname'>百度地图</p>
+        </div>
+		
+		<div>
+		<a href="https://www.google.cn/maps">
+         <img src="http://lackar.com/aa/icon/googleearth.png" class="subicon"> <p class='subname'>谷歌地图</p>
+        </div>
+		
+		<div>
+		<a href="https://ditu.amap.com">
+         <img src="http://lackar.com/aa/icon/gaode.png" class="subicon"> <p class='subname'>高德地图</p>
+        </div>
+		
+		
+		
+		
+		
+		
+		
+  		
+</div>
+
+
+
+
+
+
+</body>
+</html>

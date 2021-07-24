@@ -13,4 +13,4 @@ This past summer, I have spent great time as a **Machine Learning Intern** at *[
 <!-- Now I am working on Design2code under the supervision of Prof. Fei Wu at Institute of Artificial Intelligence of Zhejiang University with Alibaba. -->
 
 <!-- Check out my CV **[here](/uploads/Hailin_Fu_CV.pdf)**, and please feel free to **[contact me📧](mailto:z_ss101@163.com)**, thanks! -->
-Please feel free to **[contact me📧](mailto:hailinfufu@outlook.com)**, thanks!
+Please feel free to **[contact me📧](z_ss101@163.com)**, thanks!
