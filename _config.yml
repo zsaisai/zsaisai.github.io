@@ -109,7 +109,7 @@ theme: next
 
 deploy:
   type: git
-  repo: git@github.com:zsaisai/zsaisai.github.io.git
+  #repo: git@github.com:zsaisai/zsaisai.github.io.git
   branch: gh-pages
 
 # Archive page setting:
