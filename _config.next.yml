@@ -85,11 +85,9 @@ menu:
   home: / || fa fa-home
   about: /about/ || fa fa-user
   tags: /tags/ || fa fa-tags
-  # categories: /categories/ || fa fa-th
+  categories: /categories/ || fa fa-th
   archives: /archives/ || fa fa-archive
-  schedule: /schedule/ || fa fa-calendar
-  sitemap: /sitemap.xml || fa fa-sitemap
-  commonweal: /404/ || fa fa-heartbeat
+  schedule: /archives/ || fa fa-calendar
 
 # Enable / Disable menu icons / item badges.
 menu_settings:
@@ -255,7 +253,7 @@ tag_icon: true
 # Front-matter variable (unsupport animation).
 reward_settings:
   # If true, a donate button will be displayed in every article by default.
-  enable: true
+  enable: false
   animation: false
   comment: 您的支持将鼓励我继续创作！
 
@@ -269,8 +267,8 @@ reward:
 follow_me:
   #Twitter: https://twitter.com/username || fab fa-twitter
   #Telegram: https://t.me/channel_name || fab fa-telegram
-  WeChat: /images/wechat_channel.jpg || fab fa-weixin
-  RSS: /atom.xml || fa fa-rss
+  #WeChat: /images/wechat_channel.jpg || fab fa-weixin
+  #RSS: /atom.xml || fa fa-rss
 
 # Related popular posts
 # Dependencies: https://github.com/tea3/hexo-related-popular-posts
@@ -316,10 +314,10 @@ calendar:
   calendar_id: <required> # Your Google account E-Mail
   api_key: <required>
   orderBy: startTime
-  showLocation: false
+  showLocation: true
   offsetMax: 72 # Time Range
   offsetMin: 4 # Time Range
-  showDeleted: false
+  showDeleted: true
   singleEvents: true
   maxResults: 250
 

@@ -2,7 +2,7 @@
 title: optimization总结
 date: 2020-07-10 16:09:43
 tags: Machine Learning
-categories:机器学习
+categories: 机器学习
 top:
 ---
 
@@ -169,7 +169,5 @@ https://www.jianshu.com/p/e17622b7ffee
 https://blog.csdn.net/yinyu19950811/article/details/90476956
 
 https://ruder.io/optimizing-gradient-descent/index.html
-
-
 
 https://mooc.study.163.com/learn/2001281003?tid=2403023002&_trace_c_p_k2_=a20d455215c44c419594a999c46400ee#/learn/content
