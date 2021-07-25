@@ -1,6 +1,6 @@
 ---
-title: bazel C++语法入门
-date: 2020-12-16 14:46:35
+title: bazel C++语法
+date: 2021-6-16 14:46:35
 tags: [Bazel,C++]
 categories: 开源工具
 top:

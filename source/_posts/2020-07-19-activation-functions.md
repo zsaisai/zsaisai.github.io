@@ -1,7 +1,7 @@
 ---
 title: 激活函数
-date: 2020-02-19 11:43:45
-tags: 
+date: 2020-07-19 11:43:45
+tags: Machine Learning
 categories: 机器学习
 top:
 mathjax: true
@@ -102,10 +102,6 @@ def ReLU(x):
 尽管存在这两个问题，ReLU目前仍是最常用的activation function，在搭建人工神经网络的时候推荐优先尝试！
 
 前面说了一大堆的 ReLU 的缺点，有很多大牛在此基础上做了改进，如 Leaky ReLU、PReLU(Parametric ReLU)等。
-
-我整理了本文涉及到的全部十几种常见激活函数的底层实现代码Python版，关注我的公众号"赵大寳Note"（ID：StateOfTheArt）回复关键词：激活函数  下载收藏。
-
-![关注公众号趙大寳Note，回复“激活函数”下载全部代码](https://gitee.com/fuhailin/Object-Storage-Service/raw/master/wechat_channel.png)
 
 ## 指数线性单元(ELU)
 

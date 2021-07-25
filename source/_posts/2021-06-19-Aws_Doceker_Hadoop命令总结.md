@@ -1,8 +1,9 @@
-﻿---
-title: AWS-Docker-Hadoop
+---
+title: AWS-Docker-Hadoop命令总结
 date: 2021-06-19 11:43:45
 tags: [AWS,Docker,Hadoop]
 categories: 常用命令
+
 top:
 ---
 
@@ -25,8 +26,11 @@ $ aws s3 ls s3://bucket-name
 列出桶中  bucket-name/ MyFolder 中的对象
 $ aws s3 ls s3://bucket-name/MyFolder
 ```
+<!-- more -->
+
 **管理对象**
 命令包括 aws s3 cp、aws s3 ls、aws s3 mv、aws s3 rm 和 sync。cp、ls、mv 和 rm 命令的用法与它们在 Unix 中的对应命令相同。
+
 ```bash
 // 将当前目录里的 MyFile.txt文件拷贝到 s3://my-bucket/MyFolder
 $ aws s3 cp MyFile.txt s3://my-bucket/MyFolder/

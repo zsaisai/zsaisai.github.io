@@ -1,8 +1,8 @@
 ---
-title: optimization
-date: 2020-06-19 16:09:43
-tags:
-categories:
+title: optimization总结
+date: 2020-07-10 16:09:43
+tags: Machine Learning
+categories:机器学习
 top:
 ---
 
