@@ -22,13 +22,13 @@
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zsaisai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 <meta name="description" content="Aws用命令行管理aws s3管理存储桶 123456789101112创建桶;$ aws s3 mb s3:&#x2F;&#x2F;bucket-name删除桶：$ aws s3 rb s3:&#x2F;&#x2F;bucket-name删除非空桶：$ aws s3 rb s3:&#x2F;&#x2F;bucket-name --force列出存储桶$ aws s3 ls列出存储桶中所有的对象和文件夹$ aws s3 ls s3:&#x2F;&#x2F;bucket-nam">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AWS-Docker-Hadoop">
+<meta property="og:title" content="AWS-Docker-Hadoop命令总结">
 <meta property="og:url" content="https://zsaisai.github.io/Aws_Doceker_Hadoop%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="ZhangSaiSai">
 <meta property="og:description" content="Aws用命令行管理aws s3管理存储桶 123456789101112创建桶;$ aws s3 mb s3:&#x2F;&#x2F;bucket-name删除桶：$ aws s3 rb s3:&#x2F;&#x2F;bucket-name删除非空桶：$ aws s3 rb s3:&#x2F;&#x2F;bucket-name --force列出存储桶$ aws s3 ls列出存储桶中所有的对象和文件夹$ aws s3 ls s3:&#x2F;&#x2F;bucket-nam">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-06-19T11:43:45.000Z">
-<meta property="article:modified_time" content="2021-07-24T16:36:34.249Z">
+<meta property="article:modified_time" content="2021-07-25T06:29:11.020Z">
 <meta property="article:author" content="ZHANGSAISAI">
 <meta property="article:tag" content="AWS">
 <meta property="article:tag" content="Docker">
@@ -40,10 +40,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/Aws_Doceker_Hadoop%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/","path":"Aws_Doceker_Hadoop命令总结/","title":"AWS-Docker-Hadoop"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/Aws_Doceker_Hadoop%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/","path":"Aws_Doceker_Hadoop命令总结/","title":"AWS-Docker-Hadoop命令总结"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>AWS-Docker-Hadoop | ZhangSaiSai</title>
+<title>AWS-Docker-Hadoop命令总结 | ZhangSaiSai</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129037882-1"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-129037882-1","only_pageview":false}</script>
@@ -147,19 +147,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -248,7 +248,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          AWS-Docker-Hadoop
+          AWS-Docker-Hadoop命令总结
         </h1>
 
         <div class="post-meta-container">
@@ -261,13 +261,6 @@
 
       <time title="Created: 2021-06-19 11:43:45" itemprop="dateCreated datePublished" datetime="2021-06-19T11:43:45+00:00">2021-06-19</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-07-24 16:36:34" itemprop="dateModified" datetime="2021-07-24T16:36:34+00:00">2021-07-24</time>
-      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
@@ -297,6 +290,8 @@
     <div class="post-body" itemprop="articleBody">
         <h1 id="Aws"><a href="#Aws" class="headerlink" title="Aws"></a>Aws</h1><p>用命令行管理aws s3<br><strong>管理存储桶</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">创建桶;</span><br><span class="line">$ aws s3 mb s3://bucket-name</span><br><span class="line">删除桶：</span><br><span class="line">$ aws s3 rb s3://bucket-name</span><br><span class="line">删除非空桶：</span><br><span class="line">$ aws s3 rb s3://bucket-name --force</span><br><span class="line">列出存储桶</span><br><span class="line">$ aws s3 ls</span><br><span class="line">列出存储桶中所有的对象和文件夹</span><br><span class="line">$ aws s3 ls s3://bucket-name</span><br><span class="line">列出桶中  bucket-name/ MyFolder 中的对象</span><br><span class="line">$ aws s3 ls s3://bucket-name/MyFolder</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+
 <p><strong>管理对象</strong><br>命令包括 aws s3 cp、aws s3 ls、aws s3 mv、aws s3 rm 和 sync。cp、ls、mv 和 rm 命令的用法与它们在 Unix 中的对应命令相同。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 将当前目录里的 MyFile.txt文件拷贝到 s3://my-bucket/MyFolder</span><br><span class="line">$ aws s3 cp MyFile.txt s3://my-bucket/MyFolder/</span><br><span class="line"></span><br><span class="line">// 将s3://my-bucket/MyFolder所有 .jpg 的文件移到 ./MyDirectory</span><br><span class="line">$ aws s3 mv s3://my-bucket/MyFolder ./MyDirectory --exclude <span class="string">&#x27;*&#x27;</span> --include <span class="string">&#x27;*.jpg&#x27;</span> --recursive</span><br><span class="line"></span><br><span class="line">// 列出  my-bucket的所有内容</span><br><span class="line">$ aws s3 ls s3://my-bucket</span><br><span class="line"></span><br><span class="line">// 列出my-bucket中MyFolder的所有内容</span><br><span class="line">$ aws s3 ls s3://my-bucket/MyFolder</span><br><span class="line"></span><br><span class="line">// 删除 s3://my-bucket/MyFolder/MyFile.txt</span><br><span class="line">$ aws s3 rm s3://my-bucket/MyFolder/MyFile.txt</span><br><span class="line"></span><br><span class="line">// 删除 s3://my-bucket/MyFolder 和它的所有内容</span><br><span class="line">$ aws s3 rm s3://my-bucket/MyFolder --recursive</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>当 –recursive 选项与 cp、mv 或 rm 一起用于目录/文件夹时，命令会遍历目录树，包括所有子目录</p>
@@ -435,8 +430,8 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021-5-20-Bazel-Starter/" rel="prev" title="bazel C++语法入门">
-                  <i class="fa fa-chevron-left"></i> bazel C++语法入门
+                <a href="/2021-5-20-Bazel-Starter/" rel="prev" title="bazel C++语法">
+                  <i class="fa fa-chevron-left"></i> bazel C++语法
                 </a>
             </div>
             <div class="post-nav-item">
