@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/logo2.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/logo2.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zsaisai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="title: 天池智能运维比赛-故障预测date: 2021-03-29  14:46:35tags: 异常检测categories: 天池top:  问题描述比赛官网地址给定一段时间的内存系统日志，内存故障地址数据以及故障标签数据，参赛者应提出自己的解决方案，以预测每台服务器是否会发生DRAM故障。具体来说，参赛者需要从组委会提供的数据中挖掘出和DRAM故障相关的特征，并采用合适的机器学习算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ZhangSaiSai">
+<meta property="og:url" content="https://zsaisai.github.io/%E5%A4%A9%E6%B1%A0%E6%99%BA%E8%83%BD%E8%BF%90%E7%BB%B4%E6%AF%94%E8%B5%9B-%E6%95%85%E9%9A%9C%E9%A2%84%E6%B5%8B/index.html">
+<meta property="og:site_name" content="ZhangSaiSai">
+<meta property="og:description" content="title: 天池智能运维比赛-故障预测date: 2021-03-29  14:46:35tags: 异常检测categories: 天池top:  问题描述比赛官网地址给定一段时间的内存系统日志，内存故障地址数据以及故障标签数据，参赛者应提出自己的解决方案，以预测每台服务器是否会发生DRAM故障。具体来说，参赛者需要从组委会提供的数据中挖掘出和DRAM故障相关的特征，并采用合适的机器学习算法">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210328171025289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210328171040468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210328171137327.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210328173822141.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2021-07-28T15:25:57.832Z">
+<meta property="article:modified_time" content="2021-07-28T15:25:57.832Z">
+<meta property="article:author" content="ZHANGSAISAI">
+<meta property="article:tag" content="Student">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210328171025289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
+
+
+<link rel="canonical" href="https://zsaisai.github.io/%E5%A4%A9%E6%B1%A0%E6%99%BA%E8%83%BD%E8%BF%90%E7%BB%B4%E6%AF%94%E8%B5%9B-%E6%95%85%E9%9A%9C%E9%A2%84%E6%B5%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/%E5%A4%A9%E6%B1%A0%E6%99%BA%E8%83%BD%E8%BF%90%E7%BB%B4%E6%AF%94%E8%B5%9B-%E6%95%85%E9%9A%9C%E9%A2%84%E6%B5%8B/","path":"天池智能运维比赛-故障预测/","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title> | ZhangSaiSai</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129037882-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-129037882-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?d0967e9b160f4f6248804003642ee818"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">ZhangSaiSai</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">二十多岁 人生才刚刚开始</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-schedule"><a href="/archives/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">数据描述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87"><span class="nav-number">3.</span> <span class="nav-text">评价指标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#01-%E5%AF%BC%E5%85%A5%E5%BA%93"><span class="nav-number">4.0.1.</span> <span class="nav-text">01 - 导入库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#02-%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">4.0.2.</span> <span class="nav-text">02- 数据预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="nav-number">4.0.2.1.</span> <span class="nav-text">训练数据准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#A%E6%A6%9C%E9%A2%84%E6%B5%8B%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="nav-number">4.0.2.2.</span> <span class="nav-text">A榜预测数据准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B%E6%A6%9C%E9%A2%84%E6%B5%8B%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="nav-number">4.0.2.3.</span> <span class="nav-text">B榜预测数据准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%84%E5%BB%BADataloader"><span class="nav-number">4.0.2.4.</span> <span class="nav-text">构建Dataloader</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#03-%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C"><span class="nav-number">4.0.3.</span> <span class="nav-text">03 - 配置网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#04-%E8%AE%AD%E7%BB%83"><span class="nav-number">4.0.4.</span> <span class="nav-text">04 - 训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#05-%E9%A2%84%E6%B5%8B"><span class="nav-number">4.0.5.</span> <span class="nav-text">05 -预测</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ZHANGSAISAI"
+      src="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
+  <p class="site-author-name" itemprop="name">ZHANGSAISAI</p>
+  <div class="site-description" itemprop="description">Keep awake,Stay thinking</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zsaisai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zsaisai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:z_ss101@163.com" title="E-Mail → mailto:z_ss101@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/weixin_41744192?spm=1000.2115.3001.5343" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_41744192?spm&#x3D;1000.2115.3001.5343" rel="noopener" target="_blank"><i class="csdn fa-fw"></i>CSDN</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/3564388084" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;3564388084" rel="noopener" target="_blank"><i class="weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://music.163.com/#/user/home?id=330376567" title="https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;330376567" rel="noopener" target="_blank">Cloudmusic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.rainymood.com/" title="https:&#x2F;&#x2F;www.rainymood.com&#x2F;" rel="noopener" target="_blank">Rainy Mood</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://paperswithcode.com/task/recommendation-systems" title="https:&#x2F;&#x2F;paperswithcode.com&#x2F;task&#x2F;recommendation-systems" rel="noopener" target="_blank">Papers with Code</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://datawhalechina.github.io/pumpkin-book/#/" title="https:&#x2F;&#x2F;datawhalechina.github.io&#x2F;pumpkin-book&#x2F;#&#x2F;" rel="noopener" target="_blank">Pumpkin-book</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://tangshusen.me/Dive-into-DL-PyTorch/#/" title="https:&#x2F;&#x2F;tangshusen.me&#x2F;Dive-into-DL-PyTorch&#x2F;#&#x2F;" rel="noopener" target="_blank">DL-Torch</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/zsaisai" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/%E5%A4%A9%E6%B1%A0%E6%99%BA%E8%83%BD%E8%BF%90%E7%BB%B4%E6%AF%94%E8%B5%9B-%E6%95%85%E9%9A%9C%E9%A2%84%E6%B5%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
+      <meta itemprop="name" content="ZHANGSAISAI">
+      <meta itemprop="description" content="Keep awake,Stay thinking">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhangSaiSai">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-07-28 15:25:57" itemprop="dateCreated datePublished" datetime="2021-07-28T15:25:57+00:00">2021-07-28</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <hr>
+<p>title: 天池智能运维比赛-故障预测<br>date: 2021-03-29  14:46:35<br>tags: 异常检测<br>categories: 天池<br>top:</p>
+<hr>
+<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p><a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/competition/entrance/531874/introduction">比赛官网地址</a><br>给定一段时间的内存系统日志，内存故障地址数据以及故障标签数据，参赛者应提出自己的解决方案，以预测每台服务器是否会发生DRAM故障。具体来说，参赛者需要从组委会提供的数据中挖掘出和DRAM故障相关的特征，并采用合适的机器学习算法予以训练，最终得到可以预测DRAM故障的最优模型。数据处理方法和算法不限，但选手应该综合考虑算法的效果和复杂度，以构建相对高效的解决方案</p>
+<span id="more"></span>
+
+<h1 id="数据描述"><a href="#数据描述" class="headerlink" title="数据描述"></a>数据描述</h1><p>memory_sample_kernel_log_*.csv是从Linux内核日志中收集的与DRAM故障相关的信息，共28列。其中，24列是布尔值。每个布尔列代表一个故障文本模板,其中True表示该故障文本模板出现在内核日志中。请注意，这里提供的模板并不保证都和DRAM故障相关，参赛者应自行判断选用哪些模板信息。下表仅列出除模版外的四列信息，每列的含义如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210328171025289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70" alt="列名    字段类型    描述
+serial_number    string    服务器代号
+manufacturer    integer    server manufacturer id
+vendor    integer    memory vendor id
+collect_time    string    日志上报时间"></p>
+<p>memory_sample_failure_tag_*.csv为故障标签表，共5列。每列含义如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20210328171040468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70" alt="列名    字段类型    描述
+serial_number    string    服务器代号
+manufacturer    integer    server manufacturer id
+vendor    integer    memory vendor id
+failure_time    string    内存的故障时间，与上述3表里的collect_time不同
+tag    integer    内存的故障类型代号"></p>
+<p>初赛训练集数据范围20190101 至 20190531。初赛A/B榜的测试集为memory_sample_mce_log_a/b.csv, memory_sample_address_log_a/b.csv, memory_sample_kernel_log_a/b.csv, A榜数据范围为20190601～20190630整月的日志数据，B榜数据范围为20190701～20190731整月的日志数据,选手根据测试集数据按时间维度，预测服务器是否会在未来7天内发生内存故障。初赛测试集不提供故障label。</p>
+<p>复赛阶段，测试集的数据格式和初赛阶段相同，测试集数据范围为20190801～20190810，但是测试集数据不会提供给参赛选手。选手需要在docker代码中从指定的数据集目录中读取测试集内容，进行特征工程和模型预测，最后输出的格式也有变化，输出预测未来7天会发生内存故障的机器集合，且附带预测时间间隔(docker代码中需包含本地训练好的模型，预测时间间隔具体含义见评价指标（复赛）)。</p>
+<h1 id="评价指标"><a href="#评价指标" class="headerlink" title="评价指标"></a>评价指标</h1><p><img src="https://img-blog.csdnimg.cn/20210328171137327.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>仅供参考，输出预测结果成绩约47分左右，A榜排名为44/1350。<br><img src="https://img-blog.csdnimg.cn/20210328173822141.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h3 id="01-导入库"><a href="#01-导入库" class="headerlink" title="01 - 导入库"></a>01 - 导入库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> torch.utils.data <span class="keyword">as</span> Data</span><br><span class="line"><span class="keyword">from</span> torch.autograd <span class="keyword">import</span> Variable</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">from</span> tqdm.notebook <span class="keyword">import</span> tqdm</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br></pre></td></tr></table></figure>
+
+<h3 id="02-数据预处理"><a href="#02-数据预处理" class="headerlink" title="02- 数据预处理"></a>02- 数据预处理</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#路径</span></span><br><span class="line">kernel_log_data_path = <span class="string">&#x27;memory_sample_kernel_log_round1_a_train.csv&#x27;</span><span class="comment"># 内核日志路径</span></span><br><span class="line">failure_tag_data_path = <span class="string">&#x27;memory_sample_failure_tag_round1_a_train.csv&#x27;</span><span class="comment"># 故障标签表路径</span></span><br><span class="line">PARENT_FOLDER = <span class="string">&#x27;data&#x27;</span> <span class="comment"># 数据的相对路径目录</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算每个agg_time区间的和</span></span><br><span class="line"><span class="comment"># path：内核日志路径</span></span><br><span class="line"><span class="comment"># agg_time：聚合时间粒度+AGG_UNIT类型</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">etl</span>(<span class="params">path, agg_time</span>):</span></span><br><span class="line">    data = pd.read_csv(os.path.join(PARENT_FOLDER, path))<span class="comment">#读取内核日志（os.path.join为路径组合方法）</span></span><br><span class="line">    <span class="comment">#print(data)</span></span><br><span class="line">    data[<span class="string">&#x27;collect_time&#x27;</span>] = pd.to_datetime(data[<span class="string">&#x27;collect_time&#x27;</span>]).dt.ceil(agg_time)<span class="comment"># 将数据转为日期类型，向上取整</span></span><br><span class="line">    group_data = data.groupby([<span class="string">&#x27;serial_number&#x27;</span>,<span class="string">&#x27;collect_time&#x27;</span>],as_index=<span class="literal">False</span>).agg(<span class="string">&#x27;sum&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> group_data</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置训练集聚合时间粒度 h/min/s</span></span><br><span class="line">AGG_VALUE = <span class="number">5</span></span><br><span class="line">AGG_UNIT = <span class="string">&#x27;min&#x27;</span></span><br><span class="line">AGG_TIME= <span class="built_in">str</span>(AGG_VALUE)+AGG_UNIT</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="训练数据准备"><a href="#训练数据准备" class="headerlink" title="训练数据准备"></a>训练数据准备</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">etl(kernel_log_data_path, AGG_TIME)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+<pre><code>.dataframe tbody tr th &#123;
+    vertical-align: top;
+&#125;
+
+.dataframe thead th &#123;
+    text-align: right;
+&#125;
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>serial_number</th>
+      <th>collect_time</th>
+      <th>1_hwerr_f</th>
+      <th>1_hwerr_e</th>
+      <th>2_hwerr_c</th>
+      <th>2_sel</th>
+      <th>3_hwerr_n</th>
+      <th>2_hwerr_s</th>
+      <th>3_hwerr_m</th>
+      <th>1_hwerr_st</th>
+      <th>...</th>
+      <th>3_hwerr_r</th>
+      <th>_hwerr_cd</th>
+      <th>3_sup_mce_note</th>
+      <th>3_cmci_sub</th>
+      <th>3_cmci_det</th>
+      <th>3_hwerr_pi</th>
+      <th>3_hwerr_o</th>
+      <th>3_hwerr_mce_l</th>
+      <th>manufacturer</th>
+      <th>vendor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>server_1</td>
+      <td>2019-01-01 00:05:00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>4</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>server_1</td>
+      <td>2019-01-01 00:10:00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>server_1</td>
+      <td>2019-01-01 00:20:00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>4</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>server_1</td>
+      <td>2019-01-01 00:25:00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>4</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>server_1</td>
+      <td>2019-01-01 00:30:00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>6</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>490464</th>
+      <td>server_9998</td>
+      <td>2019-04-19 21:50:00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>6</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>490465</th>
+      <td>server_9998</td>
+      <td>2019-04-20 22:20:00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>6</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>490466</th>
+      <td>server_9998</td>
+      <td>2019-04-23 07:40:00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>4</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <th>490467</th>
+      <td>server_9998</td>
+      <td>2019-04-23 08:05:00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>6</td>
+      <td>6.0</td>
+    </tr>
+    <tr>
+      <th>490468</th>
+      <td>server_9998</td>
+      <td>2019-04-23 15:50:00</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>6</td>
+      <td>6.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>490469 rows × 28 columns</p>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 目前仅使用kernel数据</span></span><br><span class="line">group_min = etl(kernel_log_data_path, AGG_TIME)</span><br><span class="line">failure_tag = pd.read_csv(os.path.join(PARENT_FOLDER,failure_tag_data_path))</span><br><span class="line">failure_tag[<span class="string">&#x27;failure_time&#x27;</span>]= pd.to_datetime(failure_tag[<span class="string">&#x27;failure_time&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 为数据打标</span></span><br><span class="line">merged_data = pd.merge(group_min,failure_tag[[<span class="string">&#x27;serial_number&#x27;</span>,<span class="string">&#x27;failure_time&#x27;</span>]],how=<span class="string">&#x27;left&#x27;</span>,on=[<span class="string">&#x27;serial_number&#x27;</span>])</span><br><span class="line">merged_data[<span class="string">&#x27;failure_tag&#x27;</span>]=(merged_data[<span class="string">&#x27;failure_time&#x27;</span>].notnull()) &amp; ((merged_data[<span class="string">&#x27;failure_time&#x27;</span>]</span><br><span class="line">-merged_data[<span class="string">&#x27;collect_time&#x27;</span>]).dt.seconds &lt;= AGG_VALUE*<span class="number">60</span>)</span><br><span class="line">merged_data[<span class="string">&#x27;failure_tag&#x27;</span>]= merged_data[<span class="string">&#x27;failure_tag&#x27;</span>]+<span class="number">0</span></span><br><span class="line">feature_data = merged_data.drop([<span class="string">&#x27;serial_number&#x27;</span>, <span class="string">&#x27;collect_time&#x27;</span>,<span class="string">&#x27;manufacturer&#x27;</span>,<span class="string">&#x27;vendor&#x27;</span>,<span class="string">&#x27;failure_time&#x27;</span>], axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 负样本下采样</span></span><br><span class="line">sample_0 = feature_data[feature_data[<span class="string">&#x27;failure_tag&#x27;</span>]==<span class="number">0</span>].sample(frac=<span class="number">0.05</span>)<span class="comment">#返回的比例</span></span><br><span class="line">sample = sample_0.append(feature_data[feature_data[<span class="string">&#x27;failure_tag&#x27;</span>]==<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 转为torch</span></span><br><span class="line">X_train = torch.from_numpy(sample.iloc[:,:-<span class="number">1</span>].values).<span class="built_in">type</span>(torch.FloatTensor)</span><br><span class="line">y_train = torch.from_numpy(sample[<span class="string">&#x27;failure_tag&#x27;</span>].values).<span class="built_in">type</span>(torch.LongTensor)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看训练数据结构</span></span><br><span class="line">X_train.shape,y_train.shape</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>(torch.Size([24851, 24]), torch.Size([24851]))
+</code></pre>
+<h4 id="A榜预测数据准备"><a href="#A榜预测数据准备" class="headerlink" title="A榜预测数据准备"></a>A榜预测数据准备</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 测试数据准备</span></span><br><span class="line">group_data_test = etl(<span class="string">&#x27;memory_sample_kernel_log_round1_a_test.csv&#x27;</span>, AGG_TIME)</span><br><span class="line">group_min_sn_test = pd.DataFrame(group_data_test[[<span class="string">&#x27;serial_number&#x27;</span>,<span class="string">&#x27;collect_time&#x27;</span>]])</span><br><span class="line">group_min_test = group_data_test.drop([<span class="string">&#x27;serial_number&#x27;</span>, <span class="string">&#x27;collect_time&#x27;</span>,<span class="string">&#x27;manufacturer&#x27;</span>,<span class="string">&#x27;vendor&#x27;</span>], axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 转为torch</span></span><br><span class="line">X_test = torch.from_numpy(group_min_test.values).<span class="built_in">type</span>(torch.FloatTensor)</span><br><span class="line">X_test.shape</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>torch.Size([115629, 24])
+</code></pre>
+<h4 id="B榜预测数据准备"><a href="#B榜预测数据准备" class="headerlink" title="B榜预测数据准备"></a>B榜预测数据准备</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 测试数据准备</span></span><br><span class="line">group_data_test = etl(<span class="string">&#x27;memory_sample_kernel_log_round1_b1_test.csv&#x27;</span>, AGG_TIME)</span><br><span class="line">group_min_sn_test = pd.DataFrame(group_data_test[[<span class="string">&#x27;serial_number&#x27;</span>,<span class="string">&#x27;collect_time&#x27;</span>]])</span><br><span class="line">group_min_test = group_data_test.drop([<span class="string">&#x27;serial_number&#x27;</span>, <span class="string">&#x27;collect_time&#x27;</span>,<span class="string">&#x27;manufacturer&#x27;</span>,<span class="string">&#x27;vendor&#x27;</span>], axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 转为torch</span></span><br><span class="line">X_test = torch.from_numpy(group_min_test.values).<span class="built_in">type</span>(torch.FloatTensor)</span><br><span class="line">X_test.shape</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>torch.Size([210672, 24])
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#预测数据集</span></span><br><span class="line">torch_dataset = Data.TensorDataset(X_test) </span><br><span class="line">testloader = Data.DataLoader(</span><br><span class="line">    dataset=torch_dataset,</span><br><span class="line">    batch_size=X_test.size(<span class="number">0</span>),</span><br><span class="line">    shuffle=<span class="literal">False</span>,</span><br><span class="line">    drop_last=<span class="literal">False</span>,</span><br><span class="line">    num_workers=<span class="number">0</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="构建Dataloader"><a href="#构建Dataloader" class="headerlink" title="构建Dataloader"></a>构建Dataloader</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#训练集</span></span><br><span class="line"><span class="comment"># # 转换成torch可以识别的Dataset</span></span><br><span class="line">torch_dataset = Data.TensorDataset(X_train,y_train) </span><br><span class="line"><span class="comment">#将dataset 放入DataLoader</span></span><br><span class="line">trainloader = Data.DataLoader(</span><br><span class="line">dataset=torch_dataset,</span><br><span class="line">    batch_size=<span class="number">1242</span>, </span><br><span class="line">    shuffle=<span class="literal">True</span>, </span><br><span class="line">    drop_last=<span class="literal">True</span>, </span><br><span class="line">    num_workers=<span class="number">0</span> </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#预测数据集</span></span><br><span class="line">torch_dataset = Data.TensorDataset(X_test) </span><br><span class="line">testloader = Data.DataLoader(</span><br><span class="line">    dataset=torch_dataset,</span><br><span class="line">    batch_size=X_test.size(<span class="number">0</span>),</span><br><span class="line">    shuffle=<span class="literal">False</span>,</span><br><span class="line">    drop_last=<span class="literal">False</span>,</span><br><span class="line">    num_workers=<span class="number">0</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="03-配置网络"><a href="#03-配置网络" class="headerlink" title="03 - 配置网络"></a>03 - 配置网络</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Model</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,D_in,H,D_out</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(Model,self).__init__()</span><br><span class="line">        self.hidden1 = torch.nn.Linear(D_in,H)</span><br><span class="line">        self.hidden2 = torch.nn.Linear(H,H)</span><br><span class="line">        self.predict = torch.nn.Linear(H,D_out)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, <span class="built_in">input</span></span>):</span></span><br><span class="line">        out = self.hidden1(<span class="built_in">input</span>)</span><br><span class="line">        out = F.relu(out)</span><br><span class="line">        out = self.hidden2(out)</span><br><span class="line">        out = F.relu(out)</span><br><span class="line">        out = self.predict(out)</span><br><span class="line"><span class="comment">#        out = F.softmax(out,dim=1)#行概率归一</span></span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"><span class="comment">#定义模型传参</span></span><br><span class="line">model = Model(<span class="number">24</span>,<span class="number">15</span>,<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(model)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用GPU</span></span><br><span class="line"><span class="keyword">if</span> torch.cuda.is_available():</span><br><span class="line">    model.cuda()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;GPU&quot;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;CPU&quot;</span>)</span><br><span class="line">    </span><br><span class="line"><span class="comment">#定义参数</span></span><br><span class="line">epochs = <span class="number">2000</span></span><br><span class="line">learn_rate = <span class="number">0.1</span></span><br><span class="line">momentum = <span class="number">0.5</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#定义损失函数</span></span><br><span class="line"><span class="comment">#loss_fn = torch.nn.MSELoss(reduction=&#x27;sum&#x27;)</span></span><br><span class="line">loss_fn = torch.nn.CrossEntropyLoss()</span><br><span class="line"></span><br><span class="line"><span class="comment">#定义优化器</span></span><br><span class="line">optimizer = torch.optim.Adam(model.parameters(),lr=learn_rate)</span><br><span class="line"><span class="comment">#optimizer = torch.optim.SGD(model.parameters(),lr=learn_rate,momentum =momentum)</span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<pre><code>Model(
+  (hidden1): Linear(in_features=24, out_features=15, bias=True)
+  (hidden2): Linear(in_features=15, out_features=15, bias=True)
+  (predict): Linear(in_features=15, out_features=2, bias=True)
+)
+GPU
+</code></pre>
+<h3 id="04-训练"><a href="#04-训练" class="headerlink" title="04 - 训练"></a>04 - 训练</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">%%time</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> tqdm(<span class="built_in">range</span>(epochs)):</span><br><span class="line">    </span><br><span class="line">    model.train()</span><br><span class="line">    <span class="keyword">for</span> i, (X_train,y_train) <span class="keyword">in</span> <span class="built_in">enumerate</span>(trainloader):        </span><br><span class="line">        <span class="comment">#数据放入GoU</span></span><br><span class="line">        <span class="keyword">if</span> torch.cuda.is_available():</span><br><span class="line">            X_train = Variable(X_train).cuda()</span><br><span class="line">            y_train = Variable(y_train).cuda()      </span><br><span class="line"></span><br><span class="line">        <span class="comment">#前向传播</span></span><br><span class="line">        out = model(X_train)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#执行计算损失函数</span></span><br><span class="line">        loss = loss_fn(out,y_train)</span><br><span class="line"><span class="comment">#       loss = F.nll_loss(out,y)</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#执行梯度归零</span></span><br><span class="line">        optimizer.zero_grad()</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#执行反向传播</span></span><br><span class="line">        loss.backward()</span><br><span class="line">        </span><br><span class="line">        <span class="comment">#执行优化器</span></span><br><span class="line">        optimizer.step()       </span><br><span class="line"></span><br><span class="line">        <span class="comment">#输出误差 精度</span></span><br><span class="line">        <span class="keyword">if</span> i%<span class="number">1</span> == <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;Train Epoch: &#123;&#125;, Iteration &#123;&#125;, Loss: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(epoch+<span class="number">1</span>,i,loss.item()))</span><br><span class="line">        </span><br><span class="line">    <span class="comment">#softmax行提取（1为DRAM故障）</span></span><br><span class="line"><span class="comment">#   out = torch.max(out,dim = 1)[1]</span></span><br><span class="line">    pre = torch.<span class="built_in">max</span>(F.softmax(out),dim = <span class="number">1</span>)[<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="05-预测"><a href="#05-预测" class="headerlink" title="05 -预测"></a>05 -预测</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#读取存储的模型</span></span><br><span class="line"><span class="comment">#model.load_state_dict(torch.load(&#x27;5b2485.pt&#x27;))```</span></span><br><span class="line"></span><br><span class="line">​```python</span><br><span class="line">model.<span class="built_in">eval</span>()</span><br><span class="line"><span class="keyword">for</span> (X_test,) <span class="keyword">in</span> testloader:</span><br><span class="line">    <span class="keyword">if</span> torch.cuda.is_available():</span><br><span class="line">        X_test = Variable(X_test).cuda()        </span><br><span class="line">        out = model(X_test)</span><br><span class="line">        <span class="comment">#pre = torch.max(out,1)[1]</span></span><br><span class="line">        pre = torch.<span class="built_in">max</span>(F.softmax(out), <span class="number">1</span>)[<span class="number">1</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;data ok&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(X_test.size(<span class="number">0</span>)):</span><br><span class="line">    <span class="keyword">if</span> pre[i]==<span class="number">1</span>:</span><br><span class="line">        <span class="built_in">print</span>(pre[i])</span><br></pre></td></tr></table></figure>
+<p><strong>保存预测结果</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">b = pre.cpu().numpy()</span><br><span class="line">group_min_sn_test[<span class="string">&#x27;predict&#x27;</span>]=b</span><br><span class="line"><span class="comment"># 输出预测结果</span></span><br><span class="line">group_min_sn_test=group_min_sn_test[group_min_sn_test[<span class="string">&#x27;predict&#x27;</span>]==<span class="number">1</span>]</span><br><span class="line">group_min_sn_res = group_min_sn_test.drop(<span class="string">&#x27;predict&#x27;</span>,axis=<span class="number">1</span>)</span><br><span class="line">group_min_sn_res.to_csv(<span class="string">&#x27;memory_predit_res_nn Bpre.csv&#x27;</span>, header=<span class="literal">False</span>, index=<span class="literal">False</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Save OK&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>保存模型</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#torch.save(model.state_dict(), &#x27;5b2485.pt&#x27;)</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E5%AE%9E%E4%B9%A0%E5%B0%8F%E6%80%BB%E7%BB%93/" rel="prev" title="实习结束">
+                  <i class="fa fa-chevron-left"></i> 实习结束
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86-%E6%A8%A1%E5%BC%8F%E5%88%86%E8%A7%A3%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3%EF%BC%883NF-BCNF%EF%BC%89/" rel="next" title="">
+                   <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MjE1MS8xODY5OA=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="snowflake-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZHANGSAISAI</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+
+</body>
+</html>
