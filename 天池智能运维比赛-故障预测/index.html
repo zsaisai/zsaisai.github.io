@@ -20,21 +20,21 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zsaisai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="title: 天池智能运维比赛-故障预测date: 2021-03-29  14:46:35tags: 异常检测categories: 天池top:  问题描述比赛官网地址给定一段时间的内存系统日志，内存故障地址数据以及故障标签数据，参赛者应提出自己的解决方案，以预测每台服务器是否会发生DRAM故障。具体来说，参赛者需要从组委会提供的数据中挖掘出和DRAM故障相关的特征，并采用合适的机器学习算法">
+<meta name="description" content="问题描述比赛官网地址给定一段时间的内存系统日志，内存故障地址数据以及故障标签数据，参赛者应提出自己的解决方案，以预测每台服务器是否会发生DRAM故障。具体来说，参赛者需要从组委会提供的数据中挖掘出和DRAM故障相关的特征，并采用合适的机器学习算法予以训练，最终得到可以预测DRAM故障的最优模型。数据处理方法和算法不限，但选手应该综合考虑算法的效果和复杂度，以构建相对高效的解决方案">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ZhangSaiSai">
+<meta property="og:title" content="天池智能运维比赛-故障预测">
 <meta property="og:url" content="https://zsaisai.github.io/%E5%A4%A9%E6%B1%A0%E6%99%BA%E8%83%BD%E8%BF%90%E7%BB%B4%E6%AF%94%E8%B5%9B-%E6%95%85%E9%9A%9C%E9%A2%84%E6%B5%8B/index.html">
 <meta property="og:site_name" content="ZhangSaiSai">
-<meta property="og:description" content="title: 天池智能运维比赛-故障预测date: 2021-03-29  14:46:35tags: 异常检测categories: 天池top:  问题描述比赛官网地址给定一段时间的内存系统日志，内存故障地址数据以及故障标签数据，参赛者应提出自己的解决方案，以预测每台服务器是否会发生DRAM故障。具体来说，参赛者需要从组委会提供的数据中挖掘出和DRAM故障相关的特征，并采用合适的机器学习算法">
+<meta property="og:description" content="问题描述比赛官网地址给定一段时间的内存系统日志，内存故障地址数据以及故障标签数据，参赛者应提出自己的解决方案，以预测每台服务器是否会发生DRAM故障。具体来说，参赛者需要从组委会提供的数据中挖掘出和DRAM故障相关的特征，并采用合适的机器学习算法予以训练，最终得到可以预测DRAM故障的最优模型。数据处理方法和算法不限，但选手应该综合考虑算法的效果和复杂度，以构建相对高效的解决方案">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210328171025289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210328171040468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210328171137327.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20210328173822141.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
-<meta property="article:published_time" content="2021-07-28T15:25:57.832Z">
-<meta property="article:modified_time" content="2021-07-28T15:25:57.832Z">
+<meta property="article:published_time" content="2021-03-29T14:46:35.000Z">
+<meta property="article:modified_time" content="2021-07-28T15:37:01.321Z">
 <meta property="article:author" content="ZHANGSAISAI">
-<meta property="article:tag" content="Student">
+<meta property="article:tag" content="异常检测">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210328171025289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
 
@@ -43,10 +43,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/%E5%A4%A9%E6%B1%A0%E6%99%BA%E8%83%BD%E8%BF%90%E7%BB%B4%E6%AF%94%E8%B5%9B-%E6%95%85%E9%9A%9C%E9%A2%84%E6%B5%8B/","path":"天池智能运维比赛-故障预测/","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/%E5%A4%A9%E6%B1%A0%E6%99%BA%E8%83%BD%E8%BF%90%E7%BB%B4%E6%AF%94%E8%B5%9B-%E6%95%85%E9%9A%9C%E9%A2%84%E6%B5%8B/","path":"天池智能运维比赛-故障预测/","title":"天池智能运维比赛-故障预测"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title> | ZhangSaiSai</title>
+<title>天池智能运维比赛-故障预测 | ZhangSaiSai</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129037882-1"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-129037882-1","only_pageview":false}</script>
@@ -156,13 +156,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -254,7 +254,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          天池智能运维比赛-故障预测
         </h1>
 
         <div class="post-meta-container">
@@ -265,7 +265,16 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2021-07-28 15:25:57" itemprop="dateCreated datePublished" datetime="2021-07-28T15:25:57+00:00">2021-07-28</time>
+      <time title="Created: 2021-03-29 14:46:35" itemprop="dateCreated datePublished" datetime="2021-03-29T14:46:35+00:00">2021-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%A4%A9%E6%B1%A0/" itemprop="url" rel="index"><span itemprop="name">天池</span></a>
+        </span>
     </span>
 
   
@@ -285,10 +294,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <hr>
-<p>title: 天池智能运维比赛-故障预测<br>date: 2021-03-29  14:46:35<br>tags: 异常检测<br>categories: 天池<br>top:</p>
-<hr>
-<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p><a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/competition/entrance/531874/introduction">比赛官网地址</a><br>给定一段时间的内存系统日志，内存故障地址数据以及故障标签数据，参赛者应提出自己的解决方案，以预测每台服务器是否会发生DRAM故障。具体来说，参赛者需要从组委会提供的数据中挖掘出和DRAM故障相关的特征，并采用合适的机器学习算法予以训练，最终得到可以预测DRAM故障的最优模型。数据处理方法和算法不限，但选手应该综合考虑算法的效果和复杂度，以构建相对高效的解决方案</p>
+        <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p><a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/competition/entrance/531874/introduction">比赛官网地址</a><br>给定一段时间的内存系统日志，内存故障地址数据以及故障标签数据，参赛者应提出自己的解决方案，以预测每台服务器是否会发生DRAM故障。具体来说，参赛者需要从组委会提供的数据中挖掘出和DRAM故障相关的特征，并采用合适的机器学习算法予以训练，最终得到可以预测DRAM故障的最优模型。数据处理方法和算法不限，但选手应该综合考虑算法的效果和复杂度，以构建相对高效的解决方案</p>
 <span id="more"></span>
 
 <h1 id="数据描述"><a href="#数据描述" class="headerlink" title="数据描述"></a>数据描述</h1><p>memory_sample_kernel_log_*.csv是从Linux内核日志中收集的与DRAM故障相关的信息，共28列。其中，24列是布尔值。每个布尔列代表一个故障文本模板,其中True表示该故障文本模板出现在内核日志中。请注意，这里提供的模板并不保证都和DRAM故障相关，参赛者应自行判断选用哪些模板信息。下表仅列出除模版外的四列信息，每列的含义如下：</p>
@@ -682,18 +688,21 @@ GPU
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/" rel="tag"><i class="fa fa-tag"></i> 异常检测</a>
+          </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/%E5%AE%9E%E4%B9%A0%E5%B0%8F%E6%80%BB%E7%BB%93/" rel="prev" title="实习结束">
-                  <i class="fa fa-chevron-left"></i> 实习结束
+                <a href="/activation-functions/" rel="prev" title="激活函数">
+                  <i class="fa fa-chevron-left"></i> 激活函数
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86-%E6%A8%A1%E5%BC%8F%E5%88%86%E8%A7%A3%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3%EF%BC%883NF-BCNF%EF%BC%89/" rel="next" title="">
-                   <i class="fa fa-chevron-right"></i>
+                <a href="/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86-%E6%A8%A1%E5%BC%8F%E5%88%86%E8%A7%A3%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3%EF%BC%883NF-BCNF%EF%BC%89/" rel="next" title="数据库原理-模式分解">
+                  数据库原理-模式分解 <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
