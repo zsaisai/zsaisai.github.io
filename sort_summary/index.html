@@ -27,10 +27,10 @@
 <meta property="og:site_name" content="ZhangSaiSai">
 <meta property="og:description" content="排序算法总结算法分类十种常见排序算法可以分为两大类：  比较类排序：通过比较来决定元素间的相对次序，由于其时间复杂度不能突破O(nlogn)，因此也称为非线性时间比较类排序。 非比较类排序：不通过比较来决定元素间的相对次序，它可以突破基于比较排序的时间下界，以线性时间运行，因此也称为线性时间非比较类排序。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://zsaisai.github.io/sort_summary/..%5Cimages%5C1.png">
-<meta property="og:image" content="https://zsaisai.github.io/sort_summary/..%5Cimages%5C2.png">
-<meta property="og:image" content="https://zsaisai.github.io/sort_summary/..%5Cimages%5C849589-20171015223238449-2146169197.gif">
-<meta property="og:image" content="https://zsaisai.github.io/sort_summary/..%5Cimages%5C849589-20171015224719590-1433219824.gif">
+<meta property="og:image" content="https://gitee.com/z_saisai/ware_01/raw/master/md_image/11.png">
+<meta property="og:image" content="https://gitee.com/z_saisai/ware_01/raw/master/md_image/12.png">
+<meta property="og:image" content="https://zsaisai.github.io/sort_summary/..%5Cimages%5C2.gif">
+<meta property="og:image" content="https://zsaisai.github.io/sort_summary/..%5Cimages%5C1.gif">
 <meta property="og:image" content="https://zsaisai.github.io/images/3.gif">
 <meta property="og:image" content="https://zsaisai.github.io/images/4.gif">
 <meta property="og:image" content="https://zsaisai.github.io/images/5.gif">
@@ -39,11 +39,11 @@
 <meta property="og:image" content="https://zsaisai.github.io/images/9.png">
 <meta property="og:image" content="https://zsaisai.github.io/images/10.gif">
 <meta property="article:published_time" content="2020-05-17T14:46:35.000Z">
-<meta property="article:modified_time" content="2021-08-09T08:12:29.348Z">
+<meta property="article:modified_time" content="2021-08-09T08:39:25.792Z">
 <meta property="article:author" content="ZHANGSAISAI">
 <meta property="article:tag" content="数据结构">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://zsaisai.github.io/sort_summary/..%5Cimages%5C1.png">
+<meta name="twitter:image" content="https://gitee.com/z_saisai/ware_01/raw/master/md_image/11.png">
 
 
 <link rel="canonical" href="https://zsaisai.github.io/sort_summary/">
@@ -308,8 +308,8 @@
 </ul>
 <span id="more"></span>
 
-<p><img src="..%5Cimages%5C1.png" alt="1628302944177"></p>
-<h3 id="算法复杂度"><a href="#算法复杂度" class="headerlink" title="算法复杂度"></a>算法复杂度</h3><p><img src="..%5Cimages%5C2.png" alt="1628303039720"></p>
+<p><img src="https://gitee.com/z_saisai/ware_01/raw/master/md_image/11.png" alt="1628302944177"> )</p>
+<h3 id="算法复杂度"><a href="#算法复杂度" class="headerlink" title="算法复杂度"></a>算法复杂度</h3><p><img src="https://gitee.com/z_saisai/ware_01/raw/master/md_image/12.png" alt="1628303039720"></p>
 <p><strong>相关概念</strong></p>
 <ul>
 <li><strong>稳定</strong>：如果a原本在b前面，而a=b，排序之后a仍然在b的前面。</li>
@@ -318,11 +318,11 @@
 <li><strong>空间复杂度：</strong>是指算法在计算机内执行时所需存储空间的度量，它也是数据规模n的函数。</li>
 </ul>
 <h2 id="冒泡排序（Bubble-Sort）"><a href="#冒泡排序（Bubble-Sort）" class="headerlink" title="冒泡排序（Bubble Sort）"></a>冒泡排序（Bubble Sort）</h2><p> 冒泡排序是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果它们的顺序错误就把它们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。<strong>这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端</strong>。 </p>
-<p><img src="..%5Cimages%5C849589-20171015223238449-2146169197.gif"></p>
+<p><img src="..%5Cimages%5C2.gif"></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bubbleSort</span>(<span class="params">self,nums</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    1.比较相邻的元素。如果第一个比第二个大，就交换它们两个；</span></span><br><span class="line"><span class="string">    2.对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对，这样在最后的元素应该会是最大的数；</span></span><br><span class="line"><span class="string">    3.针对所有的元素重复以上的步骤，除了最后一个；</span></span><br><span class="line"><span class="string">    4.重复步骤1~3，直到排序完成。</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)-<span class="number">1</span>-i):</span><br><span class="line">            <span class="keyword">if</span> nums[j] &gt; nums[j+<span class="number">1</span>]:</span><br><span class="line">                nums[j], nums[j+<span class="number">1</span>] = nums[j+<span class="number">1</span>], nums[j]</span><br><span class="line">    <span class="keyword">return</span> nums</span><br></pre></td></tr></table></figure>
 
 <h2 id="选择排序（Selection-Sort）"><a href="#选择排序（Selection-Sort）" class="headerlink" title="选择排序（Selection Sort）"></a>选择排序（Selection Sort）</h2><p>选择排序(Selection-sort)是一种简单直观的排序算法。它的工作原理：首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置，然后，再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。以此类推，直到所有元素均排序完毕。 </p>
-<p><img src="..%5Cimages%5C849589-20171015224719590-1433219824.gif"></p>
+<p><img src="..%5Cimages%5C1.gif"></p>
 <p>表现最稳定的排序算法之一，因为无论什么数据进去都是O(n2)的时间复杂度，所以用到它的时候，数据规模越小越好。唯一的好处可能就是不占用额外的内存空间了吧。理论上讲，选择排序可能也是平时排序一般人想到的最多的排序方法了吧。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">selectionSort</span>(<span class="params">self,nums</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    n个记录的直接选择排序可经过n-1趟直接选择排序得到有序结果。具体算法描述如下：</span></span><br><span class="line"><span class="string">    初始状态：无序区为R[1..n]，有序区为空；</span></span><br><span class="line"><span class="string">    第i趟排序(i=1,2,3…n-1)开始时，当前有序区和无序区分别为R[1..i-1]和R(i..n）。</span></span><br><span class="line"><span class="string">    该趟排序从当前无序区中-选出关键字最小的记录 R[k]，将它与无序区的第1个记录R交换，</span></span><br><span class="line"><span class="string">    使R[1..i]和R[i+1..n)分别变为记录个数增加1个的新有序区和记录个数减少1个的新无序区；</span></span><br><span class="line"><span class="string">    n-1趟结束，数组有序化了。</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">        min_num = nums[i]</span><br><span class="line">        min_index = i</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(i,<span class="built_in">len</span>(nums)):</span><br><span class="line">            <span class="keyword">if</span> nums[j]&lt;min_num:</span><br><span class="line">                min_num = nums[j]</span><br><span class="line">                min_index = j</span><br><span class="line">        nums[i], nums[min_index] = nums[min_index], nums[i]</span><br><span class="line">    <span class="keyword">return</span> nums</span><br></pre></td></tr></table></figure>
 
