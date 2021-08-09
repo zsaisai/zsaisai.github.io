@@ -17,7 +17,7 @@ top:
 
 <!-- more -->
 
-![1628302944177](https://gitee.com/z_saisai/ware_01/raw/master/md_image/11.png) )
+![1628302944177](https://gitee.com/z_saisai/ware_01/raw/master/md_image/11.png) 
 
 ### 算法复杂度
 
