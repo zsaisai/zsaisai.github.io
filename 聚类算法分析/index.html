@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/logo2.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/logo2.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zsaisai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="1. 聚类相关概念定义Clustering (聚类)，简单地说就是把相似的东西分到一组，聚类的时候，我们并不关心某一类是什么，我们需要实现的目标只是把相似的东西聚到一起。因此，一个聚类算法通常只需要知道如何计算相似度就可以开始工作了，因此 clustering 通常并不需要使用训练数据进行学习，这在Machine Learning中被称作unsupervised learning (无监督学习)。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聚类算法综述分析">
+<meta property="og:url" content="https://zsaisai.github.io/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="ZhangSaiSai">
+<meta property="og:description" content="1. 聚类相关概念定义Clustering (聚类)，简单地说就是把相似的东西分到一组，聚类的时候，我们并不关心某一类是什么，我们需要实现的目标只是把相似的东西聚到一起。因此，一个聚类算法通常只需要知道如何计算相似度就可以开始工作了，因此 clustering 通常并不需要使用训练数据进行学习，这在Machine Learning中被称作unsupervised learning (无监督学习)。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207092611657.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207092750723.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2021020709282258.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207092835534.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207093231566.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207093451481.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207093825161.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207094521911.gif#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207094639326.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207094808445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207094901610.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2021-02-27T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-11T15:44:52.257Z">
+<meta property="article:author" content="ZHANGSAISAI">
+<meta property="article:tag" content="Machine Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210207092611657.png#pic_center">
+
+
+<link rel="canonical" href="https://zsaisai.github.io/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/","path":"聚类算法分析/","title":"聚类算法综述分析"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>聚类算法综述分析 | ZhangSaiSai</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129037882-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-129037882-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?d0967e9b160f4f6248804003642ee818"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">ZhangSaiSai</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">二十多岁 人生才刚刚开始</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-schedule"><a href="/archives/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E8%81%9A%E7%B1%BB%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">1. 聚类相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%9D%E7%A6%BB%E8%AE%A1%E7%AE%97"><span class="nav-number">1.2.1.</span> <span class="nav-text">距离计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E4%BC%BC%E5%BA%A6%E8%AE%A1%E7%AE%97"><span class="nav-number">1.2.2.</span> <span class="nav-text">相似度计算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">应用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%B8%B8%E7%94%A8%E4%BC%A0%E7%BB%9F%E7%AE%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">2. 常用传统算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%82%E6%AC%A1%E6%96%B9%E6%B3%95"><span class="nav-number">2.1.</span> <span class="nav-text">层次方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%92%E5%88%86%E6%96%B9%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">划分方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#K-%E5%9D%87%E5%80%BC%EF%BC%88K-Means%EF%BC%89"><span class="nav-number">2.2.1.</span> <span class="nav-text">K-均值（K-Means）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#K%E5%9D%87%E5%80%BC%E6%A1%88%E4%BE%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">K均值案例实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#K-%E4%B8%AD%E5%BF%83%EF%BC%88K-Medoids%EF%BC%89"><span class="nav-number">2.2.2.</span> <span class="nav-text">K-中心（K-Medoids）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#k%E4%B8%AD%E5%BF%83%E6%A1%88%E4%BE%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">k中心案例实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%AF%86%E5%BA%A6%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">基于密度的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DBscan"><span class="nav-number">2.3.1.</span> <span class="nav-text">DBscan</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DBscan%E6%A1%88%E4%BE%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">DBscan案例实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MeanShift"><span class="nav-number">2.3.2.</span> <span class="nav-text">MeanShift</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MeanShift%E6%A1%88%E4%BE%8B%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.3.2.1.</span> <span class="nav-text">MeanShift案例实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E7%BD%91%E6%A0%BC%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">基于网格的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.5.</span> <span class="nav-text">基于模型的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GMM"><span class="nav-number">2.5.1.</span> <span class="nav-text">GMM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SOM"><span class="nav-number">2.5.2.</span> <span class="nav-text">SOM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E7%BA%A6%E6%9D%9F%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">2.6.</span> <span class="nav-text">基于约束的方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E6%96%B0%E5%8F%91%E5%B1%95%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">3. 新发展的算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%A8%A1%E7%B3%8A%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text">基于模糊的算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E7%B2%92%E5%BA%A6%E7%9A%84%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">基于粒度的算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8F%E5%AD%90%E8%81%9A%E7%B1%BB"><span class="nav-number">3.3.</span> <span class="nav-text">量子聚类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E8%81%9A%E7%B1%BB"><span class="nav-number">3.4.</span> <span class="nav-text">核聚类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%B1%E8%81%9A%E7%B1%BB"><span class="nav-number">3.5.</span> <span class="nav-text">谱聚类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ZHANGSAISAI"
+      src="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
+  <p class="site-author-name" itemprop="name">ZHANGSAISAI</p>
+  <div class="site-description" itemprop="description">Keep awake,Stay thinking</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zsaisai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zsaisai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:z_ss101@163.com" title="E-Mail → mailto:z_ss101@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/weixin_41744192?spm=1000.2115.3001.5343" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_41744192?spm&#x3D;1000.2115.3001.5343" rel="noopener" target="_blank"><i class="csdn fa-fw"></i>CSDN</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/3564388084" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;3564388084" rel="noopener" target="_blank"><i class="weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://music.163.com/#/user/home?id=330376567" title="https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;330376567" rel="noopener" target="_blank">Cloudmusic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.rainymood.com/" title="https:&#x2F;&#x2F;www.rainymood.com&#x2F;" rel="noopener" target="_blank">Rainy Mood</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://paperswithcode.com/task/recommendation-systems" title="https:&#x2F;&#x2F;paperswithcode.com&#x2F;task&#x2F;recommendation-systems" rel="noopener" target="_blank">Papers with Code</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://datawhalechina.github.io/pumpkin-book/#/" title="https:&#x2F;&#x2F;datawhalechina.github.io&#x2F;pumpkin-book&#x2F;#&#x2F;" rel="noopener" target="_blank">Pumpkin-book</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://tangshusen.me/Dive-into-DL-PyTorch/#/" title="https:&#x2F;&#x2F;tangshusen.me&#x2F;Dive-into-DL-PyTorch&#x2F;#&#x2F;" rel="noopener" target="_blank">DL-Torch</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/zsaisai" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
+      <meta itemprop="name" content="ZHANGSAISAI">
+      <meta itemprop="description" content="Keep awake,Stay thinking">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhangSaiSai">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          聚类算法综述分析
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-27 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-27T00:00:00+00:00">2021-02-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="1-聚类相关概念"><a href="#1-聚类相关概念" class="headerlink" title="1. 聚类相关概念"></a>1. 聚类相关概念</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Clustering (聚类)，简单地说就是把相似的东西分到一组，聚类的时候，我们并不关心某一类是什么，我们需要实现的目标只是把相似的东西聚到一起。因此，一个聚类算法通常只需要知道如何计算相似度就可以开始工作了，因此 clustering 通常并不需要使用训练数据进行学习，这在Machine Learning中被称作unsupervised learning (无监督学习)。<br><strong>聚类中没有任何指导信息，完全按照数据的分布进行类别划分</strong></p>
+<span id="more"></span>
+
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>聚类所说的类不是事先给定的，而是根据数据的==相似性和距离==来划分,且对象之间的相似度是基于对象间的距离来计算的。</p>
+<h3 id="距离计算"><a href="#距离计算" class="headerlink" title="距离计算"></a>距离计算</h3><p><strong>常用的距离的计算方法</strong></p>
+<ol>
+<li>欧几里德距离：<strong>d = sqrt(∑(xi1-xi2)^)</strong><br><img src="https://img-blog.csdnimg.cn/20210207092611657.png#pic_center" alt="在这里插入图片描述"></li>
+<li>曼哈顿距离：<strong>d = |X1-X2|+|Y1-Y2|</strong><br><img src="https://img-blog.csdnimg.cn/20210207092750723.png#pic_center" alt="在这里插入图片描述"><h3 id="相似度计算"><a href="#相似度计算" class="headerlink" title="相似度计算"></a>相似度计算</h3></li>
+</ol>
+<p><strong>相似度计算方法</strong></p>
+<ol>
+<li><p>类别   类内相似度<br><img src="https://img-blog.csdnimg.cn/2021020709282258.png#pic_center" alt="在这里插入图片描述"></p>
+</li>
+<li><p>类别   类间相似度<br><img src="https://img-blog.csdnimg.cn/20210207092835534.png#pic_center" alt="在这里插入图片描述"><br>==聚类结果：类内相似度越大越好，类间相似度越小越好;==</p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2></li>
+<li><p>经济领域：<br>帮助市场分析人员从客户数据库中发现不同的客户群，并且用购买模式来刻画不同的客户群的特征。<br>谁喜欢打国际长途，在什么时间，打到那里？<br>对住宅区进行聚类，确定自动提款机ATM的安放位置</p>
+</li>
+<li><p>生物学领域<br>推导植物和动物的分类<br>对基因分类，获得对种群的认识</p>
+</li>
+<li><p>数据挖掘领域<br>作为其他数学算法的预处理步骤，获得数据分布状况，集中对特定的类做进一步的研究</p>
+<h1 id="2-常用传统算法"><a href="#2-常用传统算法" class="headerlink" title="2. 常用传统算法"></a>2. 常用传统算法</h1><h2 id="层次方法"><a href="#层次方法" class="headerlink" title="层次方法"></a>层次方法</h2></li>
+<li><p>凝聚的（agglomerative）方法（自底向上）<br> 思想：一开始将每个对象作为单独的一类，然后根据同类相近，异类相异的原则，合并对象，直到所有的类合并成一个，或达到一个终止条件为止。</p>
+</li>
+<li><p>分裂的方法（divisive）（自顶向下）     思想：一开始将所有的对象置于一类，在迭代的每一步中，一个类不断地分为更小的类。<br><img src="https://img-blog.csdnimg.cn/20210207093231566.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>算法运行到某一阶段，类别划分结果达到聚类标准时即可停止分裂或凝聚，根据树结构就可以很容易得到聚类结果。</p>
+</li>
+</ol>
+<p><strong>优点</strong><br>1、距离和规则的相似度容易定义，限制少<br>2、不需要预先制定聚类数<br>3、可以发现类的层次关系</p>
+<p><strong>缺点</strong><br>1、计算复杂度太高；<br>2、奇异值也能产生很大影响；<br>3、算法很可能聚类成链状</p>
+<h2 id="划分方法"><a href="#划分方法" class="headerlink" title="划分方法"></a>划分方法</h2><p>给定一个n个数据对象的合集，构建k个分区，其中每个分区代表一个簇，并且k&lt;&lt;n，使的每个组至少包含一个对象。大部分划分方法是基于距离的，采用‘迭代的重定位技术’，例如k-均值和k-中心点算法。</p>
+<h3 id="K-均值（K-Means）"><a href="#K-均值（K-Means）" class="headerlink" title="K-均值（K-Means）"></a>K-均值（K-Means）</h3><p>主要步骤：</p>
+<ol>
+<li>将数据集划分为k个非空子集 ，然后随机选取K个质心，根据距离 将数据点到分配到对应的簇当中去</li>
+<li>计算当前簇的均值点作为新的质心</li>
+<li>重新分配各个数据对象，将每个对象指定为最近种子点所在的类</li>
+<li>返回步骤2，计算当前簇的均值点作为新的质心<br>直到质心的位置不在发生变化 我们可以认为聚类已经达到期望的结果，算法终止。<br><img src="https://img-blog.csdnimg.cn/20210207093451481.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></li>
+</ol>
+<p><strong>优点：</strong></p>
+<ol>
+<li>收敛速度快。</li>
+<li>在簇与簇之间区别明显时, 它的效果较好。</li>
+<li>需要调参的参数仅仅是簇数K。</li>
+</ol>
+<p><strong>缺点</strong>：</p>
+<ol>
+<li>仅适用于能够定义平均值的数据</li>
+<li>需要预先指定k，即簇的数量，采取其他技术确定一个较好的k值</li>
+<li>初始质心的选择直接决定最终的聚类效果</li>
+<li>无法处理噪音数据和异常点<br>==针对k-means对异常点敏感的问题，提出K-中心点算法（K-Medoids）==</li>
+</ol>
+<h4 id="K均值案例实现"><a href="#K均值案例实现" class="headerlink" title="K均值案例实现"></a>K均值案例实现</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41744192/article/details/113736788">K均值 - 案例实现（python）</a></p>
+<h3 id="K-中心（K-Medoids）"><a href="#K-中心（K-Medoids）" class="headerlink" title="K-中心（K-Medoids）"></a>K-中心（K-Medoids）</h3><p>k-中心和k-均值很像，不同的是形心的更新选择，k-均值是通过求得均值进行更新形心的，而k-中心是随机选择k个对象作为初始的k个簇的代表点，反复用非代表点来代替代表点，直到找到误差平方和最小的那个点来作为数据中心点。这样划分方法是基于最小化所有对象与其参照点之间的相异度之和的原则来执行的,这是 k-medoids 方法的基础。<br>主要步骤：</p>
+<ol>
+<li>一开始也是随机选择K个初始对象</li>
+<li>将每个剩余的对象分配在临近的簇中当中去，计算当前代价</li>
+<li>随机选择一个非质心对象作为新质心</li>
+<li>计算用新质心的总代价S</li>
+<li>If S &lt;旧质心, t就替换用当前质心代替旧质心，形成新的k个簇<br>重复整个过程 知道质心位置不在发生变化。</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20210207093825161.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>6. 与k-means相比,k-中心对噪声和离群点的处理具有更好的鲁棒性，中心点不容易受离群点影响<br>7. 与k-means相同，k-中心也要事先指定具体的簇数k<br>8. k-medoids 方法的执行代价比 k-means 算法高，当n和k较大时，计算开销变得很大，远高于k-means</p>
+<h4 id="k中心案例实现"><a href="#k中心案例实现" class="headerlink" title="k中心案例实现"></a>k中心案例实现</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41744192/article/details/113737537">k中心案例实现</a></p>
+<h2 id="基于密度的方法"><a href="#基于密度的方法" class="headerlink" title="基于密度的方法"></a>基于密度的方法</h2><p>之前提到的层次与划分方法基于对象之间的距离进行聚类，这样的方法大多只能发现球状的类，而在发现任意形状的类上有困难。因此，出现了基于密度的聚类方法，其主要思想是：只要邻近区域的密度（对象或数据点的数目）超过某个阈值，就继续聚类。也就是说，在一个给定范围的区域内必须至少包含某个数目的点。</p>
+<p>基于密度的方法认为簇是数据空间中数据密集的区域，数据稀疏区域中的数据被认为是噪音数据。</p>
+<h3 id="DBscan"><a href="#DBscan" class="headerlink" title="DBscan"></a>DBscan</h3><p>DBSCAN是基于密度的聚类方法，它的思想是一个簇被定义为所有紧密连接的数据点的最大集合。DBSCAN检查数据库中每个点p周围半径R的区域如果该区域包含的数据点的个数大于某个阈值M，则创建一个新cluster，该cluster的中心为p，然后把相关联的cluster进行合并。 DBSCAN进行聚类的过程就是不断执行区域查询的过程。</p>
+<h4 id="DBscan案例实现"><a href="#DBscan案例实现" class="headerlink" title="DBscan案例实现"></a>DBscan案例实现</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41744192/article/details/113737183"> DBscan案例实现（python）</a></p>
+<h3 id="MeanShift"><a href="#MeanShift" class="headerlink" title="MeanShift"></a>MeanShift</h3><p>Meanshift会依次选中每一个点为圆心（质心），在选中一个点后，然后以半径R画一个圆，然后落在这个圆中的每一个点与圆心都会构成向量，把所有这些向量相加，我们会得到一个向量，就是下图中用黄色箭头表示的向量，这个向量就是meanshift向量。然后再以这个meanshift向量的终点为圆心，继续上述过程，可以得到很多连续的meanshift向量，这些向量首尾相连，最终迭代到收敛，在密度最大处停下来。最后的那个meanshift向量的终点就是最终得到的结果（最终质心）<br><img src="https://img-blog.csdnimg.cn/20210207094521911.gif#pic_center" alt="在这里插入图片描述"></p>
+<h4 id="MeanShift案例实现"><a href="#MeanShift案例实现" class="headerlink" title="MeanShift案例实现"></a>MeanShift案例实现</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_41744192/article/details/113737686"> MeanShift案例实现（python）</a><br><strong>相同数据下DBscan与MeanShift聚类表现</strong><br><img src="https://img-blog.csdnimg.cn/20210207094639326.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br>对于离群的稀疏点，dbscan处理的不是特别好，因为他算法的特性是区域包含的数据点的个数大于某个阈值M，则创建一个纳入到当前类。这也对应算法的优缺点，体现算法的特征 在实际应用中对应适合处理那些特征的数据集。</p>
+<p><strong>小结</strong><br>这样的方法可以过滤“噪声”数据，发现任意形状的类。但算法计算复杂度高，一般为O(n2)，当数据量大时，就必须有大内存量支持，I/O消耗也非常大，对于密度分布不均的数据集，可能得不到满意的聚类结果。</p>
+<h2 id="基于网格的方法"><a href="#基于网格的方法" class="headerlink" title="基于网格的方法"></a>基于网格的方法</h2><p>基于网格的方法把对象空间量划为有限数目的单元，形成一个网格结构。所有的聚类操作都在这个网格结构（即量化空间）上进行。这种方法的主要优点是它的处理速度很快，其处理速度独立于数据对象的数目，只与量化空间中每一维的单元数目有关。但这种算法效率的提高是以聚类结果的精确性为代价的。</p>
+<p>基于网格的聚类算法常常与其他方法相结合,特别是与基于密度的聚类方法相结合。例如WaveCluster与CLIQUE。<br>主要步骤：<br>1 将数据空间划分为有限个网格单元;<br>2 计算每个网格单元的密度;<br>3 如果网格单元的密度大于一定阈值则此网格单元为密集网格;<br>4 将临近的密集阈值网格单元合并为一个类别;<br><img src="https://img-blog.csdnimg.cn/20210207094808445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70" alt="**加粗样式**"></p>
+<h2 id="基于模型的方法"><a href="#基于模型的方法" class="headerlink" title="基于模型的方法"></a>基于模型的方法</h2><p>基于模型的方法主要是指基于概率模型的方法和基于神经网络模型的方法，尤其以基于概率模型的方法居多。这里的概率模型主要指概率生成模型（generative Model），同一”类“的数据属于同一种概率分布。这样的方法通常包含的潜在假设是：数据集是由一系列的潜在概率分布生成的。其中最典型的有高斯混合模型（GMM，Gaussian Mixture Models）基于神经网络模型的方法，神经网络模型主要就是指SOM（Self Organized Maps）了，也是唯一一个非监督学习的神经网络了。</p>
+<h3 id="GMM"><a href="#GMM" class="headerlink" title="GMM"></a>GMM</h3><h3 id="SOM"><a href="#SOM" class="headerlink" title="SOM"></a>SOM</h3><p>主要步骤：<br>1 确定神经元分布结构及神经元数，每个神经元代表一个类别;<br>2 随机初始化神经元向量;<br>3 随机选择输入数据;<br>4 计算输入数据与每个神经元的相似度;<br>5 选择具有最大相似度的神经元为获胜神经元;<br>6 调整获胜神经元向量，及位于获胜神经元邻域范围内的神经元向量;<br>7 判断是否满足收敛条件，如不满足，<br>       反复运行3～7 ;<br><img src="https://img-blog.csdnimg.cn/20210207094901610.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="基于约束的方法"><a href="#基于约束的方法" class="headerlink" title="基于约束的方法"></a>基于约束的方法</h2><p>真实世界中的聚类问题往往是具备多种约束条件的。这里的约束可以是对个体对象的约束,也可以是对聚类参数的约束。该方法的一个重要应用在于对存在障碍数据的二维空间数据进行聚类。比如典型的ATM分配问题。<br>COD (Clustering with Ob2structed Distance)就是处理这类问题的典型算法,其主要思想是用两点之间的障碍距离取代了一般的欧氏距离来计算其间的最小距离。</p>
+<h1 id="3-新发展的算法"><a href="#3-新发展的算法" class="headerlink" title="3. 新发展的算法"></a>3. 新发展的算法</h1><h2 id="基于模糊的算法"><a href="#基于模糊的算法" class="headerlink" title="基于模糊的算法"></a>基于模糊的算法</h2><p>传统的聚类分析是一种“硬”聚类(Crisp Clustering)方法，隶属关系采用经典集合论中的要么属于要么不属于来表示，事物之间的界限有着截然不同的区别。然而，现实生活中很多事物特征无法给出一个精确的描述，例如把人按身高分为“高个子的人”，“矮个子的人”，“不高不矮的人”。然而，多高算高？多矮算矮？这样的分类判别是经典分类解决不了的问题。模糊聚类分析方法为解决此类问题提供了有力的分析工具。该方法把隶属关系的取值从笼{0,1}二值逻辑扩展到[0，1]区间，从而更合理地表示事物之间存在的中介性。</p>
+<p>目前国内外对模糊聚类分析的研究非常重视，参与这个学科研究的国度遍布全球，研究人员与日俱增，模糊新产品不断问世，模糊技术不断被应用到高精尖领域，基础理论研究与实际应用研究也取得了丰硕的成果。模糊数学目前正沿着理论研究和应用研究两个方向迅速发展。理论研究主要是经典数学概念的模糊化。由于模糊集自身的层次结构，使得这种理论研究更加复杂，当然也因而更具吸引力。目前已形成了模糊拓扑、模糊代数、模糊分析、模糊测度及模糊计算机等模糊数学分支。应用研究主要是对模糊性之内在规律的探讨，对模糊逻辑及模糊信息处理技术的研究。模糊数学的应用范围已遍及自然科学与社会科学的几乎所有的领域。特别是在模糊控制、模式识别、聚类分析、系统评价、数据库、系统决策、人工智能及信息处理等方面取得了显著的成就。</p>
+<p>伴随着模糊聚类理论的形成、发展和深化，针对不同的应用，人们提出了很多模糊聚类算法，比较典型的有基于目标函数的模糊聚类方法、基于相似性关系和模糊关系的方法、基于模糊等价关系的传递闭包方法、基于模糊图论的最小支撑树方法，以及基于数据集的凸分解、动态规划和难以辨别关系等方法。其中最受欢迎的是基于目标函数的模糊聚类方法，该方法把聚类归结成一个带约束的非线性规划问题，通过优化求解获得数据集的模糊划分和聚类。该方法设计简单，解决问题的范围广，还可以转化为优化问题而借助经典数学的非线性规划理论求解，并易于在计算机上实现。因此，随着计算机的应用和发展，基于目标函数的模糊聚类算法成为新的研究热点。在基于目标函数的聚类算法中，FCM类型算法的理论最为完善、应用最为广泛。FCM类型的算法最早是从“硬”聚类目标函数的优化中导出的。</p>
+<h2 id="基于粒度的算法"><a href="#基于粒度的算法" class="headerlink" title="基于粒度的算法"></a>基于粒度的算法</h2><p>从表面上看，聚类和分类有很大差异———聚类是无导师的学习，而分类是有导师的学习。具体说来，聚类的目的是发现样本点之间最本质的抱团性质的一种客观反映；分类需要一个训练样本集，由领域专家指明，而分类的这种先验知识却常常是主观的。如果从信息粒度的角度来看，就会发现聚类和分类的相通之处: 聚类操作实际上是在一个统一粒度下进行计算的；分类操作是在不同粒度下进行计算的。在粒度原理下，聚类和分类的相通使得很多分类的方法也可以用在聚类方法中。作为一个新的研究方向，虽然目前粒度计算还不成熟，尤其是对粒度计算语义的研究还相当少，但是相信随着粒度计算理论本身的不断完善和发展，在今后几年，它将在数据挖掘中的聚类算法及其相关领域得到广泛应用。</p>
+<h2 id="量子聚类"><a href="#量子聚类" class="headerlink" title="量子聚类"></a>量子聚类</h2><p>在现有的聚类算法中，聚类数目一般需要事先指定，如Kohenon自组织算法、K-means算法和模糊K-means聚类算法。然而，在很多情况下类别数是不可知的，而且绝大多数聚类算法的结果都依赖于初值，即使类别数目保持不变，聚类的结果也可能相差很大。受物理学中量子机理和特性启发，可以用量子理论解决此类问题。一个很好的例子就是基于相关点的Pott自旋和统计机理提出的量子聚类模型。它把聚类问题看做一个物理系统。并且许多算例表明，对于传统聚类算法无能为力的几种聚类问题，该算法都得到了比较满意的结果。</p>
+<p>量子力学研究的是粒子在量子空间中的分布, 聚类是研究样本在尺度空间中的分布情况。很多文献对量子聚类(Quantum clustering,QC)算法进行了深入的研究, 并应用于生物信息学的研究。QC 算法不需要训练样本, 是一种无监督学习的聚类方法。又因为它是借助势能函数, 从势能能量点的角度来确定聚类中心的, 所以它同样是基于划分的。实践已经证明QC 算法有效。</p>
+<h2 id="核聚类"><a href="#核聚类" class="headerlink" title="核聚类"></a>核聚类</h2><p>核聚类方法增加了对样本特征的优化过程，利用Mercer核把输入空间的样本映射到高维特征空间，并在特征空间中进行聚类。核聚类方法是普适的，并在性能上优于经典的聚类算法，它通过非线性映射能够较好地分辨、提取并放大有用的特征，从而实现更为准确的聚类；同时，算法的收敛速度也较快。在经典聚类算法失效的情况下，核聚类算法仍能够得到正确的聚类。</p>
+<p>近年来核方法被用在聚类分析中，Tax将支持向量方法用于数据域描述(即单一分类)中，提出了基于Gauss核的SVDD(Supprot Vector Domain Deseription)算法和支持向量聚类(support vector Clustering，SVC)</p>
+<h2 id="谱聚类"><a href="#谱聚类" class="headerlink" title="谱聚类"></a>谱聚类</h2><p>传统的聚类算法,如k-means算法、EM算法等都是建立在凸球形的样本空间上,但当样本空间不为凸时,算法会陷入局部最优。为了能在任意形状的样本空间上聚类,且收敛于全局最优解,学者们开始研究一类新型的聚类算法,称为谱聚类算法(Spectral Clustering Algorithm)。该算法首先根据给定的样本数据集定义一个描述成对数据点相似度的亲合矩阵,并计算矩阵的特征值和特征向量,然后选择合适的特征向量聚类不同的数据点。谱聚类算法最初用于计算机视觉、VLSI 设计等领域,最近才开始用于机器学习中,并迅速成为国际上机器学习领域的研究热点。</p>
+<p>谱聚类算法建立在图论中的谱图理论基础上,其本质是将聚类问题转化为图的最优划分问题,是一种点对聚类算法,对数据聚类具有很好的应用前景。但由于其涉及的理论知识较多,应用也还处于初级阶段,因此国内这方面的研究报道非常少。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>JiaweiHan, MichelineKamber, JianPei, et al. 数据挖掘概念与技术[M]. 机械工业出版社, 第三版.<br>郭晓娟、刘晓霞．层次聚类算法的改进及分析，计算机应用与软件，第25卷第6期<br>甘丽．数据挖掘中的聚类分析研究．沿海企业与科技．2008年第03 期(总第94 期)<br>贺玲、吴玲达、蔡益朝．数据挖掘中的聚类算法综述．计算机应用研究,2007,(01):16-19<br>李东琦．聚类算法的研究．西南交通大学学位论文．2007.5.<br>郑洪英.数据挖掘聚类算法的分析和应用研究．重庆大学学位论文．2007.6<br>李明华、刘全、刘忠、郗连霞．数据挖掘中聚类算法的新发展．计算机应用研究．2008,25(1) </p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Machine-Learning/" rel="tag"><i class="fa fa-tag"></i> Machine Learning</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/activation-functions/" rel="prev" title="激活函数">
+                  <i class="fa fa-chevron-left"></i> 激活函数
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/MeanShift/" rel="next" title="Mean Shift clustering">
+                  Mean Shift clustering <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MjE1MS8xODY5OA=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="snowflake-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZHANGSAISAI</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+
+</body>
+</html>
