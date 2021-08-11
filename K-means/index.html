@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/logo2.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/logo2.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zsaisai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="K-means clusteringk均值聚类算法（k-means clustering algorithm）是一种迭代求解的聚类分析算法，在这一章里，你将使用有效的数据集对k-means聚类算法进行分析，并了解到数据挖掘中的若干重要概念。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K-means clustering">
+<meta property="og:url" content="https://zsaisai.github.io/K-means/index.html">
+<meta property="og:site_name" content="ZhangSaiSai">
+<meta property="og:description" content="K-means clusteringk均值聚类算法（k-means clustering algorithm）是一种迭代求解的聚类分析算法，在这一章里，你将使用有效的数据集对k-means聚类算法进行分析，并了解到数据挖掘中的若干重要概念。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207100455218.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207100505867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207100514983.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2021020710042291.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2021020710044364.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210207100817268.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2021020710144694.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="article:published_time" content="2021-02-27T00:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-11T15:56:57.440Z">
+<meta property="article:author" content="ZHANGSAISAI">
+<meta property="article:tag" content="Machine Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210207100455218.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
+
+
+<link rel="canonical" href="https://zsaisai.github.io/K-means/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/K-means/","path":"K-means/","title":"K-means clustering"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>K-means clustering | ZhangSaiSai</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129037882-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-129037882-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?d0967e9b160f4f6248804003642ee818"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">ZhangSaiSai</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">二十多岁 人生才刚刚开始</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-schedule"><a href="/archives/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#K-means-clustering"><span class="nav-number">1.</span> <span class="nav-text">K-means clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">背景介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9A%E4%B9%89"><span class="nav-number">1.2.</span> <span class="nav-text">算法定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#K%E5%80%BC%E7%9A%84%E9%80%89%E5%8F%96"><span class="nav-number">1.3.</span> <span class="nav-text">K值的选取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E5%AE%9E%E7%8E%B0%EF%BC%88python%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">案例实现（python）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">1.4.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.4.2.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">1.4.3.</span> <span class="nav-text">运行结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="nav-number">1.6.</span> <span class="nav-text">参考文献</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ZHANGSAISAI"
+      src="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
+  <p class="site-author-name" itemprop="name">ZHANGSAISAI</p>
+  <div class="site-description" itemprop="description">Keep awake,Stay thinking</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zsaisai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zsaisai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:z_ss101@163.com" title="E-Mail → mailto:z_ss101@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/weixin_41744192?spm=1000.2115.3001.5343" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_41744192?spm&#x3D;1000.2115.3001.5343" rel="noopener" target="_blank"><i class="csdn fa-fw"></i>CSDN</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/3564388084" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;3564388084" rel="noopener" target="_blank"><i class="weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://music.163.com/#/user/home?id=330376567" title="https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;330376567" rel="noopener" target="_blank">Cloudmusic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.rainymood.com/" title="https:&#x2F;&#x2F;www.rainymood.com&#x2F;" rel="noopener" target="_blank">Rainy Mood</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://paperswithcode.com/task/recommendation-systems" title="https:&#x2F;&#x2F;paperswithcode.com&#x2F;task&#x2F;recommendation-systems" rel="noopener" target="_blank">Papers with Code</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://datawhalechina.github.io/pumpkin-book/#/" title="https:&#x2F;&#x2F;datawhalechina.github.io&#x2F;pumpkin-book&#x2F;#&#x2F;" rel="noopener" target="_blank">Pumpkin-book</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://tangshusen.me/Dive-into-DL-PyTorch/#/" title="https:&#x2F;&#x2F;tangshusen.me&#x2F;Dive-into-DL-PyTorch&#x2F;#&#x2F;" rel="noopener" target="_blank">DL-Torch</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/zsaisai" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/K-means/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
+      <meta itemprop="name" content="ZHANGSAISAI">
+      <meta itemprop="description" content="Keep awake,Stay thinking">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhangSaiSai">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          K-means clustering
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-02-27 00:00:00" itemprop="dateCreated datePublished" datetime="2021-02-27T00:00:00+00:00">2021-02-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="K-means-clustering"><a href="#K-means-clustering" class="headerlink" title="K-means clustering"></a>K-means clustering</h1><p>k均值聚类算法（k-means clustering algorithm）是一种迭代求解的聚类分析算法，在这一章里，你将使用有效的数据集对k-means聚类算法进行分析，并了解到数据挖掘中的若干重要概念。</p>
+<span id="more"></span>
+
+<h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>k均值算法群集中的每个点都应靠近该群集的中心。要想实现kmeans算法，<br>首先我们选择k，即我们想要在数据中找到的簇数。然后，以某种方式初始化这k个簇的中心，称为质心。<br>然后，我们将数据中的每个点分配给质心最接近的点，然后将每个质心的位置重新计算为分配给其质心的所有点的均值。<br>下面介绍一个<a target="_blank" rel="noopener" href="https://www.naftaliharris.com/blog/visualizing-k-means-clustering/">网站</a><br><img src="https://img-blog.csdnimg.cn/20210207100455218.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>这个网站能把kmeans算法的聚类过程动态图画出来，如图我们点击Add Centroid，添加了四个中心点<br><img src="https://img-blog.csdnimg.cn/20210207100505867.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>然后点击GO，就能看到kmeans算法聚类的动画过程<br><img src="https://img-blog.csdnimg.cn/20210207100514983.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><strong>算法步骤</strong></p>
+<ol>
+<li><p>首先输入k的值，即我们希望将数据集经过聚类得到k个分组；</p>
+</li>
+<li><p>从数据集中随机选择k个数据点作为初始聚类中心，对任意一个样本点，求其到K个聚类中心的距离，将样本点归类到距离最小的中心的聚类，如此迭代n次；</p>
+</li>
+<li><p>每次迭代过程中，利用均值等方法更新各个聚类的中心点；</p>
+</li>
+<li><p>对K个聚类中心，利用2,3步迭代更新后，如果位置点变化很小，则认为达到稳定状态，对不同的聚类块和聚类中心可选择不同的颜色标注。</p>
+</li>
+</ol>
+<p><strong>算法优缺点</strong><br>优点<br>1.kmeans算法原理比较简单，实现起来也很容易，收敛速度较快。</p>
+<p>2.聚类效果相对于其他聚类算法来说较好，算法的可解释度比较强。</p>
+<p>3.参数较少，主要需要调参的参数仅仅是簇数k。</p>
+<p>缺点<br>1.字符串等非数值型数据不适用，kmeans算法基于均值计算，首先要求簇的平均值可以被定义和使用。</p>
+<p>2.K-Means的第一步是确定k（要生成的簇的数目），对于不同的初始值K，可能会导致不同结果。</p>
+<p>3.应用数据集存在局限性，适用于球状或集中分布数据，不适用于特殊情况数据。</p>
+<h2 id="算法定义"><a href="#算法定义" class="headerlink" title="算法定义"></a>算法定义</h2><p>k均值聚类是最著名的划分聚类算法，给定一个数据点集合和需要的聚类数目k，k由用户指定，其主要目的是将n个样本点划分为k个簇，使得相似的样本尽量被分到同一个聚簇。</p>
+<h2 id="K值的选取"><a href="#K值的选取" class="headerlink" title="K值的选取"></a>K值的选取</h2><p>在实际应用中，由于Kmeans一般作为数据预处理，或者用于辅助分类贴标签。所以k一般不会设置很大。对于k值的选取，一般采用以下几种方法。</p>
+<p><strong>手肘法</strong></p>
+<p>手肘法的核心指标是SSE(sum of the squared errors误差平方和)</p>
+<p>聚类数k增大，数据划分就会更精细，每个簇的聚合程度也会提高，从而误差平方和SSE会逐渐变小。当k小于真实聚类数时，k的增大会增加每个簇的聚合程度，<br>故SSE的下降幅度会很大。当k到达真实聚类数时，再增加k所得到的聚合程度会迅速变小，所以SSE的下降幅度会骤减，<br>然后随着k值的继续增大而趋于平缓，由此可见SSE和k的关系图是<br>一个手肘的形状，而这个肘部对应的k值就是数据的真实聚类数。</p>
+<p>具体做法是让k从1开始取值直到取到你认为合适的上限，对每一个k值进行聚类并且记下对于的SSE，然后画出k和SSE的关系图，<br>最后选取肘部对应的k作为我们的最佳聚类数。<br>下图利用了UCI上葡萄酒的数据集<a target="_blank" rel="noopener" href="http://archive.ics.uci.edu/ml/datasets/Wine">wine.data</a>，然后用sklearn库中自带的k-means算法对K值的选取进行了可视化操作。<br><img src="https://img-blog.csdnimg.cn/2021020710042291.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p> <strong>轮廓系数法</strong><br>轮廓系数（silhouette coefficient）是簇的密集与分散程度的评价指标</p>
+<ol>
+<li><p>计算样本i到同一类中其他样本的平均距离ai。如果ai越小，说明样本i与同类中其他样本的距离越近，即越相似。我们将ai称为样本i的类别内不相似度。</p>
+</li>
+<li><p>计算样本i到其他类别的所有样本的平均距离bi，称为样本i与其他类之间的不相似度。如果bi越大，说明样本i与其他类之间距离越远，即越不相似。</p>
+</li>
+</ol>
+<p>轮廓系数的值在-1和1之间，该值越接近于1，簇越紧凑，聚类越好。当轮廓系数接近1时，簇内紧凑，并远离其他簇。其中，轮廓系数的计算如下所示：<br><img src="https://img-blog.csdnimg.cn/2021020710044364.png#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="案例实现（python）"><a href="#案例实现（python）" class="headerlink" title="案例实现（python）"></a>案例实现（python）</h2><h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><p><strong>数据集介绍</strong><br>本章的数据样本来源于<a target="_blank" rel="noopener" href="http://archive.ics.uci.edu/ml/datasets/seeds">UCI</a>上的小麦种子数据集。部分数据集如下图所示：<br><img src="https://img-blog.csdnimg.cn/20210207100817268.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>其中，数据集包含210个样本。每个样品具有7个属性：面积A，周长P，紧密度C = 4piA / P ^ 2，籽粒长度，籽粒宽度，不对称系数和籽粒凹槽长度。<br>所有这些参数都是实值连续的。数据集包含属于三种不同小麦品种的籽粒：卡玛，罗莎和加拿大。</p>
+<table>
+<thead>
+<tr>
+<th>数据集特点：</th>
+<th>多元</th>
+<th>实例数量：</th>
+<th>210</th>
+<th>领域：</th>
+<th>生活类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>属性特征：</td>
+<td>真实</td>
+<td>属性数量：</td>
+<td>7</td>
+<td>上传日期：</td>
+<td>2012.9.29</td>
+</tr>
+<tr>
+<td>相关人物：</td>
+<td>分类/聚类</td>
+<td>缺值：</td>
+<td>N/A</td>
+<td>浏览次数：</td>
+<td>326689</td>
+</tr>
+</tbody></table>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>1、导入我们需要的库</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> numpy <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np  </span><br></pre></td></tr></table></figure>
+<p>2、计算欧氏距离</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#利用公式计算两个向量p1与p2之间的距离，返回diff</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_distance</span>(<span class="params">p1, p2</span>):</span></span><br><span class="line">    diff = (<span class="built_in">sum</span>(power(p1 - p2, <span class="number">2</span>)))</span><br><span class="line">    <span class="keyword">return</span> diff</span><br></pre></td></tr></table></figure>
+<p>3、导入数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1、根据数据文件的路径file_path打开样本数据</span></span><br><span class="line"><span class="comment">#2、将存储的文本信息转换成向量并传出</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">load_data</span>(<span class="params">file_path</span>):</span></span><br><span class="line">    f = <span class="built_in">open</span>(file_path)</span><br><span class="line">    data = []</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> f.readlines():</span><br><span class="line">        row = []</span><br><span class="line">        lines = line.strip().split()</span><br><span class="line">        <span class="keyword">for</span> x <span class="keyword">in</span> lines:</span><br><span class="line">            row.append(<span class="built_in">float</span>(x))</span><br><span class="line">        data.append(row)</span><br><span class="line">    f.close()</span><br><span class="line">    <span class="keyword">return</span> np.mat(data)</span><br></pre></td></tr></table></figure>
+<p>4、初始化聚类中心</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#参数 data:样本数据点集合</span></span><br><span class="line"><span class="comment">#参数 k:已确定的最终聚类的类别数</span></span><br><span class="line"><span class="comment">#return:聚类中心集合my_cluster_center</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">random_data</span>(<span class="params">my_data, k</span>):</span></span><br><span class="line">    <span class="built_in">sum</span> = np.shape(my_data)[<span class="number">1</span>]  <span class="comment"># 特征个数</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">sum</span>)</span><br><span class="line">    my_cluster_center = np.mat(np.zeros((k, <span class="built_in">sum</span>)))  <span class="comment"># 初始化k个聚类中心</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">sum</span>):  <span class="comment"># 最小值+0-1之间的随机数*变化范围，即得到在最大最小值之间的随机数</span></span><br><span class="line">        Xmin = np.<span class="built_in">min</span>(my_data[:, j])  <span class="comment">#得到最小值</span></span><br><span class="line">        Xrange = np.<span class="built_in">max</span>(my_data[:, j]) - Xmin  <span class="comment">#得到随机数的变化范围</span></span><br><span class="line">        my_cluster_center[:, j] = Xmin * np.mat(np.ones((k, <span class="number">1</span>))) + np.random.rand(k, <span class="number">1</span>) * Xrange</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;初始化的聚类中心如下：&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(my_cluster_center)</span><br><span class="line">    <span class="keyword">return</span> my_cluster_center</span><br></pre></td></tr></table></figure>
+<p>5、k_means算法聚类分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#参数ata:样本数据点集合</span></span><br><span class="line"><span class="comment">#参数k:聚类中心的个数</span></span><br><span class="line"><span class="comment">#参数cluster_center:传进来的为初始的聚类中心集合</span></span><br><span class="line"><span class="comment">#首先，在数据集中选择K个点作为每个簇的初始中心，接着观察其他的数据，然后将这些数据划分到距离这K个点最近的簇中， 这个过程将数据划分成K个簇，从而完成第一次划分。但实际算法过程中，形成的新簇不一定就是最好的划分，因此在生成的新簇中， 再一次计算每个簇的中心点，然后进行划分，直到每次划分的结果保持不变为止。</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">k_means</span>(<span class="params">data, k, cluster_center</span>):</span></span><br><span class="line">    m, n = np.shape(data)  <span class="comment"># m:样本个数；n:特征的维度</span></span><br><span class="line">    sub_center = np.mat(np.zeros((m, <span class="number">2</span>)))  <span class="comment"># 初始化：每个样本所属的类别（m行n列：共m个样本，第一列为所属类的标号，第二列为最小距离）</span></span><br><span class="line">    change = <span class="number">1</span>  <span class="comment"># 判断是否重新计算聚类中心</span></span><br><span class="line">    <span class="keyword">while</span> change == <span class="number">1</span>:</span><br><span class="line">        change = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">            min_distance = np.inf  <span class="comment"># 初始样本与聚类中心的最小值为正无穷</span></span><br><span class="line">            Index = <span class="number">0</span>  <span class="comment">#所属类别</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(k):</span><br><span class="line">                <span class="comment"># 分别计算i到这k个聚类中心的距离，找到距离最近的</span></span><br><span class="line">                diff = get_distance(data[i,], cluster_center[j,])</span><br><span class="line">                <span class="keyword">if</span> diff &lt; min_distance:</span><br><span class="line">                    min_distance = diff</span><br><span class="line">                    Index = j</span><br><span class="line">            <span class="comment"># 判断所属聚类中心是否发生变化（可能原本就属于这个聚类中心）</span></span><br><span class="line">            <span class="keyword">if</span> sub_center[i, <span class="number">0</span>] != Index:</span><br><span class="line">                change = <span class="number">1</span></span><br><span class="line">                sub_center[i,] = np.mat([Index, min_distance])</span><br><span class="line">        <span class="comment"># 重新计算聚类中心</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(k):</span><br><span class="line">            <span class="built_in">all</span> = np.mat(np.zeros((<span class="number">1</span>, n)))  <span class="comment"># all记录所有属于中心j的样本，在n个维度的总和</span></span><br><span class="line">            r = <span class="number">0</span>  <span class="comment"># 每个类别中的样本个数</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">                <span class="keyword">if</span> sub_center[i, <span class="number">0</span>] == j:  <span class="comment"># 属于第j个类别，计算进去</span></span><br><span class="line">                    <span class="built_in">all</span> = <span class="built_in">all</span> + data[i,]</span><br><span class="line">                    r = r + <span class="number">1</span></span><br><span class="line">            <span class="keyword">for</span> a <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">                <span class="keyword">try</span>:  <span class="comment"># sum_all除以本中心的样本个数r，即得到中心</span></span><br><span class="line">                    cluster_center[j, a] = <span class="built_in">all</span>[<span class="number">0</span>, a] / r</span><br><span class="line">                <span class="keyword">except</span>:</span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&quot;没有样本属于这个聚类中心！&quot;</span>)</span><br><span class="line">        <span class="comment"># 打印，显示聚类中心的变化过程</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;聚类中心发生变化如下：&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(cluster_center)</span><br><span class="line">    <span class="keyword">return</span> cluster_center, sub_center</span><br></pre></td></tr></table></figure>
+<p>6、保存数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#把数据data写入Myfile_name文件中，并保存</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_result</span>(<span class="params">Myfile_name, data</span>):</span></span><br><span class="line">    m, n = np.shape(data)</span><br><span class="line">    f = <span class="built_in">open</span>(Myfile_name, <span class="string">&quot;w&quot;</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">        X = []</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            X.append(<span class="built_in">str</span>(data[i, j]))</span><br><span class="line">        f.write(<span class="string">&quot;\t&quot;</span>.join(X) + <span class="string">&quot;\n&quot;</span>)</span><br><span class="line">    f.close()</span><br></pre></td></tr></table></figure>
+<p>7、画图</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#输出数据样本点的总个数，并根据数据进行聚类分析，对每一个属性进行聚类，并绘图显示</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw</span>(<span class="params">point_data, center, sub_center</span>):</span></span><br><span class="line">    Myfig = plt.figure()</span><br><span class="line">    axes = Myfig.add_subplot(<span class="number">111</span>)</span><br><span class="line"></span><br><span class="line">    length = <span class="built_in">len</span>(point_data)</span><br><span class="line">    <span class="built_in">print</span>(length)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> <span class="built_in">range</span>(length):</span><br><span class="line">        <span class="keyword">if</span> sub_center[a, <span class="number">0</span>] == <span class="number">0</span>:</span><br><span class="line">            axes.scatter(point_data[a, <span class="number">2</span>], point_data[a, <span class="number">3</span>], color=<span class="string">&#x27;m&#x27;</span>, alpha=<span class="number">0.4</span>)</span><br><span class="line">        <span class="keyword">if</span> sub_center[a, <span class="number">0</span>] == <span class="number">1</span>:</span><br><span class="line">            axes.scatter(point_data[a, <span class="number">2</span>], point_data[a, <span class="number">3</span>], color=<span class="string">&#x27;b&#x27;</span>, alpha=<span class="number">0.4</span>)</span><br><span class="line">        <span class="keyword">if</span> sub_center[a, <span class="number">0</span>] == <span class="number">2</span>:</span><br><span class="line">            axes.scatter(point_data[a, <span class="number">2</span>], point_data[a, <span class="number">3</span>], color=<span class="string">&#x27;g&#x27;</span>, alpha=<span class="number">0.4</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(center)):</span><br><span class="line">        axes.scatter(center[i, <span class="number">2</span>], center[i, <span class="number">3</span>], color=<span class="string">&#x27;red&#x27;</span>, marker=<span class="string">&#x27;p&#x27;</span>)</span><br><span class="line">    plt.xlabel(<span class="string">&#x27;X&#x27;</span>)</span><br><span class="line">    plt.ylabel(<span class="string">&#x27;Y&#x27;</span>)</span><br><span class="line">    plt.title(<span class="string">&#x27;kmeans-JYZ&#x27;</span>)</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>8、主函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    K = <span class="number">3</span>  <span class="comment"># 预设好聚类中心数k</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;第一步：导入样本数据&quot;</span>)</span><br><span class="line">    sample_data = load_data(<span class="string">&quot;seeds.data&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;第二步：初始化k个聚类中心&quot;</span>)</span><br><span class="line">    cluster_center = random_data(sample_data, K)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;第三步：K_Means算法&quot;</span>)</span><br><span class="line">    cluster_center, sub_center = k_means(sample_data, K, cluster_center)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;第四步：保存最终的聚类中心&quot;</span>)</span><br><span class="line">    save_result(<span class="string">&quot;cluster_center.txt&quot;</span>, cluster_center)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;第五步：保存每个样本所属类别&quot;</span>)</span><br><span class="line">    save_result(<span class="string">&quot;sub_center.txt&quot;</span>, sub_center)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 画图</span></span><br><span class="line">    draw(sample_data, cluster_center, sub_center)</span><br></pre></td></tr></table></figure>
+
+<h3 id="运行结果"><a href="#运行结果" class="headerlink" title="运行结果"></a>运行结果</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">第一步：导入样本数据</span><br><span class="line">第二步：初始化k个聚类中心</span><br><span class="line"><span class="number">8</span></span><br><span class="line">初始化的聚类中心如下：</span><br><span class="line">[[<span class="number">17.51686311</span> <span class="number">16.40829437</span>  <span class="number">0.91619839</span>  <span class="number">6.60986498</span>  <span class="number">3.15821884</span>  <span class="number">5.49005513</span></span><br><span class="line">   <span class="number">4.80842984</span>  <span class="number">1.67208591</span>]</span><br><span class="line"> [<span class="number">19.37741169</span> <span class="number">16.76073519</span>  <span class="number">0.91290766</span>  <span class="number">6.40031021</span>  <span class="number">3.85596015</span>  <span class="number">2.23395909</span></span><br><span class="line">   <span class="number">5.15480027</span>  <span class="number">2.34787189</span>]</span><br><span class="line"> [<span class="number">14.9196659</span>  <span class="number">13.09405509</span>  <span class="number">0.82642333</span>  <span class="number">5.51808314</span>  <span class="number">3.06647918</span>  <span class="number">3.5302489</span></span><br><span class="line">   <span class="number">4.7662341</span>   <span class="number">2.10372636</span>]]</span><br><span class="line">第三步：K_Means算法</span><br><span class="line">聚类中心发生变化如下：</span><br><span class="line">[[<span class="number">17.81384615</span> <span class="number">15.93923077</span>  <span class="number">0.87981154</span>  <span class="number">6.0735</span>      <span class="number">3.61865385</span>  <span class="number">4.72330769</span></span><br><span class="line">   <span class="number">5.90411538</span>  <span class="number">1.92307692</span>]</span><br><span class="line"> [<span class="number">19.0005</span>     <span class="number">16.40125</span>     <span class="number">0.8873</span>      <span class="number">6.24715</span>     <span class="number">3.7551</span>      <span class="number">2.935375</span></span><br><span class="line">   <span class="number">6.11635</span>     <span class="number">1.975</span>     ]</span><br><span class="line"> [<span class="number">13.15833333</span> <span class="number">13.79847222</span>  <span class="number">0.86487917</span>  <span class="number">5.37635417</span>  <span class="number">3.05568056</span>  <span class="number">3.727925</span></span><br><span class="line">   <span class="number">5.12176389</span>  <span class="number">2.02083333</span>]]</span><br><span class="line">聚类中心发生变化如下：</span><br><span class="line">[[<span class="number">17.23121212</span> <span class="number">15.66787879</span>  <span class="number">0.88107879</span>  <span class="number">5.97942424</span>  <span class="number">3.56660606</span>  <span class="number">4.40127273</span></span><br><span class="line">   <span class="number">5.81918182</span>  <span class="number">1.84848485</span>]</span><br><span class="line"> [<span class="number">18.9372093</span>  <span class="number">16.36790698</span>  <span class="number">0.88761628</span>  <span class="number">6.23623256</span>  <span class="number">3.74776744</span>  <span class="number">2.91974419</span></span><br><span class="line">   <span class="number">6.07788372</span>  <span class="number">1.90697674</span>]</span><br><span class="line"> [<span class="number">12.94813433</span> <span class="number">13.70589552</span>  <span class="number">0.86318358</span>  <span class="number">5.34711194</span>  <span class="number">3.02578358</span>  <span class="number">3.77799403</span></span><br><span class="line">   <span class="number">5.09188806</span>  <span class="number">2.06716418</span>]]</span><br><span class="line">聚类中心发生变化如下：</span><br><span class="line">[[<span class="number">16.62634146</span> <span class="number">15.39829268</span>  <span class="number">0.88052439</span>  <span class="number">5.89009756</span>  <span class="number">3.49668293</span>  <span class="number">3.75556341</span></span><br><span class="line">   <span class="number">5.67960976</span>  <span class="number">1.65853659</span>]</span><br><span class="line"> [<span class="number">19.19767442</span> <span class="number">16.48046512</span>  <span class="number">0.8879907</span>   <span class="number">6.26725581</span>  <span class="number">3.77960465</span>  <span class="number">3.21153488</span></span><br><span class="line">   <span class="number">6.12765116</span>  <span class="number">2.</span>        ]</span><br><span class="line"> [<span class="number">12.78412698</span> <span class="number">13.63063492</span>  <span class="number">0.8621</span>      <span class="number">5.32544444</span>  <span class="number">3.00333333</span>  <span class="number">3.84895317</span></span><br><span class="line">   <span class="number">5.07414286</span>  <span class="number">2.11111111</span>]]</span><br><span class="line">聚类中心发生变化如下：</span><br><span class="line">[[<span class="number">15.944</span>      <span class="number">15.0836</span>      <span class="number">0.880146</span>    <span class="number">5.78036</span>     <span class="number">3.42138</span>     <span class="number">3.133462</span></span><br><span class="line">   <span class="number">5.50546</span>     <span class="number">1.44</span>      ]</span><br><span class="line"> [<span class="number">19.15104167</span> <span class="number">16.46916667</span>  <span class="number">0.88708958</span>  <span class="number">6.26885417</span>  <span class="number">3.7729375</span>   <span class="number">3.46041667</span></span><br><span class="line">   <span class="number">6.12725</span>     <span class="number">2.</span>        ]</span><br><span class="line"> [<span class="number">12.51366071</span> <span class="number">13.50669643</span>  <span class="number">0.86001875</span>  <span class="number">5.28633036</span>  <span class="number">2.96550893</span>  <span class="number">4.05597411</span></span><br><span class="line">   <span class="number">5.056375</span>    <span class="number">2.25</span>      ]]</span><br><span class="line">聚类中心发生变化如下：</span><br><span class="line">[[<span class="number">15.38075758</span> <span class="number">14.81636364</span>  <span class="number">0.8797803</span>   <span class="number">5.68925758</span>  <span class="number">3.35859091</span>  <span class="number">2.94465303</span></span><br><span class="line">   <span class="number">5.36257576</span>  <span class="number">1.28787879</span>]</span><br><span class="line"> [<span class="number">19.06</span>       <span class="number">16.43176471</span>  <span class="number">0.88679804</span>  <span class="number">6.25333333</span>  <span class="number">3.76323529</span>  <span class="number">3.51547059</span></span><br><span class="line">   <span class="number">6.11290196</span>  <span class="number">2.</span>        ]</span><br><span class="line"> [<span class="number">12.15903226</span> <span class="number">13.35</span>        <span class="number">0.85610215</span>  <span class="number">5.24280645</span>  <span class="number">2.91091398</span>  <span class="number">4.3377</span></span><br><span class="line">   <span class="number">5.05383871</span>  <span class="number">2.50537634</span>]]</span><br><span class="line">聚类中心发生变化如下：</span><br><span class="line">[[<span class="number">15.06763889</span> <span class="number">14.66194444</span>  <span class="number">0.87993194</span>  <span class="number">5.63831944</span>  <span class="number">3.32394444</span>  <span class="number">2.84957222</span></span><br><span class="line">   <span class="number">5.28854167</span>  <span class="number">1.22222222</span>]</span><br><span class="line"> [<span class="number">18.96296296</span> <span class="number">16.39666667</span>  <span class="number">0.88595185</span>  <span class="number">6.24272222</span>  <span class="number">3.74992593</span>  <span class="number">3.54033333</span></span><br><span class="line">   <span class="number">6.10077778</span>  <span class="number">2.</span>        ]</span><br><span class="line"> [<span class="number">12.01321429</span> <span class="number">13.29011905</span>  <span class="number">0.85372857</span>  <span class="number">5.22530952</span>  <span class="number">2.88675</span>     <span class="number">4.53208333</span></span><br><span class="line">   <span class="number">5.06521429</span>  <span class="number">2.66666667</span>]]</span><br><span class="line">聚类中心发生变化如下：</span><br><span class="line">[[<span class="number">14.84614286</span> <span class="number">14.54828571</span>  <span class="number">0.88059429</span>  <span class="number">5.59571429</span>  <span class="number">3.30232857</span>  <span class="number">2.74761714</span></span><br><span class="line">   <span class="number">5.22582857</span>  <span class="number">1.15714286</span>]</span><br><span class="line"> [<span class="number">18.78677966</span> <span class="number">16.32915254</span>  <span class="number">0.88474746</span>  <span class="number">6.22098305</span>  <span class="number">3.72767797</span>  <span class="number">3.58188136</span></span><br><span class="line">   <span class="number">6.07911864</span>  <span class="number">2.</span>        ]</span><br><span class="line"> [<span class="number">11.97938272</span> <span class="number">13.27962963</span>  <span class="number">0.85269136</span>  <span class="number">5.22535802</span>  <span class="number">2.87914815</span>  <span class="number">4.60960494</span></span><br><span class="line">   <span class="number">5.07677778</span>  <span class="number">2.72839506</span>]]</span><br><span class="line">聚类中心发生变化如下：</span><br><span class="line">[[<span class="number">14.67805556</span> <span class="number">14.47152778</span>  <span class="number">0.87971389</span>  <span class="number">5.56618056</span>  <span class="number">3.28319444</span>  <span class="number">2.71346111</span></span><br><span class="line">   <span class="number">5.18791667</span>  <span class="number">1.13888889</span>]</span><br><span class="line"> [<span class="number">18.72180328</span> <span class="number">16.29737705</span>  <span class="number">0.88508689</span>  <span class="number">6.20893443</span>  <span class="number">3.72267213</span>  <span class="number">3.60359016</span></span><br><span class="line">   <span class="number">6.06609836</span>  <span class="number">1.98360656</span>]</span><br><span class="line"> [<span class="number">11.93675325</span> <span class="number">13.26441558</span>  <span class="number">0.85168831</span>  <span class="number">5.22703896</span>  <span class="number">2.86797403</span>  <span class="number">4.6994026</span></span><br><span class="line">   <span class="number">5.09263636</span>  <span class="number">2.81818182</span>]]</span><br><span class="line">聚类中心发生变化如下：</span><br><span class="line">[[<span class="number">14.63202703</span> <span class="number">14.45324324</span>  <span class="number">0.8790973</span>   <span class="number">5.56178378</span>  <span class="number">3.27489189</span>  <span class="number">2.74404324</span></span><br><span class="line">   <span class="number">5.18493243</span>  <span class="number">1.13513514</span>]</span><br><span class="line"> [<span class="number">18.72180328</span> <span class="number">16.29737705</span>  <span class="number">0.88508689</span>  <span class="number">6.20893443</span>  <span class="number">3.72267213</span>  <span class="number">3.60359016</span></span><br><span class="line">   <span class="number">6.06609836</span>  <span class="number">1.98360656</span>]</span><br><span class="line"> [<span class="number">11.90906667</span> <span class="number">13.25026667</span>  <span class="number">0.85154933</span>  <span class="number">5.22233333</span>  <span class="number">2.86509333</span>  <span class="number">4.72218667</span></span><br><span class="line">   <span class="number">5.09304</span>     <span class="number">2.86666667</span>]]</span><br><span class="line">聚类中心发生变化如下：</span><br><span class="line">[[<span class="number">14.63202703</span> <span class="number">14.45324324</span>  <span class="number">0.8790973</span>   <span class="number">5.56178378</span>  <span class="number">3.27489189</span>  <span class="number">2.74404324</span></span><br><span class="line">   <span class="number">5.18493243</span>  <span class="number">1.13513514</span>]</span><br><span class="line"> [<span class="number">18.72180328</span> <span class="number">16.29737705</span>  <span class="number">0.88508689</span>  <span class="number">6.20893443</span>  <span class="number">3.72267213</span>  <span class="number">3.60359016</span></span><br><span class="line">   <span class="number">6.06609836</span>  <span class="number">1.98360656</span>]</span><br><span class="line"> [<span class="number">11.90906667</span> <span class="number">13.25026667</span>  <span class="number">0.85154933</span>  <span class="number">5.22233333</span>  <span class="number">2.86509333</span>  <span class="number">4.72218667</span></span><br><span class="line">   <span class="number">5.09304</span>     <span class="number">2.86666667</span>]]</span><br><span class="line">第四步：保存最终的聚类中心</span><br><span class="line">第五步：保存每个样本所属类别</span><br><span class="line"><span class="number">210</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/2021020710144694.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在这里，我们借助小麦种子seeds.data的数据集，介绍了K均值聚类算法的概念，以及利用python实现算法聚类分析以及可视化的过程， 并分析了kmeans算法的优缺点。主要思想就是把相似对象归为同一簇，把不相似对象归到不同簇。簇内的对象越相似，聚类的效果越好。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>1.<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42029738/article/details/81978038">https://blog.csdn.net/weixin_42029738/article/details/81978038</a></p>
+<p>2.<a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_36710456/article/details/88019323">https://blog.csdn.net/sinat_36710456/article/details/88019323</a></p>
+<p>3.Ahmad EL ALLAOUI. Clustering Kmeans with Evolutionary Strategies[J]. International Journal of Imaging and Robotics™,2017,17(3).</p>
+<p>4.刘子熠,张喆,高天,武强. Analysis of Pump Data Based on Association and Kmeans Algorithm[J]. 数据挖掘,2020,10(02).</p>
+<p>5.Yi Yi Aung,Myat Myat Min. An Analysis of Kmeans Algorithm Based Network Intrusion Detection System[J]. Advances in Science, Technology and Engineering Systems,2018,3(1).</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Machine-Learning/" rel="tag"><i class="fa fa-tag"></i> Machine Learning</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E8%81%9A%E7%B1%BB%E7%AE%97%E6%B3%95%E5%88%86%E6%9E%90/" rel="prev" title="聚类算法综述分析">
+                  <i class="fa fa-chevron-left"></i> 聚类算法综述分析
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/MeanShift/" rel="next" title="Mean Shift clustering">
+                  Mean Shift clustering <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MjE1MS8xODY5OA=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="snowflake-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZHANGSAISAI</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+
+</body>
+</html>
