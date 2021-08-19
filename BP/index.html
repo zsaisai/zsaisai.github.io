@@ -20,34 +20,34 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zsaisai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="@TOC 神经元简介为了构建神经网络模型，我们需要首先思考大脑中的神经网络是怎样的？每一个神经元都可以被认为是一个处理单元&#x2F;神经核（processing unit&#x2F;Nucleus），它含有许多输入&#x2F;树突（input&#x2F;Dendrite），并且有一个输出&#x2F;轴突（output&#x2F;Axon）。神经网络是大量神经元相互链接并通过电脉冲来交流的一个网络。 神经元之间通过电信号进行沟通(微弱的电流)。所以如果神经">
+<meta name="description" content="神经元简介为了构建神经网络模型，我们需要首先思考大脑中的神经网络是怎样的？每一个神经元都可以被认为是一个处理单元&#x2F;神经核（processing unit&#x2F;Nucleus），它含有许多输入&#x2F;树突（input&#x2F;Dendrite），并且有一个输出&#x2F;轴突（output&#x2F;Axon）。神经网络是大量神经元相互链接并通过电脉冲来交流的一个网络。 神经元之间通过电信号进行沟通(微弱的电流)。所以如果神经元想要传递">
 <meta property="og:type" content="article">
-<meta property="og:title" content="常用正则化方法">
-<meta property="og:url" content="https://zsaisai.github.io/%E5%8E%9F%E5%88%9B%20BP%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/index.html">
+<meta property="og:title" content="Bp网络原理与公式推导">
+<meta property="og:url" content="https://zsaisai.github.io/BP/index.html">
 <meta property="og:site_name" content="ZhangSaiSai">
-<meta property="og:description" content="@TOC 神经元简介为了构建神经网络模型，我们需要首先思考大脑中的神经网络是怎样的？每一个神经元都可以被认为是一个处理单元&#x2F;神经核（processing unit&#x2F;Nucleus），它含有许多输入&#x2F;树突（input&#x2F;Dendrite），并且有一个输出&#x2F;轴突（output&#x2F;Axon）。神经网络是大量神经元相互链接并通过电脉冲来交流的一个网络。 神经元之间通过电信号进行沟通(微弱的电流)。所以如果神经">
+<meta property="og:description" content="神经元简介为了构建神经网络模型，我们需要首先思考大脑中的神经网络是怎样的？每一个神经元都可以被认为是一个处理单元&#x2F;神经核（processing unit&#x2F;Nucleus），它含有许多输入&#x2F;树突（input&#x2F;Dendrite），并且有一个输出&#x2F;轴突（output&#x2F;Axon）。神经网络是大量神经元相互链接并通过电脉冲来交流的一个网络。 神经元之间通过电信号进行沟通(微弱的电流)。所以如果神经元想要传递">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200923214522621.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/d74a5b93b4ee4f10ac2d02c0c8ddf8b1.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/74b0877f1c5f436c931c6a447b32fb4c.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/73564ae29c2d4b8b82e59fac53747fe4.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/393e30c52b6a4013a38db5d1efe3249b.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
-<meta property="article:published_time" content="2020-07-19T11:43:45.000Z">
-<meta property="article:modified_time" content="2021-08-19T16:57:47.309Z">
+<meta property="article:published_time" content="2021-08-19T11:43:45.000Z">
+<meta property="article:modified_time" content="2021-08-19T16:59:48.069Z">
 <meta property="article:author" content="ZHANGSAISAI">
 <meta property="article:tag" content="Machine Learning">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200923214522621.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
 
 
-<link rel="canonical" href="https://zsaisai.github.io/%E5%8E%9F%E5%88%9B%20BP%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">
+<link rel="canonical" href="https://zsaisai.github.io/BP/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/%E5%8E%9F%E5%88%9B%20BP%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/","path":"原创 BP神经网络公式推导/","title":"常用正则化方法"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/BP/","path":"BP/","title":"Bp网络原理与公式推导"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>常用正则化方法 | ZhangSaiSai</title>
+<title>Bp网络原理与公式推导 | ZhangSaiSai</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129037882-1"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-129037882-1","only_pageview":false}</script>
@@ -242,7 +242,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/%E5%8E%9F%E5%88%9B%20BP%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/">
+    <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/BP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
@@ -255,7 +255,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          常用正则化方法
+          Bp网络原理与公式推导
         </h1>
 
         <div class="post-meta-container">
@@ -266,7 +266,7 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2020-07-19 11:43:45" itemprop="dateCreated datePublished" datetime="2020-07-19T11:43:45+00:00">2020-07-19</time>
+      <time title="Created: 2021-08-19 11:43:45" itemprop="dateCreated datePublished" datetime="2021-08-19T11:43:45+00:00">2021-08-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -295,8 +295,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>@<a href="%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C">TOC</a></p>
-<h1 id="神经元简介"><a href="#神经元简介" class="headerlink" title="神经元简介"></a>神经元简介</h1><p>为了构建神经网络模型，我们需要首先思考大脑中的神经网络是怎样的？每一个神经元都可以被认为是一个处理单元/神经核（processing unit/Nucleus），它含有许多输入/树突（input/Dendrite），并且有一个输出/轴突（output/Axon）。神经网络是大量神经元相互链接并通过电脉冲来交流的一个网络。<br><img src="https://img-blog.csdnimg.cn/20200923214522621.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+        <h1 id="神经元简介"><a href="#神经元简介" class="headerlink" title="神经元简介"></a>神经元简介</h1><p>为了构建神经网络模型，我们需要首先思考大脑中的神经网络是怎样的？每一个神经元都可以被认为是一个处理单元/神经核（processing unit/Nucleus），它含有许多输入/树突（input/Dendrite），并且有一个输出/轴突（output/Axon）。神经网络是大量神经元相互链接并通过电脉冲来交流的一个网络。<br><img src="https://img-blog.csdnimg.cn/20200923214522621.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
 <p>神经元之间通过电信号进行沟通(微弱的电流)。所以如果神经元想要传递一个消息，它就会就通过它的轴突，发送一段微弱电流给其他神经元的树突。<br>      接收到信号的神经元会对消息进行处理，处理后可能会通过自己的轴突再将信息传递出去给其他神经元。这就是神经元之间信号传递的简要概述。</p>
 <h1 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h1><p>神经网络是模仿大脑神经元，建立的模型。模型中的每个神经元都是一个单独的【学习模型】，这些神经元也叫做==激活单元(activation unit)==<br><img src="https://img-blog.csdnimg.cn/d74a5b93b4ee4f10ac2d02c0c8ddf8b1.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 <p>神经网络模型中，通常只有一个输入层，一个输出层，中间层/隐藏层可以有任意多个。所有层加起来构成了整个神经网络模型。每一层的输出变量都是下一层的输入变量。<br><img src="https://img-blog.csdnimg.cn/74b0877f1c5f436c931c6a447b32fb4c.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
@@ -318,14 +317,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/%E5%8E%9F%E5%88%9B%20Logistic%E5%8E%9F%E7%90%86%E4%B8%8E%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC/" rel="prev" title="常用正则化方法">
-                  <i class="fa fa-chevron-left"></i> 常用正则化方法
+                <a href="/Logistic/" rel="prev" title="Logistic原理与公式推导">
+                  <i class="fa fa-chevron-left"></i> Logistic原理与公式推导
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/probability%20distribution/" rel="next" title="常见概率分布总结">
-                  常见概率分布总结 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
