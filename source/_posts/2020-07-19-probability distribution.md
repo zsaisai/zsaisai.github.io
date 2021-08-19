@@ -25,7 +25,6 @@ mathjax: true
   **离散数据**根据名称很好理解，就是数据的取值是不连续的，有明确的间隔 。例如掷硬币就是一个典型的离散数据，因为抛硬币要么是正面，要么是反面，还有比如男女性别，二分类中的0/1关系等。
 
   **连续数据**。连续数据正好相反，它能取任意的数值。例如时间，它能无限分割。数据十分平滑 ，还有比如年领，温度，等。是常见的变量类型。
-  
 
 <!-- more -->
 
@@ -127,7 +126,7 @@ mathjax: true
 
 对应图像如下。
 
-![1629368593450](../AppData/Roaming/Typora/typora-user-images/1629368593450.png)
+![1629368593450](F:/git/zsaisai.github.io/source/images/11)
 
  重要性质：
 
@@ -161,8 +160,6 @@ mathjax: true
 其中![img](https://bkimg.cdn.bcebos.com/formula/b006e7ce47334512fcd4f914ad7811bf.svg)为常数，且![img](https://bkimg.cdn.bcebos.com/formula/0054fbc91fc17f8f6e212a2c4ba69e20.svg) ，则称![img](https://bkimg.cdn.bcebos.com/formula/959ad200f9fb074d206b223d046b88ba.svg)服从参数为![img](https://bkimg.cdn.bcebos.com/formula/b006e7ce47334512fcd4f914ad7811bf.svg)的拉普拉斯分布。 与正态分布相比，正态分布是用相**对于u平均值的差的平方**来表示，而拉普拉斯概率密度用**相对于差的绝对值**来表示。因此，拉普拉斯的尾部比正态分布更加平坦。
 
  ![1629369138404](../AppData/Roaming/Typora/typora-user-images/1629369138404.png)
-
-## 
 
 
 
