@@ -279,12 +279,15 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="神经元简介"><a href="#神经元简介" class="headerlink" title="神经元简介"></a>神经元简介</h1><p>为了构建神经网络模型，我们需要首先思考大脑中的神经网络是怎样的？每一个神经元都可以被认为是一个处理单元/神经核（processing unit/Nucleus），它含有许多输入/树突（input/Dendrite），并且有一个输出/轴突（output/Axon）。神经网络是大量神经元相互链接并通过电脉冲来交流的一个网络。<br><img src="https://img-blog.csdnimg.cn/20200923214522621.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-<p>神经元之间通过电信号进行沟通(微弱的电流)。所以如果神经元想要传递一个消息，它就会就通过它的轴突，发送一段微弱电流给其他神经元的树突。<br>      接收到信号的神经元会对消息进行处理，处理后可能会通过自己的轴突再将信息传递出去给其他神经元。这就是神经元之间信号传递的简要概述。</p>
-<h1 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h1><p>神经网络是模仿大脑神经元，建立的模型。模型中的每个神经元都是一个单独的【学习模型】，这些神经元也叫做==激活单元(activation unit)==<br><img src="https://img-blog.csdnimg.cn/d74a5b93b4ee4f10ac2d02c0c8ddf8b1.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>神经网络模型中，通常只有一个输入层，一个输出层，中间层/隐藏层可以有任意多个。所有层加起来构成了整个神经网络模型。每一层的输出变量都是下一层的输入变量。<br><img src="https://img-blog.csdnimg.cn/74b0877f1c5f436c931c6a447b32fb4c.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p><img src="https://img-blog.csdnimg.cn/73564ae29c2d4b8b82e59fac53747fe4.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>==从本质上来讲，神经网络能够通过学习得出其自身的一系列特征。在普通的逻辑回归中，我们被限制为使用数据中的原始特征想x1….xn,我们虽然可以使用一些二项式项来组合这些特征，但是我们仍然受到这些原始特征的限制。在神经网络中，原始特征只是输入层，在我们上面三层的神经网络例子中，第三层也就是输出层做出的预测利用的是第二层的特征，而非输入层中的原始特征，我们可以认为第二层中的特征是神经网络通过学习后自己得出的一系列用于预测输出变量的新特征。==<br>      <strong>这就是神经网络模型相比于逻辑回归和线性回归的优势。</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/393e30c52b6a4013a38db5d1efe3249b.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-
+<p>神经元之间通过电信号进行沟通(微弱的电流)。所以如果神经元想要传递一个消息，它就会就通过它的轴突，发送一段微弱电流给其他神经元的树突。接收到信号的神经元会对消息进行处理，处理后可能会通过自己的轴突再将信息传递出去给其他神经元。这就是神经元之间信号传递的简要概述。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/BP/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -357,8 +360,15 @@
     
     <div class="post-body" itemprop="articleBody">
           <h1 id="逻辑回归-Logistic-Regression"><a href="#逻辑回归-Logistic-Regression" class="headerlink" title="逻辑回归(Logistic Regression)"></a>逻辑回归(Logistic Regression)</h1><p>逻辑回归算法实际上是一种分类算法，它适用于标签 𝑦 取值离散的情况，预测的变量 𝑦 是离散的值，如:1 0 0 1。</p>
-<p><strong>要搞清楚逻辑回归的原理必须要从概率和似然性说起</strong>。<br>我们常常用概率描述一个事件发生的可能性。而似然性正好反过来，意思是一个事件实际已经发生了，反推在什么参数条件下，这个事件发生的概率最大。<br>即：<br>已知参数 β 前提下，预测某事件 x 发生的概率是 P（x | β );<br>已知某个已发生的事件 x，未知参数 β 的似然函数为 L(β | x)；<br>上面两个值相等，即:P（x | β ) =  L(β | x)<br>一个参数 β 对应一个似然函数的值，当 β 发生变化， L(β | x)也会随之变化。当我们在取得某个参数的时候，似然函数的值到达了最大值，说明在这个参数下最有可能发生x事件，即这个参数最合理。<br>因此，最优β，就是使当前观察到的数据出现的可能性最大的β。<br><img src="https://img-blog.csdnimg.cn/45abd4287f0740b0a45c20c5aa3c0410.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/a516e40f279b4db4bae943b13e423602.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/e16351a6c5ad414eaadeadacdb883903.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/7833f7d739bc4ddba40087ed1fcd4456.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/5c831a653ee445f48955c7414afb650a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
-
+<p><strong>要搞清楚逻辑回归的原理必须要从概率和似然性说起</strong>。<br>我们常常用概率描述一个事件发生的可能性。而似然性正好反过来，意思是一个事件实际已经发生了，反推在什么参数条件下，这个事件发生的概率最大。<br>即：<br>已知参数 β 前提下，预测某事件 x 发生的概率是 P（x | β );<br>已知某个已发生的事件 x，未知参数 β 的似然函数为 L(β | x)；<br>上面两个值相等，即:P（x | β ) =  L(β | x)</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/Logistic/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
