@@ -40,7 +40,7 @@
 <meta property="og:image" content="https://gitee.com/fuhailin/Object-Storage-Service/raw/master/activation-function/softplus.png">
 <meta property="og:image" content="https://gitee.com/fuhailin/Object-Storage-Service/raw/master/activation-function/softmax.png">
 <meta property="article:published_time" content="2020-07-19T11:43:45.000Z">
-<meta property="article:modified_time" content="2021-08-11T15:56:57.440Z">
+<meta property="article:modified_time" content="2021-08-19T15:13:12.076Z">
 <meta property="article:author" content="ZHANGSAISAI">
 <meta property="article:tag" content="Machine Learning">
 <meta name="twitter:card" content="summary">
@@ -140,7 +140,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Sigmoid%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">Sigmoid激活函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tanh%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">Tanh激活函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E6%B5%81%E7%BA%BF%E6%80%A7%E5%8D%95%E5%85%83-ReLU"><span class="nav-number">3.</span> <span class="nav-text">整流线性单元(ReLU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E7%BA%BF%E6%80%A7%E5%8D%95%E5%85%83-ELU"><span class="nav-number">4.</span> <span class="nav-text">指数线性单元(ELU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SELU"><span class="nav-number">5.</span> <span class="nav-text">SELU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Leaky-ReLU"><span class="nav-number">6.</span> <span class="nav-text">Leaky ReLU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Parametric-ReLU-PRELU"><span class="nav-number">7.</span> <span class="nav-text">Parametric ReLU (PRELU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gaussian-Error-Linear-Unit-GELU"><span class="nav-number">8.</span> <span class="nav-text">Gaussian Error Linear Unit(GELU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swish"><span class="nav-number">9.</span> <span class="nav-text">Swish</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-Adaptive-Activation-Function-Dice"><span class="nav-number">10.</span> <span class="nav-text">Data Adaptive Activation Function(Dice)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Maxout"><span class="nav-number">11.</span> <span class="nav-text">Maxout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Softplus"><span class="nav-number">12.</span> <span class="nav-text">Softplus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Softmax"><span class="nav-number">13.</span> <span class="nav-text">Softmax</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%EF%BC%9F"><span class="nav-number">14.</span> <span class="nav-text">如何选择激活函数？</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">为什么需要激活函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sigmoid%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">2.</span> <span class="nav-text">Sigmoid激活函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tanh%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">Tanh激活函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B4%E6%B5%81%E7%BA%BF%E6%80%A7%E5%8D%95%E5%85%83-ReLU"><span class="nav-number">4.</span> <span class="nav-text">整流线性单元(ReLU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E7%BA%BF%E6%80%A7%E5%8D%95%E5%85%83-ELU"><span class="nav-number">5.</span> <span class="nav-text">指数线性单元(ELU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SELU"><span class="nav-number">6.</span> <span class="nav-text">SELU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Leaky-ReLU"><span class="nav-number">7.</span> <span class="nav-text">Leaky ReLU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Parametric-ReLU-PRELU"><span class="nav-number">8.</span> <span class="nav-text">Parametric ReLU (PRELU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gaussian-Error-Linear-Unit-GELU"><span class="nav-number">9.</span> <span class="nav-text">Gaussian Error Linear Unit(GELU)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swish"><span class="nav-number">10.</span> <span class="nav-text">Swish</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-Adaptive-Activation-Function-Dice"><span class="nav-number">11.</span> <span class="nav-text">Data Adaptive Activation Function(Dice)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Maxout"><span class="nav-number">12.</span> <span class="nav-text">Maxout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Softplus"><span class="nav-number">13.</span> <span class="nav-text">Softplus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Softmax"><span class="nav-number">14.</span> <span class="nav-text">Softmax</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%EF%BC%9F"><span class="nav-number">15.</span> <span class="nav-text">如何选择激活函数？</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -157,7 +157,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -304,7 +304,8 @@
     <div class="post-body" itemprop="articleBody">
         <p>  本文搜集整理了从Sigmoid、ReLU到Dice等十几种常见激活函数的原理与特点，并从底层用Numpy实现和Python绘制它们。</p>
 <span id="more"></span>
-<p>激活函数之性质</p>
+
+<h2 id="为什么需要激活函数"><a href="#为什么需要激活函数" class="headerlink" title="为什么需要激活函数"></a>为什么需要激活函数</h2><p>激活函数之性质</p>
 <p><strong>1. 非线性：</strong>即导数不是常数。保证多层网络不退化成单层线性网络。这也是激活函数的意义所在。</p>
 <p><strong>2. 可微性：</strong>保证了在优化中梯度的可计算性。虽然 ReLU 存在有限个点处不可微，但处处 subgradient，可以替代梯度。</p>
 <p><strong>3. 计算简单：</strong>激活函数复杂就会降低计算速度，因此 RELU 要比 Exp 等操作的激活函数更受欢迎。</p>
@@ -483,8 +484,6 @@
 <h2 id="如何选择激活函数？"><a href="#如何选择激活函数？" class="headerlink" title="如何选择激活函数？"></a>如何选择激活函数？</h2><p>通常来说，很少会把各种激活函数串起来在一个网络中使用的。</p>
 <p>如果使用 ReLU ，那么一定要小心设置 learning rate ，而且要注意不要让你的网络出现很多 “ dead ” 神经元，如果这个问题不好解决，那么可以试试 Leaky ReLU 、 PReLU 或者 Maxout.</p>
 <p>最好不要用 sigmoid ，可以试试 tanh ，不过可以预期它的效果会比不上 ReLU 和 Maxout.</p>
-<hr>
-<p>看到这里你已经知道了足够多的激活函数，那你还记得你学习激活函数的初衷吗？我们为什么需要激活函数，激活函数的作用呢？为什么SVM这类算法没有激活函数也能进行非线性分类呢？一起思考</p>
 <p>References:</p>
 <p>[1]: <em>(<a target="_blank" rel="noopener" href="https://ml-cheatsheet.readthedocs.io/en/latest/activation_functions.html#id2">1</a>, <a target="_blank" rel="noopener" href="https://ml-cheatsheet.readthedocs.io/en/latest/activation_functions.html#id4">2</a>)</em> <a target="_blank" rel="noopener" href="http://cs231n.github.io/neural-networks-1/">http://cs231n.github.io/neural-networks-1/</a></p>
 <p>[2]: <a target="_blank" rel="noopener" href="https://ml-cheatsheet.readthedocs.io/en/latest/activation_functions.html#activation-functions">ML Glossary | Activation Functions</a></p>
@@ -506,8 +505,8 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/optimization/" rel="prev" title="optimization总结">
-                  <i class="fa fa-chevron-left"></i> optimization总结
+                <a href="/probability%20distribution/" rel="prev" title="常见概率分布总结">
+                  <i class="fa fa-chevron-left"></i> 常见概率分布总结
                 </a>
             </div>
             <div class="post-nav-item">
