@@ -139,7 +139,7 @@ site_state: true
 # Key is the link label showing to end users.
 # Value before `||` delimiter is the target permalink, value after `||` delimiter is the name of Font Awesome icon.
 social:
-  GitHub: https://github.com/zsaisai|| fab fa-github
+  GitHub: https://gitee.com/z_saisai|| fab fa-github
   E-Mail: mailto:z_ss101@163.com || fa fa-envelope
   CSDN: https://blog.csdn.net/weixin_41744192?spm=1000.2115.3001.5343 || csdn
   Weibo: https://weibo.com/u/3564388084 || weibo
