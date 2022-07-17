@@ -20,17 +20,17 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zsaisai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="推荐系统新闻推荐正式赛 赛题以新闻APP中的新闻推荐为背景，要求选手根据用户历史浏览点击新闻文章的数据信息预测用户未来点击行为，即用户的最后一次点击的新闻文章，测试集对最后一次点击行为进行了剔除。">
+<meta name="description" content="赛题以新闻APP中的新闻推荐为背景，要求选手根据用户历史浏览点击新闻文章的数据信息预测用户未来点击行为，即用户的最后一次点击的新闻文章，测试集对最后一次点击行为进行了剔除。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="推荐系统新闻推荐正式赛">
 <meta property="og:url" content="https://zsaisai.github.io/Datawhae%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="SS-ZHANG">
-<meta property="og:description" content="推荐系统新闻推荐正式赛 赛题以新闻APP中的新闻推荐为背景，要求选手根据用户历史浏览点击新闻文章的数据信息预测用户未来点击行为，即用户的最后一次点击的新闻文章，测试集对最后一次点击行为进行了剔除。">
+<meta property="og:description" content="赛题以新闻APP中的新闻推荐为背景，要求选手根据用户历史浏览点击新闻文章的数据信息预测用户未来点击行为，即用户的最后一次点击的新闻文章，测试集对最后一次点击行为进行了剔除。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://zsaisai.github.io/images/1658054232660.png">
 <meta property="og:image" content="https://zsaisai.github.io/images/1658066241654.png">
 <meta property="article:published_time" content="2022-04-24T14:46:35.000Z">
-<meta property="article:modified_time" content="2022-07-17T14:00:30.271Z">
+<meta property="article:modified_time" content="2022-07-17T14:12:53.711Z">
 <meta property="article:author" content="SAISAI-ZHANG">
 <meta property="article:tag" content="Machine Learning">
 <meta name="twitter:card" content="summary">
@@ -130,7 +130,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E6%AD%A3%E5%BC%8F%E8%B5%9B"><span class="nav-number">1.</span> <span class="nav-text">推荐系统新闻推荐正式赛</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">整体方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AC%E5%9B%9E"><span class="nav-number">4.</span> <span class="nav-text">召回</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#itemcf"><span class="nav-number">4.1.</span> <span class="nav-text">itemcf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E7%BD%91%E7%BB%9C%E5%85%B3%E7%B3%BB%E7%9A%84%E5%8F%AC%E5%9B%9E"><span class="nav-number">4.2.</span> <span class="nav-text">基于网络关系的召回</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#w2v-%E5%90%91%E9%87%8F%E5%8F%AC%E5%9B%9E"><span class="nav-number">4.3.</span> <span class="nav-text">w2v 向量召回</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AC%E5%9B%9E%E5%90%88%E5%B9%B6"><span class="nav-number">4.4.</span> <span class="nav-text">召回合并</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F"><span class="nav-number">5.</span> <span class="nav-text">排序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B"><span class="nav-number">5.1.</span> <span class="nav-text">特征工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.2.</span> <span class="nav-text">模型</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">整体方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AC%E5%9B%9E"><span class="nav-number">3.</span> <span class="nav-text">召回</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#itemcf"><span class="nav-number">3.1.</span> <span class="nav-text">itemcf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E7%BD%91%E7%BB%9C%E5%85%B3%E7%B3%BB%E7%9A%84%E5%8F%AC%E5%9B%9E"><span class="nav-number">3.2.</span> <span class="nav-text">基于网络关系的召回</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#w2v-%E5%90%91%E9%87%8F%E5%8F%AC%E5%9B%9E"><span class="nav-number">3.3.</span> <span class="nav-text">w2v 向量召回</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AC%E5%9B%9E%E5%90%88%E5%B9%B6"><span class="nav-number">3.4.</span> <span class="nav-text">召回合并</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F"><span class="nav-number">4.</span> <span class="nav-text">排序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B"><span class="nav-number">4.1.</span> <span class="nav-text">特征工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.2.</span> <span class="nav-text">模型</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -140,7 +140,7 @@
     <img class="site-author-image" itemprop="image" alt="SAISAI-ZHANG"
       src="https://zsaisai.github.io/images/122.png">
   <p class="site-author-name" itemprop="name">SAISAI-ZHANG</p>
-  <div class="site-description" itemprop="description">时而真实，时而虚假，有时奔跑，有时躺平</div>
+  <div class="site-description" itemprop="description">时而奔跑，时而躺平</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
@@ -167,7 +167,7 @@
 </div>
   <div class="links-of-author site-overview-item animated">
       <span class="links-of-author-item">
-        <a href="https://github.com/zsaisai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zsaisai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <a href="https://gitee.com/z_saisai" title="GitHub → https:&#x2F;&#x2F;gitee.com&#x2F;z_saisai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
         <a href="mailto:z_ss101@163.com" title="E-Mail → mailto:z_ss101@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
@@ -244,7 +244,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://zsaisai.github.io/images/122.png">
       <meta itemprop="name" content="SAISAI-ZHANG">
-      <meta itemprop="description" content="时而真实，时而虚假，有时奔跑，有时躺平">
+      <meta itemprop="description" content="时而奔跑，时而躺平">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -292,7 +292,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="推荐系统新闻推荐正式赛"><a href="#推荐系统新闻推荐正式赛" class="headerlink" title="推荐系统新闻推荐正式赛"></a>推荐系统新闻推荐正式赛</h1><p> 赛题以新闻APP中的新闻推荐为背景，要求选手根据用户历史浏览点击新闻文章的数据信息预测用户未来点击行为，即用户的最后一次点击的新闻文章，测试集对最后一次点击行为进行了剔除。 </p>
+        <p> 赛题以新闻APP中的新闻推荐为背景，要求选手根据用户历史浏览点击新闻文章的数据信息预测用户未来点击行为，即用户的最后一次点击的新闻文章，测试集对最后一次点击行为进行了剔除。 </p>
 <span id="more"></span>
 
 <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p> 赛题以预测用户未来点击新闻文章为任务，数据集报名后可见并可下载，该数据来自某新闻APP平台的用户交互数据，包括30万用户，近300万次点击，共36万多篇不同的新闻文章，同时每篇新闻文章有对应的embedding向量表示。为了保证比赛的公平性，将会从中抽取20万用户的点击日志数据作为训练集，5万用户的点击日志数据作为测试集A，5万用户的点击日志数据作为测试集B。 </p>
