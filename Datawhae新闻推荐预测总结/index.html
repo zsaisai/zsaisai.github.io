@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/logo2.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/logo2.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"zsaisai.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.6.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="推荐系统新闻推荐正式赛 赛题以新闻APP中的新闻推荐为背景，要求选手根据用户历史浏览点击新闻文章的数据信息预测用户未来点击行为，即用户的最后一次点击的新闻文章，测试集对最后一次点击行为进行了剔除。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推荐系统新闻推荐正式赛">
+<meta property="og:url" content="https://zsaisai.github.io/Datawhae%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="ZhangSaiSai">
+<meta property="og:description" content="推荐系统新闻推荐正式赛 赛题以新闻APP中的新闻推荐为背景，要求选手根据用户历史浏览点击新闻文章的数据信息预测用户未来点击行为，即用户的最后一次点击的新闻文章，测试集对最后一次点击行为进行了剔除。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://zsaisai.github.io/Datawhae%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93/2022-05-24-Datawhae%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93.assets/1658054232660.png">
+<meta property="og:image" content="https://pic.logicjake.xyz/new1.png">
+<meta property="article:published_time" content="2022-04-24T14:46:35.000Z">
+<meta property="article:modified_time" content="2022-07-17T13:24:19.637Z">
+<meta property="article:author" content="ZHANGSAISAI">
+<meta property="article:tag" content="Machine Learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zsaisai.github.io/Datawhae%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93/2022-05-24-Datawhae%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93.assets/1658054232660.png">
+
+
+<link rel="canonical" href="https://zsaisai.github.io/Datawhae%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/Datawhae%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93/","path":"Datawhae新闻推荐预测总结/","title":"推荐系统新闻推荐正式赛"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>推荐系统新闻推荐正式赛 | ZhangSaiSai</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129037882-1"></script>
+  <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-129037882-1","only_pageview":false}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?d0967e9b160f4f6248804003642ee818"></script>
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">ZhangSaiSai</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">二十多岁 人生才刚刚开始</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+        <li class="menu-item menu-item-schedule"><a href="/archives/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E6%AD%A3%E5%BC%8F%E8%B5%9B"><span class="nav-number">1.</span> <span class="nav-text">推荐系统新闻推荐正式赛</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B4%E4%BD%93%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">整体方案</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AC%E5%9B%9E"><span class="nav-number">4.</span> <span class="nav-text">召回</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#itemcf"><span class="nav-number">4.1.</span> <span class="nav-text">itemcf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E7%BD%91%E7%BB%9C%E5%85%B3%E7%B3%BB%E7%9A%84%E5%8F%AC%E5%9B%9E"><span class="nav-number">4.2.</span> <span class="nav-text">基于网络关系的召回</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#w2v-%E5%90%91%E9%87%8F%E5%8F%AC%E5%9B%9E"><span class="nav-number">4.3.</span> <span class="nav-text">w2v 向量召回</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AC%E5%9B%9E%E5%90%88%E5%B9%B6"><span class="nav-number">4.4.</span> <span class="nav-text">召回合并</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F"><span class="nav-number">5.</span> <span class="nav-text">排序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B"><span class="nav-number">5.1.</span> <span class="nav-text">特征工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.2.</span> <span class="nav-text">模型</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="ZHANGSAISAI"
+      src="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
+  <p class="site-author-name" itemprop="name">ZHANGSAISAI</p>
+  <div class="site-description" itemprop="description">Keep awake,Stay thinking</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zsaisai" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zsaisai" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:z_ss101@163.com" title="E-Mail → mailto:z_ss101@163.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/weixin_41744192?spm=1000.2115.3001.5343" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;weixin_41744192?spm&#x3D;1000.2115.3001.5343" rel="noopener" target="_blank"><i class="csdn fa-fw"></i>CSDN</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/3564388084" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;3564388084" rel="noopener" target="_blank"><i class="weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll site-overview-item animated">
+    <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://music.163.com/#/user/home?id=330376567" title="https:&#x2F;&#x2F;music.163.com&#x2F;#&#x2F;user&#x2F;home?id&#x3D;330376567" rel="noopener" target="_blank">Cloudmusic</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://www.rainymood.com/" title="https:&#x2F;&#x2F;www.rainymood.com&#x2F;" rel="noopener" target="_blank">Rainy Mood</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://paperswithcode.com/task/recommendation-systems" title="https:&#x2F;&#x2F;paperswithcode.com&#x2F;task&#x2F;recommendation-systems" rel="noopener" target="_blank">Papers with Code</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://datawhalechina.github.io/pumpkin-book/#/" title="https:&#x2F;&#x2F;datawhalechina.github.io&#x2F;pumpkin-book&#x2F;#&#x2F;" rel="noopener" target="_blank">Pumpkin-book</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://tangshusen.me/Dive-into-DL-PyTorch/#/" title="https:&#x2F;&#x2F;tangshusen.me&#x2F;Dive-into-DL-PyTorch&#x2F;#&#x2F;" rel="noopener" target="_blank">DL-Torch</a>
+        </li>
+    </ul>
+  </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/zsaisai" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/Datawhae%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
+      <meta itemprop="name" content="ZHANGSAISAI">
+      <meta itemprop="description" content="Keep awake,Stay thinking">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZhangSaiSai">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          推荐系统新闻推荐正式赛
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2022-04-24 14:46:35" itemprop="dateCreated datePublished" datetime="2022-04-24T14:46:35+00:00">2022-04-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%AF%94%E8%B5%9B/" itemprop="url" rel="index"><span itemprop="name">比赛</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="推荐系统新闻推荐正式赛"><a href="#推荐系统新闻推荐正式赛" class="headerlink" title="推荐系统新闻推荐正式赛"></a>推荐系统新闻推荐正式赛</h1><p> 赛题以新闻APP中的新闻推荐为背景，要求选手根据用户历史浏览点击新闻文章的数据信息预测用户未来点击行为，即用户的最后一次点击的新闻文章，测试集对最后一次点击行为进行了剔除。 </p>
+<span id="more"></span>
+
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p> 赛题以预测用户未来点击新闻文章为任务，数据集报名后可见并可下载，该数据来自某新闻APP平台的用户交互数据，包括30万用户，近300万次点击，共36万多篇不同的新闻文章，同时每篇新闻文章有对应的embedding向量表示。为了保证比赛的公平性，将会从中抽取20万用户的点击日志数据作为训练集，5万用户的点击日志数据作为测试集A，5万用户的点击日志数据作为测试集B。 </p>
+<h1 id="整体方案"><a href="#整体方案" class="headerlink" title="整体方案"></a>整体方案</h1><p>code:</p>
+<p> 为了构造稳定的线下验证，从训练集用户中随机采样5w个用户作为作为线下验证集用户，将验证集用户的最后一次点击记录从原训练集的点击日志中剔除。合并这时候的训练集点击日志和测试集点击日志作为总的历史点击记录，预测验证集用户的最后一次点击作为线下验证，实验证明该验证方式很稳定，和线上指标同增同减且相差不大。 </p>
+<p><img src="2022-05-24-Datawhae%E6%96%B0%E9%97%BB%E6%8E%A8%E8%8D%90%E9%A2%84%E6%B5%8B%E6%80%BB%E7%BB%93.assets/1658054232660.png" alt="1658054232660"></p>
+<h1 id="召回"><a href="#召回" class="headerlink" title="召回"></a>召回</h1><h2 id="itemcf"><a href="#itemcf" class="headerlink" title="itemcf"></a>itemcf</h2><p>原始的 itemcf 将用户点击过的新闻看做一个无序的集合，但在实际应用中，应该考虑点击次序带来的影响。在计算同一序列中两个新闻的相似度时，不仅需要考虑共现次数，也需要考虑两个新闻之间的次序关系。同一点击序列中两个新闻位置越远，相关性应该减小。新闻对顺序和逆序的权重也不同，在点击序列A，B，C中，”BC”这样的正序权重应该大于”BA”这样的逆序权重。更多关于 itemcf 的改进可以看之前 KDD CUP 的相关方案总结。</p>
+<blockquote>
+<p>日志中所有出现过的新闻只有3w多个，而整个新闻库中却有30多万。用户可能会点击一些没有在日志数据中出现的新闻。从线下验证集来看，大概有12%待预测新闻没有出现在历史点击记录里。为了缓解冷启动问题，在计算新闻相似度的时候可以考虑加入内容相似度。但是基于数据集给的新闻 embedding 向量表示做向量召回的效果很差劲，所以最后在 itemcf 中没有引入新闻的内容相似度。</p>
+</blockquote>
+<p>建立新闻的相似度关系后，进入到召回阶段，根据用户的历史点击新闻，结合相似度选择 TOP100 关联新闻。选取关联新闻时，除了考虑和历史点击新闻的相似度，还要加入位置距离衰减。新闻点击是强热点相关，所以历史点击新闻对下一次点击预测的影响传播不会太远。在实际测试中，利用所有历史点击新闻做召回，hitrate_5 指标只有0.20，限定只用最近点击的两个新闻来做召回的话，可以大幅提升至0.33。</p>
+<h2 id="基于网络关系的召回"><a href="#基于网络关系的召回" class="headerlink" title="基于网络关系的召回"></a>基于网络关系的召回</h2><p>该方法源自”Bipartite network projection and personal recommendation”，代码采用自<a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/forum/postDetail?postId=104936">论坛开源</a>。该方法也分为两个阶段，新闻相似度计算和基于用户点击历史的新闻召回。在相似度计算阶段，通过用户将两个新闻连接起来。计算相似度时考虑两种因素：1)两个新闻的共同被点击用户过多，则相似度减少；2)共同被点击用户的点击新闻过多，相似度也要减少。基于用户点击历史的新闻召回和 itemcf 类似，不再赘述。类似地，在召回时只利用了最新一次点击的新闻做召回，相较于利用全量历史记录召回，效果提高了10%。</p>
+<h2 id="w2v-向量召回"><a href="#w2v-向量召回" class="headerlink" title="w2v 向量召回"></a>w2v 向量召回</h2><p>除了使用人工规则从序列中提取相似度，我们还可以使用序列学习模型 Word2Vec 为新闻学习向量表示。将用户的新闻点击序列作为句子喂到 Word2Vec 模型，然后选取和用户最近点击新闻最相似的关联新闻。向量学习和寻找相似全部使用 gensim 库的 Word2Vec 实现。</p>
+<h2 id="召回合并"><a href="#召回合并" class="headerlink" title="召回合并"></a>召回合并</h2><p>多路召回之间肯定存在重复召回的情况，这也是为什么召回策略讲究差异性，其实就是为了减少重复召回的数量。利用重复召回的新闻数量占该路召回数量之比做相似度参考，3路召回的相似度见热力图。</p>
+<p><img src="https://pic.logicjake.xyz/new1.png" alt="图1 召回方式相似度"></p>
+<p>图1 召回方式相似度</p>
+<p>重复被召回的新闻在多个召回方式中的得分是不一样的，得分是排序时的强特，需要进行得分合并。对各个召回结果，以用户为单位进行最大最小归一化。分数合并测试了sum，mean和max，效果对比见下表。max丢失的消息较多，mean对重复次数多的新闻不公平。</p>
+<table>
+<thead>
+<tr>
+<th>合并方式</th>
+<th>hitrate_5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sum</td>
+<td>0.3700630930498286</td>
+</tr>
+<tr>
+<td>mean</td>
+<td>0.33700134134830345</td>
+</tr>
+<tr>
+<td>max</td>
+<td>0.35155745441899744</td>
+</tr>
+</tbody></table>
+<p>去重之后，平均每个用户召回到153个新闻。删除没有召回到真实点击的验证集用户，减少了无用负样本的数量，也提高了后续排序模型的效果，但是在计算线下指标的时候这部分用户的数量要包括进去，否则指标会虚高。合并前后各召回方式指标如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>hitrate_5</th>
+<th>mrr_5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>itemcf</td>
+<td>0.33628098762978786</td>
+<td>0.19792256611521228</td>
+</tr>
+<tr>
+<td>binetwork</td>
+<td>0.3127825525361419</td>
+<td>0.19114627320448885</td>
+</tr>
+<tr>
+<td>w2v</td>
+<td>0.15706195041979235</td>
+<td>0.08342813850663192</td>
+</tr>
+<tr>
+<td>合并</td>
+<td>0.3667842416414129</td>
+<td>0.2195861692085987</td>
+</tr>
+</tbody></table>
+<h1 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h1><p>本方案把排序建模为二分类任务，分为特征工程和二分类模型预测两部分。特征工程主要围绕召回策略进行，保证实时性召回的新闻能在排序阶段被推出去。模型采用 LGB 模型。</p>
+<h2 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h2><p>特征工程分为3类：新闻特征，用户特征，用户-新闻交互特征。数据集本身给出的属性信息较少，所以特征工程主要围绕交互属性展开。</p>
+<p>新闻特征包括：</p>
+<ul>
+<li>新闻字数</li>
+<li>新闻创建时间</li>
+<li>新闻被阅读数量</li>
+</ul>
+<p>用户特征包括：</p>
+<ul>
+<li>用户点击新闻的创建时间差的平均值</li>
+<li>用户点击新闻的点击时间差的平均值</li>
+<li>用户点击新闻的点击-创建时间差的统计值：mean，std</li>
+<li>用户点击新闻的 click_datetime_hour 统计值</li>
+<li>用户点击新闻的字数统计值</li>
+<li>用户点击新闻的创建时间统计值</li>
+<li>用户点击新闻的点击时间统计值</li>
+<li>用户新闻阅读数量</li>
+<li>用户某种类新闻阅读数量</li>
+</ul>
+<p>交互特征主要基于之前的召回策略进行，通过保存召回阶段的新闻相似度信息或向量，我们能够间接或直接得到用户对待预测新闻的评分。基于 itemcf， 网络关系和 w2v 的召回得到的只是新闻之间的相似度，需要和用户的历史点击新闻计算间接得到用户-新闻评分，采用如下方式：</p>
+<ul>
+<li>待预测新闻和用户所有历史点击新闻相似度按次序加权求和</li>
+<li>待预测新闻和用户最近一次点击新闻相似度</li>
+</ul>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>模型采用单模 LGB 进行预测，特征重要性见下表。排序之后，hitrate_5 涨到0.4394406080778976，mrr_5 涨到0.26552279464123835。</p>
+<table>
+<thead>
+<tr>
+<th>feature_name</th>
+<th>gain</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>sim_score</td>
+<td>557646.594097</td>
+</tr>
+<tr>
+<td>user_last_click_timestamp_diff</td>
+<td>192108.389757</td>
+</tr>
+<tr>
+<td>user_last_click_article_itemcf_sim</td>
+<td>124281.856153</td>
+</tr>
+<tr>
+<td>user_last_click_article_w2v_sim</td>
+<td>73809.001815</td>
+</tr>
+<tr>
+<td>user_clicked_article_itemcf_sim_sum</td>
+<td>65907.806015</td>
+</tr>
+<tr>
+<td>article_id_cnt</td>
+<td>65031.067219</td>
+</tr>
+<tr>
+<td>user_last_click_created_at_ts_diff</td>
+<td>53308.117885</td>
+</tr>
+<tr>
+<td>user_last_click_article_binetwork_sim</td>
+<td>35544.272514</td>
+</tr>
+<tr>
+<td>user_click_article_w2w_sim_sum_2</td>
+<td>22115.916349</td>
+</tr>
+<tr>
+<td>user_click_timestamp_created_at_ts_diff_mean</td>
+<td>20967.278802</td>
+</tr>
+<tr>
+<td>user_click_timestamp_created_at_ts_diff_std</td>
+<td>19246.184266</td>
+</tr>
+<tr>
+<td>article_id</td>
+<td>19177.854082</td>
+</tr>
+<tr>
+<td>words_count</td>
+<td>18412.732866</td>
+</tr>
+<tr>
+<td>user_click_last_article_click_time</td>
+<td>17445.728666</td>
+</tr>
+<tr>
+<td>user_click_datetime_hour_std</td>
+<td>17065.241513</td>
+</tr>
+<tr>
+<td>user_id_category_id_cnt</td>
+<td>16947.363850</td>
+</tr>
+<tr>
+<td>created_at_ts</td>
+<td>16833.830176</td>
+</tr>
+<tr>
+<td>user_last_click_words_count_diff</td>
+<td>16622.374522</td>
+</tr>
+<tr>
+<td>user_clicked_article_words_count_mean</td>
+<td>16606.933470</td>
+</tr>
+<tr>
+<td>user_id_click_diff_mean</td>
+<td>15513.968470</td>
+</tr>
+<tr>
+<td>user_id_click_article_created_at_ts_diff_mean</td>
+<td>15014.800224</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td>14344.929410</td>
+</tr>
+<tr>
+<td>user_click_last_article_words_count</td>
+<td>14080.826424</td>
+</tr>
+<tr>
+<td>user_clicked_article_click_time_mean</td>
+<td>13204.633566</td>
+</tr>
+<tr>
+<td>user_click_last_article_created_time</td>
+<td>10290.474666</td>
+</tr>
+<tr>
+<td>user_clicked_article_created_time_max</td>
+<td>9965.635575</td>
+</tr>
+<tr>
+<td>user_id_cnt</td>
+<td>8507.025577</td>
+</tr>
+<tr>
+<td>category_id</td>
+<td>6201.554409</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Machine-Learning/" rel="tag"><i class="fa fa-tag"></i> Machine Learning</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/%E5%88%86%E5%B8%83%E5%BC%8F%E5%85%89%E4%BC%8F%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" rel="prev" title="分布式光伏项目总结">
+                  <i class="fa fa-chevron-left"></i> 分布式光伏项目总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments" id="lv-container" data-id="city" data-uid="MTAyMC80MjE1MS8xODY5OA=="></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2018 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="snowflake-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ZHANGSAISAI</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script src="/js/third-party/comments/livere.js"></script>
+
+</body>
+</html>
