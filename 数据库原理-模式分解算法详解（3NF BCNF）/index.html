@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据库原理-模式分解">
 <meta property="og:url" content="https://zsaisai.github.io/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86-%E6%A8%A1%E5%BC%8F%E5%88%86%E8%A7%A3%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3%EF%BC%883NF%20BCNF%EF%BC%89/index.html">
-<meta property="og:site_name" content="ZhangSaiSai">
+<meta property="og:site_name" content="SS-ZHANG">
 <meta property="og:description" content="模式分解的要求对存在数据冗余，插入异常与删除异常问题的关系模式，应采取将一个关系模式分为多个关系模式的方法进行处理，相应得，原来存储在一个二维表内的数据就要分散到多个二维表中，要使分解有意义，起码的要求是不能丢失前者的信息。为使分解后的模式保持原模式所满足的特性，一般要求分解具有无损连接性与保持函数依赖性。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200504103928551.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
@@ -35,8 +35,8 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200504104136784.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200504115220804.png">
 <meta property="article:published_time" content="2020-04-24T14:46:35.000Z">
-<meta property="article:modified_time" content="2022-07-17T13:24:19.621Z">
-<meta property="article:author" content="ZHANGSAISAI">
+<meta property="article:modified_time" content="2022-07-17T14:00:30.271Z">
+<meta property="article:author" content="SAISAI-ZHANG">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200504103928551.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
@@ -49,7 +49,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86-%E6%A8%A1%E5%BC%8F%E5%88%86%E8%A7%A3%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3%EF%BC%883NF%20BCNF%EF%BC%89/","path":"数据库原理-模式分解算法详解（3NF BCNF）/","title":"数据库原理-模式分解"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>数据库原理-模式分解 | ZhangSaiSai</title>
+<title>数据库原理-模式分解 | SS-ZHANG</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129037882-1"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-129037882-1","only_pageview":false}</script>
@@ -83,10 +83,10 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">ZhangSaiSai</h1>
+      <h1 class="site-title">SS-ZHANG</h1>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">二十多岁 人生才刚刚开始</p>
+      <p class="site-subtitle" itemprop="description">好好学习 努力搬砖</p>
   </div>
 
   <div class="site-nav-right">
@@ -142,10 +142,10 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-overview">
             <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="ZHANGSAISAI"
-      src="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
-  <p class="site-author-name" itemprop="name">ZHANGSAISAI</p>
-  <div class="site-description" itemprop="description">Keep awake,Stay thinking</div>
+    <img class="site-author-image" itemprop="image" alt="SAISAI-ZHANG"
+      src="https://zsaisai.github.io/images/122.png">
+  <p class="site-author-name" itemprop="name">SAISAI-ZHANG</p>
+  <div class="site-description" itemprop="description">时而真实，时而虚假，有时奔跑，有时躺平</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
@@ -247,13 +247,13 @@
     <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8E%9F%E7%90%86-%E6%A8%A1%E5%BC%8F%E5%88%86%E8%A7%A3%E7%AE%97%E6%B3%95%E8%AF%A6%E8%A7%A3%EF%BC%883NF%20BCNF%EF%BC%89/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
-      <meta itemprop="name" content="ZHANGSAISAI">
-      <meta itemprop="description" content="Keep awake,Stay thinking">
+      <meta itemprop="image" content="https://zsaisai.github.io/images/122.png">
+      <meta itemprop="name" content="SAISAI-ZHANG">
+      <meta itemprop="description" content="时而真实，时而虚假，有时奔跑，有时躺平">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZhangSaiSai">
+      <meta itemprop="name" content="SS-ZHANG">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -357,7 +357,7 @@
   <span class="with-love">
     <i class="snowflake-o"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">ZHANGSAISAI</span>
+  <span class="author" itemprop="copyrightHolder">SAISAI-ZHANG</span>
 </div>
 <div class="busuanzi-count">
     <span class="post-meta-item" id="busuanzi_container_site_pv">

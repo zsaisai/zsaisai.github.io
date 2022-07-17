@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Logistic原理与公式推导">
 <meta property="og:url" content="https://zsaisai.github.io/Logistic/index.html">
-<meta property="og:site_name" content="ZhangSaiSai">
+<meta property="og:site_name" content="SS-ZHANG">
 <meta property="og:description" content="逻辑回归(Logistic Regression)逻辑回归算法实际上是一种分类算法，它适用于标签 𝑦 取值离散的情况，预测的变量 𝑦 是离散的值，如:1 0 0 1。 要搞清楚逻辑回归的原理必须要从概率和似然性说起。我们常常用概率描述一个事件发生的可能性。而似然性正好反过来，意思是一个事件实际已经发生了，反推在什么参数条件下，这个事件发生的概率最大。即：已知参数 β 前提下，预测某事件 x 发">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/45abd4287f0740b0a45c20c5aa3c0410.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
@@ -33,8 +33,8 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/7833f7d739bc4ddba40087ed1fcd4456.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/5c831a653ee445f48955c7414afb650a.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="article:published_time" content="2021-08-19T11:43:45.000Z">
-<meta property="article:modified_time" content="2022-07-17T13:24:19.625Z">
-<meta property="article:author" content="ZHANGSAISAI">
+<meta property="article:modified_time" content="2022-07-17T14:00:30.271Z">
+<meta property="article:author" content="SAISAI-ZHANG">
 <meta property="article:tag" content="Machine Learning">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/45abd4287f0740b0a45c20c5aa3c0410.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
@@ -47,7 +47,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/Logistic/","path":"Logistic/","title":"Logistic原理与公式推导"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Logistic原理与公式推导 | ZhangSaiSai</title>
+<title>Logistic原理与公式推导 | SS-ZHANG</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129037882-1"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-129037882-1","only_pageview":false}</script>
@@ -81,10 +81,10 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">ZhangSaiSai</h1>
+      <h1 class="site-title">SS-ZHANG</h1>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">二十多岁 人生才刚刚开始</p>
+      <p class="site-subtitle" itemprop="description">好好学习 努力搬砖</p>
   </div>
 
   <div class="site-nav-right">
@@ -140,10 +140,10 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-overview">
             <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="ZHANGSAISAI"
-      src="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
-  <p class="site-author-name" itemprop="name">ZHANGSAISAI</p>
-  <div class="site-description" itemprop="description">Keep awake,Stay thinking</div>
+    <img class="site-author-image" itemprop="image" alt="SAISAI-ZHANG"
+      src="https://zsaisai.github.io/images/122.png">
+  <p class="site-author-name" itemprop="name">SAISAI-ZHANG</p>
+  <div class="site-description" itemprop="description">时而真实，时而虚假，有时奔跑，有时躺平</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
@@ -245,13 +245,13 @@
     <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/Logistic/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
-      <meta itemprop="name" content="ZHANGSAISAI">
-      <meta itemprop="description" content="Keep awake,Stay thinking">
+      <meta itemprop="image" content="https://zsaisai.github.io/images/122.png">
+      <meta itemprop="name" content="SAISAI-ZHANG">
+      <meta itemprop="description" content="时而真实，时而虚假，有时奔跑，有时躺平">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZhangSaiSai">
+      <meta itemprop="name" content="SS-ZHANG">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -349,7 +349,7 @@
   <span class="with-love">
     <i class="snowflake-o"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">ZHANGSAISAI</span>
+  <span class="author" itemprop="copyrightHolder">SAISAI-ZHANG</span>
 </div>
 <div class="busuanzi-count">
     <span class="post-meta-item" id="busuanzi_container_site_pv">

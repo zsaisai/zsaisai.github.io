@@ -24,7 +24,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Bp网络原理与公式推导">
 <meta property="og:url" content="https://zsaisai.github.io/BP/index.html">
-<meta property="og:site_name" content="ZhangSaiSai">
+<meta property="og:site_name" content="SS-ZHANG">
 <meta property="og:description" content="神经元简介为了构建神经网络模型，我们需要首先思考大脑中的神经网络是怎样的？每一个神经元都可以被认为是一个处理单元&#x2F;神经核（processing unit&#x2F;Nucleus），它含有许多输入&#x2F;树突（input&#x2F;Dendrite），并且有一个输出&#x2F;轴突（output&#x2F;Axon）。神经网络是大量神经元相互链接并通过电脉冲来交流的一个网络。 神经元之间通过电信号进行沟通(微弱的电流)。所以如果神经元想要传递">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20200923214522621.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
@@ -33,8 +33,8 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/73564ae29c2d4b8b82e59fac53747fe4.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/393e30c52b6a4013a38db5d1efe3249b.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
 <meta property="article:published_time" content="2021-08-19T11:43:45.000Z">
-<meta property="article:modified_time" content="2022-07-17T13:24:19.625Z">
-<meta property="article:author" content="ZHANGSAISAI">
+<meta property="article:modified_time" content="2022-07-17T14:00:30.271Z">
+<meta property="article:author" content="SAISAI-ZHANG">
 <meta property="article:tag" content="Machine Learning">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200923214522621.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc0NDE5Mg==,size_16,color_FFFFFF,t_70#pic_center">
@@ -47,7 +47,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zsaisai.github.io/BP/","path":"BP/","title":"Bp网络原理与公式推导"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Bp网络原理与公式推导 | ZhangSaiSai</title>
+<title>Bp网络原理与公式推导 | SS-ZHANG</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-129037882-1"></script>
   <script class="next-config" data-name="google_analytics" type="application/json">{"tracking_id":"UA-129037882-1","only_pageview":false}</script>
@@ -81,10 +81,10 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">ZhangSaiSai</h1>
+      <h1 class="site-title">SS-ZHANG</h1>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">二十多岁 人生才刚刚开始</p>
+      <p class="site-subtitle" itemprop="description">好好学习 努力搬砖</p>
   </div>
 
   <div class="site-nav-right">
@@ -140,10 +140,10 @@
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-overview">
             <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="ZHANGSAISAI"
-      src="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
-  <p class="site-author-name" itemprop="name">ZHANGSAISAI</p>
-  <div class="site-description" itemprop="description">Keep awake,Stay thinking</div>
+    <img class="site-author-image" itemprop="image" alt="SAISAI-ZHANG"
+      src="https://zsaisai.github.io/images/122.png">
+  <p class="site-author-name" itemprop="name">SAISAI-ZHANG</p>
+  <div class="site-description" itemprop="description">时而真实，时而虚假，有时奔跑，有时躺平</div>
 </div>
 <div class="site-state-wrap site-overview-item animated">
   <nav class="site-state">
@@ -245,13 +245,13 @@
     <link itemprop="mainEntityOfPage" href="https://zsaisai.github.io/BP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png">
-      <meta itemprop="name" content="ZHANGSAISAI">
-      <meta itemprop="description" content="Keep awake,Stay thinking">
+      <meta itemprop="image" content="https://zsaisai.github.io/images/122.png">
+      <meta itemprop="name" content="SAISAI-ZHANG">
+      <meta itemprop="description" content="时而真实，时而虚假，有时奔跑，有时躺平">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="ZhangSaiSai">
+      <meta itemprop="name" content="SS-ZHANG">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -351,7 +351,7 @@
   <span class="with-love">
     <i class="snowflake-o"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">ZHANGSAISAI</span>
+  <span class="author" itemprop="copyrightHolder">SAISAI-ZHANG</span>
 </div>
 <div class="busuanzi-count">
     <span class="post-meta-item" id="busuanzi_container_site_pv">
