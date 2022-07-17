@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://zsaisai.github.io/images/1658054232660.png">
 <meta property="og:image" content="https://zsaisai.github.io/images/1658066241654.png">
 <meta property="article:published_time" content="2022-04-24T14:46:35.000Z">
-<meta property="article:modified_time" content="2022-07-17T14:12:53.711Z">
+<meta property="article:modified_time" content="2022-07-17T14:17:39.173Z">
 <meta property="article:author" content="SAISAI-ZHANG">
 <meta property="article:tag" content="Machine Learning">
 <meta name="twitter:card" content="summary">
@@ -296,7 +296,7 @@
 <span id="more"></span>
 
 <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p> 赛题以预测用户未来点击新闻文章为任务，数据集报名后可见并可下载，该数据来自某新闻APP平台的用户交互数据，包括30万用户，近300万次点击，共36万多篇不同的新闻文章，同时每篇新闻文章有对应的embedding向量表示。为了保证比赛的公平性，将会从中抽取20万用户的点击日志数据作为训练集，5万用户的点击日志数据作为测试集A，5万用户的点击日志数据作为测试集B。 </p>
-<h1 id="整体方案"><a href="#整体方案" class="headerlink" title="整体方案"></a>整体方案</h1><p>code:</p>
+<h1 id="整体方案"><a href="#整体方案" class="headerlink" title="整体方案"></a>整体方案</h1><p>CODE: <a target="_blank" rel="noopener" href="https://gitee.com/z_saisai/datawhale-news-recommend">https://gitee.com/z_saisai/datawhale-news-recommend</a></p>
 <p> 为了构造稳定的线下验证，从训练集用户中随机采样5w个用户作为作为线下验证集用户，将验证集用户的最后一次点击记录从原训练集的点击日志中剔除。合并这时候的训练集点击日志和测试集点击日志作为总的历史点击记录，预测验证集用户的最后一次点击作为线下验证，实验证明该验证方式很稳定，和线上指标同增同减且相差不大。 </p>
 <p><img src="../images/1658054232660.png" alt="1658054232660"></p>
 <h1 id="召回"><a href="#召回" class="headerlink" title="召回"></a>召回</h1><h2 id="itemcf"><a href="#itemcf" class="headerlink" title="itemcf"></a>itemcf</h2><p>原始的 itemcf 将用户点击过的新闻看做一个无序的集合，但在实际应用中，应该考虑点击次序带来的影响。在计算同一序列中两个新闻的相似度时，不仅需要考虑共现次数，也需要考虑两个新闻之间的次序关系。同一点击序列中两个新闻位置越远，相关性应该减小。新闻对顺序和逆序的权重也不同，在点击序列A，B，C中，”BC”这样的正序权重应该大于”BA”这样的逆序权重。更多关于 itemcf 的改进可以看之前 KDD CUP 的相关方案总结。</p>
