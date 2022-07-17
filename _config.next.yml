@@ -125,7 +125,7 @@ sidebar:
 # Sidebar Avatar
 avatar:
   # Replace the default image and set the url here.
-  url: https://gitee.com/z_saisai/ware_01/raw/master/blog_account/profile.png
+  url: https://zsaisai.github.io/images/122.png
   # If true, the avatar will be dispalyed in circle.
   rounded: true
   # If true, the avatar will be rotated with the cursor.
